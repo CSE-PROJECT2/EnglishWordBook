@@ -4,8 +4,9 @@ import java.io.*;
 import java.util.Scanner;
 
 public class UpdateWord {
-    private static final String FILE_PATH = "Library05-word-data.txt";
-    private static final String TEMP_FILE = "Library05-temp.txt";
+
+    private static final String FILE_PATH = "src/WordBook.txt";
+    private static final String TEMP_FILE = "src/TempWordBook.txt";
 
     public void run() {
         Scanner scanner = new Scanner(System.in);
@@ -18,7 +19,7 @@ public class UpdateWord {
             String line;
             while ((line = reader.readLine()) != null) {
                 if (line.startsWith(searchWord + " :")) {
-                    System.out.print("새로운 의미를 입력하세요: ");
+                    System.out.print("새로운 의미를 입력하세요 (한글로): ");
                     String newMeaning = scanner.nextLine();
                     writer.write(searchWord + " : " + newMeaning + "\n");
                     found = true;

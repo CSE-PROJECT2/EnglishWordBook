@@ -5,13 +5,14 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class AddWord {
-    private static final String FILE_PATH = "Library05-word-data.txt";
+
+    private static final String FILE_PATH = "src/WordBook.txt";
 
     public void run() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("단어를 입력하세요: ");
         String word = scanner.nextLine();
-        System.out.print("의미를 입력하세요: ");
+        System.out.print("의미를 입력하세요 (한글로): ");
         String meaning = scanner.nextLine();
 
         try (FileWriter writer = new FileWriter(FILE_PATH, true)) {

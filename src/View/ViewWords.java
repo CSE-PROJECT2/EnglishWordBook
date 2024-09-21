@@ -7,7 +7,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class ViewWords {
-    private static final String FILE_PATH = "Library05-word-data.txt";
+
+    private static final String FILE_PATH = "src/WordBook.txt";
 
     public void run() {
         ArrayList<String> wordsList = new ArrayList<>();

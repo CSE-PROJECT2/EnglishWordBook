@@ -4,8 +4,9 @@ import java.io.*;
 import java.util.Scanner;
 
 public class DeleteWord {
-    private static final String FILE_PATH = "Library05-word-data.txt";
-    private static final String TEMP_FILE = "Library05-temp.txt";
+
+    private static final String FILE_PATH = "src/WordBook.txt";
+    private static final String TEMP_FILE = "src/TempWordBook.txt";
 
     public void run() {
         Scanner scanner = new Scanner(System.in);

@@ -16,6 +16,7 @@ public class VocabularyApp {
 
         while (running) {
             System.out.println("영어 단어장 프로그램");
+            System.out.println("0. 현재 저장된 단어 출력");
             System.out.println("1. 단어 입력");
             System.out.println("2. 단어 검색");
             System.out.println("3. 단어 수정");
@@ -27,6 +28,10 @@ public class VocabularyApp {
             scanner.nextLine(); // 개행 문자 처리
 
             switch (choice) {
+                case 0:
+                    System.out.println("현재 저장된 단어들:");
+                    new ViewWords().run();  // 저장된 단어 출력
+                    break;
                 case 1:
                     new AddWord().run();
                     break;

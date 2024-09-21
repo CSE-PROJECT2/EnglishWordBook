@@ -6,7 +6,8 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class SearchWord {
-    private static final String FILE_PATH = "Library05-word-data.txt";
+
+    private static final String FILE_PATH = "src/WordBook.txt";
 
     public void run() {
         Scanner scanner = new Scanner(System.in);
