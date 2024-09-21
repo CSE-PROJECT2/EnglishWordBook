@@ -1,36 +1,21 @@
 package View;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
+import App.Word;
+
+import java.util.List;
 
 public class ViewWords {
 
-    private static final String FILE_PATH = "src/WordBook.txt";
+    public void run(List<Word> wordList) {
+        if (wordList.isEmpty()) {
+            System.out.println("저장된 단어가 없습니다.");
+        } else {
 
-    public void run() {
-        ArrayList<String> wordsList = new ArrayList<>();
-
-        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                wordsList.add(line);
+            System.out.println("저장된 단어 목록:");
+            for (Word word : wordList) {
+                System.out.println(word);
             }
-
-            if (wordsList.isEmpty()) {
-                System.out.println("저장된 단어가 없습니다.");
-            } else {
-                Collections.sort(wordsList);  // 알파벳 순 정렬
-                System.out.println("저장된 단어 목록:");
-                for (String word : wordsList) {
-                    System.out.println(word);
-                }
-            }
-
-        } catch (IOException e) {
-            System.out.println("파일 읽기 중 오류가 발생했습니다.");
         }
+        System.out.println("=======================================");
     }
 }

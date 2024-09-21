@@ -1,16 +1,25 @@
 package App;
 
+
 import Add.AddWord;
 import Delete.DeleteWord;
 import Search.SearchWord;
 import Update.UpdateWord;
 import View.ViewWords;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class VocabularyApp {
+    private static List<Word> wordList = new ArrayList<>();
 
     public static void main(String[] args) {
+        // 파일에서 단어들을 읽어와서 wordList에 저장 ->
+        // 즉, 맨 처음 시작은 txt 파일에 읽어와서 ArrayList에 저장해서 이 List로 모든 기능을 이용하는 것입니다 !
+        WordLoader loader = new WordLoader();
+        loader.loadWords(wordList);
+
         Scanner scanner = new Scanner(System.in);
         boolean running = true;
 
@@ -29,26 +38,29 @@ public class VocabularyApp {
 
             switch (choice) {
                 case 0:
-                    System.out.println("현재 저장된 단어들:");
-                    new ViewWords().run();  // 저장된 단어 출력
+                    new ViewWords().run(wordList);
                     break;
                 case 1:
-                    new AddWord().run();
+                    new AddWord().run(wordList);
                     break;
                 case 2:
-                    new SearchWord().run();
+                    new SearchWord().run(wordList);
                     break;
                 case 3:
-                    new UpdateWord().run();
+                    new UpdateWord().run(wordList);
                     break;
                 case 4:
-                    new DeleteWord().run();
+                    new DeleteWord().run(wordList);
                     break;
                 case 5:
-                    new ViewWords().run();
+                    new ViewWords().run(wordList);
                     break;
                 case 6:
                     running = false;
+                    // 종료 시 단어를 파일에 저장 -> 즉, 종료전에는 List에 담겼다가 최종 수정본을 txt에 덮어쓴다고
+                    //생각하면 됩니다 !!
+                    WordSaver saver = new WordSaver();
+                    saver.saveWords(wordList);
                     System.out.println("프로그램을 종료합니다.");
                     break;
                 default:
@@ -58,4 +70,5 @@ public class VocabularyApp {
 
         scanner.close();
     }
+
 }

@@ -1,25 +1,21 @@
 package Add;
 
-import java.io.FileWriter;
-import java.io.IOException;
+import App.Word;
+
+import java.util.List;
 import java.util.Scanner;
 
 public class AddWord {
 
-    private static final String FILE_PATH = "src/WordBook.txt";
-
-    public void run() {
+    public void run(List<Word> wordList) {
         Scanner scanner = new Scanner(System.in);
         System.out.print("단어를 입력하세요: ");
-        String word = scanner.nextLine();
+        String english = scanner.nextLine();
         System.out.print("의미를 입력하세요 (한글로): ");
         String meaning = scanner.nextLine();
 
-        try (FileWriter writer = new FileWriter(FILE_PATH, true)) {
-            writer.write(word + " : " + meaning + "\n");
-            System.out.println("단어가 저장되었습니다.");
-        } catch (IOException e) {
-            System.out.println("파일 저장 중 오류가 발생했습니다.");
-        }
+        Word newWord = new Word(english, meaning);
+        wordList.add(newWord);
+        System.out.println("단어가 저장되었습니다.");
     }
 }
