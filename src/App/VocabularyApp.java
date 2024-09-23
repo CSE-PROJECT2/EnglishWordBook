@@ -48,13 +48,13 @@ public class VocabularyApp {
                 case 1: //입력 : 동훈
                     new AddWord().run(wordList);
                     break;
-                case 2:// 검색 : 지예 아리 지수
+                case 2:// 검색 : 라니아 탄닝웨이
                     new SearchWord().run(wordList);
                     break;
                 case 3: // 수정 : 지예 아리 지수
                     new UpdateWord().run(wordList);
                     break;
-                case 4: // 삭제 : 라니아 탄닝웨이
+                case 4: // 삭제 : 지예 아리 지수
                     new DeleteWord().run(wordList);
                     break;
                 case 5: // 조회 : 정범
