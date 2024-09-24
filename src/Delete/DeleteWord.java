@@ -8,6 +8,7 @@ import java.util.Scanner;
 public class DeleteWord {
 
     public void run(List<Word> wordList) {
+    	System.out.println("\n*** 단어 삭제 ***");
         Scanner scanner = new Scanner(System.in);
         System.out.print("삭제할 단어를 입력하세요: ");
         String searchWord = scanner.nextLine();

@@ -8,6 +8,7 @@ import java.util.Scanner;
 public class SearchWord {
 
     public void run(List<Word> wordList) {
+    	System.out.println("\n*** 단어 검색 ***");
         Scanner scanner = new Scanner(System.in);
         System.out.print("검색할 단어를 입력하세요: ");
         String searchWord = scanner.nextLine();

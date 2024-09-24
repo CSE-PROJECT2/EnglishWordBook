@@ -8,6 +8,7 @@ import java.util.Scanner;
 public class AddWord {
 
     public void run(List<Word> wordList) {
+    	System.out.println("\n*** 단어 입력 ***");
         Scanner scanner = new Scanner(System.in);
         System.out.print("단어를 입력하세요: ");
         String english = scanner.nextLine();
