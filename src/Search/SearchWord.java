@@ -24,7 +24,7 @@ public class SearchWord {
         }
 
         if (!found) {
-            System.out.println("해당 단어가 존재하지 않습니다.");
+            System.out.println("해당 단어가 존재하지 않습니다.\n");
         }
     }
 }
