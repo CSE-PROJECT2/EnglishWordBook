@@ -27,6 +27,8 @@ public class Word {
 
     @Override
     public String toString() {
+        english=english.trim();
+        meaning=meaning.trim();
         return english + " : " + meaning;
     }
 }
