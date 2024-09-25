@@ -16,7 +16,8 @@ public class SearchWord {
 
         for (Word word : wordList) {
             if (word.getEnglish().equalsIgnoreCase(searchWord)) {
-                System.out.println("찾은 단어: " + word);
+                System.out.println("찾은 단어: " + word.getEnglish());
+                System.out.println(word.getEnglish() + "의 의미: " + word.getMeaning() + "\n");
                 found = true;
                 break;
             }
