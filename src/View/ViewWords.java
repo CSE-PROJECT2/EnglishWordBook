@@ -11,12 +11,10 @@ public class ViewWords {
         if (wordList.isEmpty()) {
             System.out.println("저장된 단어가 없습니다.");
         } else {
-
-            System.out.println("저장된 단어 목록:");
             for (Word word : wordList) {
                 System.out.println(word);
             }
         }
-        System.out.println("=======================================");
+        System.out.println("——————————————————————————\n");
     }
 }

@@ -10,7 +10,7 @@ public class DeleteWord {
     public void run(List<Word> wordList) {
     	System.out.println("\n*** 단어 삭제 ***");
         Scanner scanner = new Scanner(System.in);
-        System.out.print("삭제할 단어를 입력하세요: ");
+        System.out.print("삭제할 단어를 입력하세요 >> ");
         String searchWord = scanner.nextLine();
         boolean found = false;
 
@@ -22,7 +22,7 @@ public class DeleteWord {
             	System.out.println("\n'" + wordList.get(i).getEnglish() + "'을/를 단어장에서 삭제하시겠습니까?");
                 System.out.println("(1) 예");
                 System.out.println("(2) 아니오");
-                System.out.print("메뉴를 선택하시오 : ");
+                System.out.print("메뉴를 선택하세요 >> ");
                 int confirmation = scanner.nextInt();
                 if (confirmation == 1) {
                     wordList.remove(i);
