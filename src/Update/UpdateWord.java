@@ -16,6 +16,7 @@ public class UpdateWord {
 
         for (Word word : wordList) {
             if (word.getEnglish().equalsIgnoreCase(searchWord)) {
+                found = true;
                 System.out.print("새로운 의미를 입력하세요 (한글로) >> ");
                 String newMeaning = scanner.nextLine();
 
@@ -27,7 +28,6 @@ public class UpdateWord {
                     int confirmation = scanner.nextInt();
                     if (confirmation == 1) {
                         word.setMeaning(newMeaning);
-                        found = true;
                         System.out.println("단어가 수정되었습니다.\n");
                         break;
                     } else if (confirmation == 2) {
