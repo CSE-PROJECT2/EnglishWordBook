@@ -21,14 +21,14 @@ public class UpdateWord {
                 String newMeaning = scanner.nextLine();
 
                 while(true) {
-                    System.out.println("\n'" + word + "'의 의미를 '"+ newMeaning + "'으로 수정하시겠습니까?");
+                    System.out.println("\n'" + word + "'의 의미를 '"+ newMeaning + "'(으)로 수정하시겠습니까?");
                     System.out.println("(1) 예");
                     System.out.println("(2) 아니오");
                     System.out.print("메뉴를 선택하시오 >> ");
                     int confirmation = scanner.nextInt();
                     if (confirmation == 1) {
                         word.setMeaning(newMeaning);
-                        System.out.println("단어가 수정되었습니다.\n");
+                        System.out.println("수정되었습니다.\n");
                         break;
                     } else if (confirmation == 2) {
                         System.out.println("수정이 취소되었습니다.\n");
@@ -40,7 +40,7 @@ public class UpdateWord {
         }
 
         if (!found) {
-            System.out.println("해당 단어가 존재하지 않습니다.");
+            System.out.println("해당 영단어가 존재하지 않습니다.");
         }
     }
 }
