@@ -6,30 +6,38 @@ import java.util.List;
 import java.util.Scanner;
 
 public class AddWord {
-    private static final String ENGLISH_PATTERN = "^[a-zA-Z]+$";
+
+    private WordValidator validator = new WordValidator();
+
 
     public void run(List<Word> wordList) {
-    	System.out.println("\n*** 단어 추가 ***");
+        System.out.println("\n*** 단어 추가 ***");
         Scanner scanner = new Scanner(System.in);
-
 
         String english;
         while (true) {
             System.out.print("영단어를 입력하세요 >> ");
             english = scanner.nextLine();
 
-            // 입력한 영단어가 영어로만 구성되어 있는지 확인
-            if (!english.matches(ENGLISH_PATTERN)) {
+            // 영어 단어 형식 검증
+            if (!validator.isValidEnglishWord(english)) {
                 System.out.println("오류: 영단어는 영어 알파벳만 입력 가능합니다. 다시 입력해주세요.");
-            } else {
-                break;  // 올바른 입력이면 반복문 종료
+                continue;
             }
+
+            // 중복 단어 검증
+            if (validator.isDuplicateWord(wordList, english)) {
+                System.out.println("오류: 이미 단어장에 존재하는 단어입니다. 다른 단어를 입력해주세요.");
+                continue;
+            }
+
+            break; // 유효성 검사를 통과한 경우 반복문 종료
         }
 
         System.out.print("뜻을 입력하세요 (한글로) >> ");
         String meaning = scanner.nextLine();
 
-        // 확인 절차: 입력한 영단어와 뜻을 저장할 것인지 확인
+        // 입력한 단어와 뜻을 확인 후 추가
         System.out.printf("'%s : %s'의 단어를 추가하시겠습니까?\n", english, meaning);
         System.out.println("(1) 예");
         System.out.println("(2) 아니오");
