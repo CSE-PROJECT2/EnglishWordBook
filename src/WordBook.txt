@@ -28,4 +28,5 @@ computer : 컴퓨터
 keyboard : 키보드
 mouse : 마우스
 phone : 전화기
-fuck you : 꺼져 
+fuck you : 꺼져
+konkuk : 건국대

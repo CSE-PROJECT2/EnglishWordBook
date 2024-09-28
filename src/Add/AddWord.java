@@ -26,13 +26,24 @@ public class AddWord {
             }
         }
 
-
-
         System.out.print("뜻을 입력하세요 (한글로) >> ");
         String meaning = scanner.nextLine();
 
-        Word newWord = new Word(english, meaning);
-        wordList.add(newWord);
-        System.out.println("단어가 저장되었습니다.\n");
+        // 확인 절차: 입력한 영단어와 뜻을 저장할 것인지 확인
+        System.out.printf("'%s : %s'의 단어를 추가하시겠습니까?\n", english, meaning);
+        System.out.println("(1) 예");
+        System.out.println("(2) 아니오");
+        System.out.print("메뉴를 선택하세요 >> ");
+        String choice = scanner.nextLine();
+
+        // 선택에 따라 단어 저장 여부 결정
+        if (choice.equals("1")) {
+            Word newWord = new Word(english, meaning);
+            wordList.add(newWord);
+            System.out.println("단어가 저장되었습니다.\n");
+        } else {
+            System.out.println("단어 저장이 취소되었습니다.\n");
+        }
+
     }
 }
