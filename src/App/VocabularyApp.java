@@ -26,50 +26,56 @@ public class VocabularyApp {
         boolean running = true;
 
         while (running) {
-            System.out.println("*** 영어 단어장 프로그램 ***");
-            System.out.println("(1) 단어 추가");
-            System.out.println("(2) 단어 검색");
-            System.out.println("(3) 단어 수정");
-            System.out.println("(4) 단어 삭제");
-            System.out.println("(5) 단어 조회");
-            System.out.println("(6) 종료");
-            System.out.print("메뉴를 선택하세요 >> ");
-            int choice = scanner.nextInt();
-            scanner.nextLine(); // 개행 문자 처리
+            try {
 
-            switch (choice) {
-                //제가 틀을 만들다 보니 어쩔수 없이 주요 기능은 구현해 놓았습니다.
-                //작업 하시며 그대로 사용해도 되고, 각자 맡은 Class에 바꾸고 싶은대로 수정해도 됩니다 !
-                //단, 수정할 경우에 Case 문의 형식에는 크게 벗어나지 말게 해주세요 !! ㅎㅎ
-                case 0:
-                    new ViewWords().run(wordList);
-                    break;
-                case 1: //추가 : 동훈
-                    new AddWord().run(wordList);
-                    break;
-                case 2:// 검색 : 라니아 탄닝웨이
-                    new SearchWord().run(wordList);
-                    break;
-                case 3: // 수정 : 지예 아리 지수
-                    new UpdateWord().run(wordList);
-                    break;
-                case 4: // 삭제 : 지예 아리 지수
-                    new DeleteWord().run(wordList);
-                    break;
-                case 5: // 조회 : 정범
-                    new ViewWords().run(wordList);
-                    break;
-                case 6:
-                    running = false;
-                    // 종료 시 단어를 파일에 저장 -> 즉, 종료전에는 List에서 삭제/추가를 하고
-                    // 최종 수정본을(ArrayList)를  txt에 덮어쓴다고
-                    //생각하면 됩니다 !!
-                    WordSaver saver = new WordSaver();
-                    saver.saveWords(wordList);
-                    System.out.println("프로그램을 종료합니다.");
-                    break;
-                default:
-                    System.out.println("잘못된 입력입니다. 다시 시도해주세요.");
+                System.out.println("*** 영어 단어장 프로그램 ***");
+                System.out.println("(1) 단어 추가");
+                System.out.println("(2) 단어 검색");
+                System.out.println("(3) 단어 수정");
+                System.out.println("(4) 단어 삭제");
+                System.out.println("(5) 단어 조회");
+                System.out.println("(6) 종료");
+                System.out.print("메뉴를 선택하세요 >> ");
+                int choice = scanner.nextInt();
+                scanner.nextLine(); // 개행 문자 처리
+
+                switch (choice) {
+                    //제가 틀을 만들다 보니 어쩔수 없이 주요 기능은 구현해 놓았습니다.
+                    //작업 하시며 그대로 사용해도 되고, 각자 맡은 Class에 바꾸고 싶은대로 수정해도 됩니다 !
+                    //단, 수정할 경우에 Case 문의 형식에는 크게 벗어나지 말게 해주세요 !! ㅎㅎ
+                    case 0:
+                        new ViewWords().run(wordList);
+                        break;
+                    case 1: //추가 : 동훈
+                        new AddWord().run(wordList);
+                        break;
+                    case 2:// 검색 : 라니아 탄닝웨이
+                        new SearchWord().run(wordList);
+                        break;
+                    case 3: // 수정 : 지예 아리 지수
+                        new UpdateWord().run(wordList);
+                        break;
+                    case 4: // 삭제 : 지예 아리 지수
+                        new DeleteWord().run(wordList);
+                        break;
+                    case 5: // 조회 : 정범
+                        new ViewWords().run(wordList);
+                        break;
+                    case 6:
+                        running = false;
+                        // 종료 시 단어를 파일에 저장 -> 즉, 종료전에는 List에서 삭제/추가를 하고
+                        // 최종 수정본을(ArrayList)를  txt에 덮어쓴다고
+                        //생각하면 됩니다 !!
+                        WordSaver saver = new WordSaver();
+                        saver.saveWords(wordList);
+                        System.out.println("프로그램을 종료합니다.");
+                        break;
+                    default:
+                        System.out.println("잘못된 입력입니다. 다시 시도해주세요.");
+                }
+            } catch (Exception e) {
+                System.out.println("잘못된 입력입니다. 0에서 6 사이의 숫자를 입력해주세요.");
+                scanner.nextLine(); // 입력 버퍼 비우기
             }
         }
 
