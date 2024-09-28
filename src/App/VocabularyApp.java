@@ -27,7 +27,7 @@ public class VocabularyApp {
 
         while (running) {
             System.out.println("*** 영어 단어장 프로그램 ***");
-            System.out.println("(1) 단어 입력");
+            System.out.println("(1) 단어 추가");
             System.out.println("(2) 단어 검색");
             System.out.println("(3) 단어 수정");
             System.out.println("(4) 단어 삭제");
@@ -44,7 +44,7 @@ public class VocabularyApp {
                 case 0:
                     new ViewWords().run(wordList);
                     break;
-                case 1: //입력 : 동훈
+                case 1: //추가 : 동훈
                     new AddWord().run(wordList);
                     break;
                 case 2:// 검색 : 라니아 탄닝웨이
