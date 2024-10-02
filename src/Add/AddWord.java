@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class AddWord {
 
-    private WordValidator validator = new WordValidator();
+    public WordValidator validator = new WordValidator();
 
 
     public void run(List<Word> wordList) {
@@ -19,9 +19,28 @@ public class AddWord {
             System.out.print("영단어를 입력하세요 >> ");
             english = scanner.nextLine();
 
-            // 영어 단어 형식 검증
-            if (!validator.isValidEnglishWord(english)) {
-                System.out.println("오류: 영단어는 영어 알파벳만 입력 가능합니다. 다시 입력해주세요.");
+            // 영어 단어 형식 검증 ( 4.1.1 -> 영단어로만 구성되고 탭과 개행이 들어가지 않고 단어의 처음과 끝은 공백문자 x)
+            // 1. 영어로만 구성되어 있는지 확인
+            if (!validator.isEnglishOnly(english)) {
+                System.out.println("오류: 영단어는 영어 알파벳으로만 구성되어야 합니다. 다시 입력해주세요.");
+                continue;
+            }
+
+            // 2. 단어의 길이가 1 이상인지 확인
+            if (!validator.hasValidLength(english)) {
+                System.out.println("오류: 영단어의 길이는 1자 이상이어야 합니다. 다시 입력해주세요.");
+                continue;
+            }
+
+            // 3. 탭이나 개행 문자가 포함되지 않았는지 확인
+            if (!validator.noTabOrNewLine(english)) {
+                System.out.println("오류: 영단어에는 탭이나 개행 문자가 포함될 수 없습니다. 다시 입력해주세요.");
+                continue;
+            }
+
+            // 4. 단어의 처음과 끝에 공백 문자가 포함되지 않았는지 확인
+            if (!validator.noLeadingOrTrailingSpaces(english)) {
+                System.out.println("오류: 영단어의 시작과 끝에는 공백 문자가 없어야 합니다. 다시 입력해주세요.");
                 continue;
             }
 

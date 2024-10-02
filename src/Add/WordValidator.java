@@ -12,6 +12,9 @@ public class WordValidator {
     // 단어의 뜻이 영어만 포함되어 있는지 확인하기 위한 정규 표현식 패턴
     private static final String MEANING_ENGLISH_PATTERN = "^[a-zA-Z\\s]+$";
 
+    // 개행문자 문법규칙 4.1.1 확인용
+    private static final String VALID_ENGLISH_FORMAT_PATTERN = "^[a-zA-Z]+$";
+
 
     // 입력한 단어가 올바른 영어 단어인지 확인
     public boolean isValidEnglishWord(String english) {
@@ -34,6 +37,26 @@ public class WordValidator {
             return false;
         }
         return true;
+    }
+    //의미규칙 파악 메서드
+    // 1. 영어로만 구성되어야 함
+    public boolean isEnglishOnly(String word) {
+        return word.matches(VALID_ENGLISH_FORMAT_PATTERN);
+    }
+
+    // 2. 길이가 1 이상이어야 함
+    public boolean hasValidLength(String word) {
+        return word.length() > 0; // 빈 문자열만 체크하므로 길이가 1 이상이면 true 반환
+    }
+
+    // 3. 탭과 개행이 없어야 함
+    public boolean noTabOrNewLine(String word) {
+        return !word.contains("\t") && !word.contains("\n");
+    }
+
+    // 4. 처음과 끝에 공백이 없어야 함
+    public boolean noLeadingOrTrailingSpaces(String word) {
+        return !word.startsWith(" ") && !word.endsWith(" ");
     }
 
 }
