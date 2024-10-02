@@ -37,6 +37,14 @@ public class AddWord {
         System.out.print("뜻을 입력하세요 (한글로) >> ");
         String meaning = scanner.nextLine();
 
+        // 의미가 올바르지 않다면 반복하여 입력받음
+        while (!validator.isMeaningInEnglish(meaning)) {
+            System.out.println("오류: 잘못된 뜻 입력 형식입니다.");
+
+            System.out.print("뜻을 입력하세요 (한글로) >> ");
+            meaning = scanner.nextLine();
+        }
+
         // 단어와 뜻을 확인 후 추가 여부를 묻는 절차
         while (true) {
             try {
