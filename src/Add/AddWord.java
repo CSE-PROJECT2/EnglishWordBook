@@ -54,15 +54,19 @@ public class AddWord {
             break; // 유효성 검사를 통과한 경우 반복문 종료
         }
 
-        System.out.print("뜻을 입력하세요 (한글로) >> ");
-        String meaning = scanner.nextLine();
 
-        // 의미가 올바르지 않다면 반복하여 입력받음
-        while (!validator.isMeaningInEnglish(meaning)) {
-            System.out.println("오류: 잘못된 뜻 입력 형식입니다.");
-
-            System.out.print("뜻을 입력하세요 (한글로) >> ");
+        String meaning;
+        while (true) {
+            System.out.print("뜻을 입력하세요  >> ");
             meaning = scanner.nextLine();
+
+            // 의미의 유효성 검증 (영어 또는 한글로만 이루어졌는지 확인)
+            if (!validator.isValidMeaning(meaning)) {
+                System.out.println("오류: 뜻은 반드시 1자 이상의 영어 또는 한글로 입력해야 합니다. 공백이나 특수문자는 입력할 수 없습니다.");
+                continue;
+            }
+
+            break; // 유효성 검사를 통과한 경우 반복문 종료
         }
 
         // 단어와 뜻을 확인 후 추가 여부를 묻는 절차

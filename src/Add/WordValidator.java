@@ -15,6 +15,9 @@ public class WordValidator {
     // 개행문자 문법규칙 4.1.1 확인용
     private static final String VALID_ENGLISH_FORMAT_PATTERN = "^[a-zA-Z]+$";
 
+    // 영어, 한글, 그리고 중간에 포함된 공백만 허용하는 정규 표현식 패턴
+    private static final String MEANING_PATTERN = "^[가-힣ㄱ-ㅎㅏ-ㅣa-zA-Z\\s]+$";
+
 
     // 입력한 단어가 올바른 영어 단어인지 확인
     public boolean isValidEnglishWord(String english) {
@@ -57,6 +60,11 @@ public class WordValidator {
     // 4. 처음과 끝에 공백이 없어야 함
     public boolean noLeadingOrTrailingSpaces(String word) {
         return !word.startsWith(" ") && !word.endsWith(" ");
+    }
+
+    // 단어의 뜻이 올바른 형식(영어 또는 한글)인지 확인
+    public boolean isValidMeaning(String meaning) {
+        return meaning != null && !meaning.trim().isEmpty() && meaning.matches(MEANING_PATTERN);
     }
 
 }
