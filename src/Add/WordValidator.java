@@ -15,8 +15,9 @@ public class WordValidator {
     // 개행문자 문법규칙 4.1.1 확인용
     private static final String VALID_ENGLISH_FORMAT_PATTERN = "^[a-zA-Z]+$";
 
-    // 영어, 한글, 그리고 중간에 포함된 공백만 허용하는 정규 표현식 패턴
-    private static final String MEANING_PATTERN = "^[가-힣ㄱ-ㅎㅏ-ㅣa-zA-Z\\s]+$";
+    // 한글로만 이루어진 단어를 검증하는 정규 표현식 패턴 (탭, 개행, 특수문자 제외)
+    private static final String MEANING_PATTERN = "^[가-힣ㄱ-ㅎㅏ-ㅣ]+(\\s[가-힣ㄱ-ㅎㅏ-ㅣ]+)*$";
+
 
 
     // 입력한 단어가 올바른 영어 단어인지 확인

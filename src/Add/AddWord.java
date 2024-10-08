@@ -57,12 +57,12 @@ public class AddWord {
 
         String meaning;
         while (true) {
-            System.out.print("뜻을 입력하세요  >> ");
+            System.out.print("뜻을 입력하세요 (한글로) >>");
             meaning = scanner.nextLine();
 
             // 의미의 유효성 검증 (영어 또는 한글로만 이루어졌는지 확인)
             if (!validator.isValidMeaning(meaning)) {
-                System.out.println("오류: 뜻은 반드시 1자 이상의 영어 또는 한글로 입력해야 합니다. 공백이나 특수문자는 입력할 수 없습니다.");
+                System.out.println("오류: 잘못된 뜻 입력 형식입니다.");
                 continue;
             }
 
