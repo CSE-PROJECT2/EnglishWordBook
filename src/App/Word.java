@@ -1,34 +1,66 @@
 package App;
 
+import java.util.Map;
+
 public class Word {
-    private String english;
-    private String meaning;
+    // 영어 단어 필드 추가
+    private String englishWord;
+    private String syllableSeparated;
+    private String pronunciation;
+    private int accentPosition;
+    private int syllableCount;
+    private Map<String, String> meanings; // 품사별 의미 저장
 
-    public Word(String english, String meaning) {
-        this.english = english;
-        this.meaning = meaning;
+    // 생성자
+    public Word(String englishWord, String syllableSeparated, String pronunciation, int accentPosition, int syllableCount, Map<String, String> meanings) {
+        this.englishWord = englishWord;
+        this.syllableSeparated = syllableSeparated;
+        this.pronunciation = pronunciation;
+        this.accentPosition = accentPosition;
+        this.syllableCount = syllableCount;
+        this.meanings = meanings;
     }
 
-    public String getEnglish() {
-        return english;
+    // getter 메서드
+    public String getEnglishWord() {
+        return englishWord;
     }
 
-    public void setEnglish(String english) {
-        this.english = english;
+    public String getSyllableSeparated() {
+        return syllableSeparated;
     }
 
-    public String getMeaning() {
-        return meaning;
+    public String getPronunciation() {
+        return pronunciation;
     }
 
-    public void setMeaning(String meaning) {
-        this.meaning = meaning;
+    public int getAccentPosition() {
+        return accentPosition;
+    }
+
+    public int getSyllableCount() {
+        return syllableCount;
+    }
+
+    public Map<String, String> getMeanings() {
+        return meanings;
     }
 
     @Override
     public String toString() {
-        english=english.trim();
-        meaning=meaning.trim();
-        return english + " : " + meaning;
+        StringBuilder sb = new StringBuilder();
+        sb.append(englishWord).append(" [").append(syllableSeparated).append("]\n");
+        sb.append("발음: ").append(pronunciation).append("\n");
+        sb.append("악센트: ").append(accentPosition).append(" 번째 음절\n");
+        sb.append("음절 수: ").append(syllableCount).append(" 개\n");
+        sb.append("뜻:\n");
+
+        int i = 1;
+        for (Map.Entry<String, String> entry : meanings.entrySet()) {
+            sb.append(i).append(". <").append(entry.getKey()).append("> ").append(entry.getValue()).append("\n");
+            i++;
+        }
+
+        return sb.toString();
     }
 }
