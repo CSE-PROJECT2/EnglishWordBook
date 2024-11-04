@@ -103,18 +103,23 @@ public class AddWord {
                 meaning = scanner.nextLine();
 
                 if (!validator.isValidMeaning(meaning)) {
-                    System.out.println("오류: 뜻은 한글로만 구성되어야 합니다. 다시 입력해주세요.");
+                    System.out.println("오류: 잘못된 뜻 입력 형식입니다.");
                 } else {
-                    // 중복된 품사와 뜻 검사
-                    if (meanings.containsKey(pos) && meanings.get(pos).equals(meaning)) {
-                        System.out.println("오류: 이미 저장된 단어입니다.");
-                        continue; // 품사 입력부터 다시 받도록
+                    // 중복된 품사와 뜻 검사 및 기존 뜻에 추가
+                    if (meanings.containsKey(pos)) {
+                        String existingMeaning = meanings.get(pos);
+                        if (existingMeaning.contains(meaning)) {
+                            System.out.println("오류: 이미 저장된 뜻입니다.");
+                            continue; // 품사 입력부터 다시 받도록
+                        } else {
+                            meanings.put(pos, existingMeaning + ", " + meaning);
+                        }
+                    } else {
+                        meanings.put(pos, meaning);
                     }
                     break;
                 }
             }
-
-            meanings.put(pos, meaning);
 
             // 추가 품사 입력 여부 확인
             String choice;

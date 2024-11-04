@@ -104,7 +104,7 @@ public class UpdateWord {
                         System.out.print("새로운 뜻을 입력하세요 (한글로) >> ");
                         newMeaning = scanner.nextLine();
                         if (!validator.isValidMeaning(newMeaning)) {
-                            System.out.println("오류: 뜻은 한글로만 구성되어야 합니다. 다시 입력해주세요.");
+                            System.out.println("오류: 잘못된 뜻 입력 형식입니다.");
                         } else if (meanings.containsKey(newPos) && meanings.get(newPos).equals(newMeaning)) {
                             System.out.println("오류: 이미 저장된 단어입니다.");
                         } else {
