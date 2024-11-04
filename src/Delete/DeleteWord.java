@@ -9,7 +9,7 @@ public class DeleteWord {
 
     public void run(List<Word> wordList) {
         Scanner scanner = new Scanner(System.in);
-        System.out.print("삭제할 영어단어를 입력하세요 >> ");
+        System.out.print("삭제할 영단어를 입력하세요 >> ");
         String english = scanner.nextLine();
 
         Word wordToDelete = null;
@@ -32,7 +32,7 @@ public class DeleteWord {
                 String choice = scanner.nextLine();
                 if (choice.equals("1")) {
                     wordList.remove(wordToDelete);
-                    System.out.println("'" + english + "' 단어가 삭제되었습니다.\n");
+                    System.out.println("단어가 삭제되었습니다.\n");
                     break;
                 } else if (choice.equals("2")) {
                     System.out.println("삭제가 취소되었습니다.\n");

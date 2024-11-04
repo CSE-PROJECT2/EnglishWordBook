@@ -76,7 +76,7 @@ public class UpdateWord {
                     String newMeaning = scanner.nextLine();
 
                     while (true) {
-                        System.out.printf("\n'%s'의 의미를 '<%s> %s'로 수정하시겠습니까?\n", word.getEnglishWord(), newPos, newMeaning);
+                        System.out.printf("\n'%s'의 의미를 '<%s> %s'(으)로 수정하시겠습니까?\n", word.getEnglishWord(), newPos, newMeaning);
                         System.out.println("(1) 예");
                         System.out.println("(2) 아니오");
                         System.out.print("메뉴를 선택하세요 >> ");
