@@ -105,6 +105,11 @@ public class AddWord {
                 if (!validator.isValidMeaning(meaning)) {
                     System.out.println("오류: 뜻은 한글로만 구성되어야 합니다. 다시 입력해주세요.");
                 } else {
+                    // 중복된 품사와 뜻 검사
+                    if (meanings.containsKey(pos) && meanings.get(pos).equals(meaning)) {
+                        System.out.println("오류: 이미 저장된 단어입니다.");
+                        continue; // 품사 입력부터 다시 받도록
+                    }
                     break;
                 }
             }
@@ -112,7 +117,7 @@ public class AddWord {
             meanings.put(pos, meaning);
 
             // 추가 품사 입력 여부 확인
-            String choice;  // choice 변수 선언 위치를 while 문 바깥으로 이동
+            String choice;
             while (true) {
                 System.out.println("다른 품사를 추가하시겠습니까? (1) 예, (2) 아니오 >> ");
                 System.out.print("메뉴를 선택하세요 ");
@@ -121,7 +126,6 @@ public class AddWord {
                 if (choice.equals("1")) {
                     break;
                 } else if (choice.equals("2")) {
-
                     break;
                 } else {
                     System.out.println("오류: 숫자 1 또는 2를 입력해주세요.");
@@ -134,9 +138,8 @@ public class AddWord {
         }
 
         // 최종 추가 확인
-
         while (true) {
-            System.out.printf("‘%s : %s ’의 단어를 추가하시겠습니까?\n", english,  meanings);
+            System.out.printf("‘%s : %s ’의 단어를 추가하시겠습니까?\n", english, meanings);
             System.out.println("(1) 예");
             System.out.println("(2) 아니오");
             System.out.print("메뉴를 선택하세요 >> ");
@@ -155,6 +158,5 @@ public class AddWord {
                 System.out.println("오류: 숫자 1 또는 2를 입력해주세요.");
             }
         }
-
     }
 }
