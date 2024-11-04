@@ -23,15 +23,17 @@ public class VocabularyApp {
 
         while (running) {
             try {
-                System.out.println("영어 단어장 프로그램");
-                System.out.println("0. 현재 저장된 단어 출력");
-                System.out.println("1. 단어 입력");
-                System.out.println("2. 단어 검색");
-                System.out.println("3. 단어 수정");
-                System.out.println("4. 단어 삭제");
-                System.out.println("5. 단어 조회");
-                System.out.println("6. 종료");
-                System.out.print("선택: ");
+
+                System.out.println("——————————————————————————");
+                System.out.println("*** 영어 단어장 프로그램 ***");
+                System.out.println("(1) 단어 추가");
+                System.out.println("(2) 단어 검색");
+                System.out.println("(3) 단어 수정");
+                System.out.println("(4) 단어 삭제");
+                System.out.println("(5) 단어 조회");
+                System.out.println("(6) 종료");
+                System.out.print("메뉴를 선택하세요 >> ");
+
 
                 int choice = Integer.parseInt(scanner.nextLine());
 
