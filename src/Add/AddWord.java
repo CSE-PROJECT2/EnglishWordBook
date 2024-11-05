@@ -60,7 +60,7 @@ public class AddWord {
             System.out.print("발음을 입력하세요 (예: 애플) >> ");
             pronunciation = scanner.nextLine();
 
-            if (validator.isMeaningInEnglish(pronunciation)) {
+            if (!(validator.isValidPronunciation(pronunciation))) {
                 System.out.println("오류: 한글로만 입력해주세요.");
                 continue;
             }
