@@ -108,7 +108,7 @@ public class AddWord {
                     // 중복된 품사와 뜻 검사 및 기존 뜻에 추가
                     if (meanings.containsKey(pos)) {
                         String existingMeaning = meanings.get(pos);
-                        if (existingMeaning.contains(meaning)) {
+                        if (existingMeaning.equals(meaning)) {
                             System.out.println("오류: 이미 저장된 뜻입니다.");
                             continue; // 품사 입력부터 다시 받도록
                         } else {
