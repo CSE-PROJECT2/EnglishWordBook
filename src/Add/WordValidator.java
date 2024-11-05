@@ -18,8 +18,8 @@ public class WordValidator {
                 syllableSeparated.indexOf("··") == -1;
     }
     
-    public boolean isMeaningInEnglish(String pronunciation) {
-        return !pronunciation.matches(PRONUNCIATION_PATTERN);
+    public boolean isValidPronunciation(String pronunciation) {
+        return pronunciation.matches(PRONUNCIATION_PATTERN);
     }
 
     public boolean isValidEnglishWord(String english) {
