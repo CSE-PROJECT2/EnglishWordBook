@@ -17,11 +17,7 @@ public class WordValidator {
                 !syllableSeparated.endsWith("·") &&
                 syllableSeparated.indexOf("··") == -1;
     }
-
-    public boolean isValidPronunciation(String pronunciation) {
-        return pronunciation.matches(PRONUNCIATION_PATTERN);
-    }
-
+    
     public boolean isMeaningInEnglish(String pronunciation) {
         return !pronunciation.matches(PRONUNCIATION_PATTERN);
     }
