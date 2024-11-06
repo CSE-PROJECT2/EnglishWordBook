@@ -38,9 +38,6 @@ public class VocabularyApp {
                 int choice = Integer.parseInt(scanner.nextLine());
 
                 switch (choice) {
-                    case 0:
-                        new ViewWords().run(wordList);
-                        break;
                     case 1:
                         new AddWord().run(wordList);
                         break;
