@@ -19,7 +19,9 @@ public class WordLoader {
 
                 // 데이터가 부족할 경우 오류 처리
                 if (parts.length < 5) {
-                    System.out.println("데이터 형식 오류: 필수 정보가 부족합니다. (" + line + ")");
+                    System.out.println("파일 저장 중 오류가 발생했습니다:\n"
+                            + "프로그램을 종료합니다.");
+                    System.exit(0);
                     continue;
                 }
 
@@ -31,7 +33,9 @@ public class WordLoader {
                 try {
                     accentPosition = Integer.parseInt(parts[3].trim());
                 } catch (NumberFormatException e) {
-                    System.out.println("데이터 형식 오류: 강세 위치는 숫자로 입력되어야 합니다. (" + line + ")");
+                    System.out.println("파일 저장 중 오류가 발생했습니다:\n"
+                            + "프로그램을 종료합니다.");
+                    System.exit(0);
                     continue;
                 }
 
@@ -53,7 +57,8 @@ public class WordLoader {
                 wordList.add(word);
             }
         } catch (IOException e) {
-            System.out.println("파일 읽기 중 오류가 발생했습니다: " + e.getMessage());
+            System.out.println("파일 읽기 중 오류가 발생했습니다: src\\WordBook.txt (지정된 파일을 찾을 수 없습니다)");
+            System.exit(0);
         }
     }
 }

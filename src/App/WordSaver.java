@@ -30,7 +30,10 @@ public class WordSaver {
                 writer.write(sb.toString());
             }
         } catch (IOException e) {
-            System.out.println("파일 저장 중 오류가 발생했습니다: " + e.getMessage());
+            System.out.println("파일 저장 중 오류가 발생했습니다:\n"
+                    + "프로그램을 종료합니다.");
+            System.exit(0);
+
         }
     }
 }
