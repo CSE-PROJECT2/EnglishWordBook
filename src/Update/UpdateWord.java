@@ -64,11 +64,28 @@ public class UpdateWord {
                     }
 
                     String selectedPos = (String) meanings.keySet().toArray()[selectedMeaningIndex - 1];
-                    System.out.print("새로운 품사를 입력하세요 >> ");
-                    String newPos = scanner.nextLine();
-
-                    System.out.print("새로운 뜻을 입력하세요 >> ");
-                    String newMeaning = scanner.nextLine();
+                    String newPos;
+                    while (true) {
+                        System.out.print("새로운 품사를 입력하세요 (예: 명사, 동사 등) >> ");
+                        newPos = scanner.nextLine();
+                        if (!validator.isAllowedPos(newPos)) {
+                            System.out.println("오류: 품사는 ‘동사’, ‘명사’, ‘형용사’, ‘부사’, ‘전치사’, ‘접속사’, ‘대명사’, ‘감탄사’ 중 하나로 입력해주세요.");
+                        } else {
+                            break;
+                        }
+                    }
+                    String newMeaning;
+                    while (true) {
+                        System.out.print("새로운 뜻을 입력하세요 (한글로) >> ");
+                        newMeaning = scanner.nextLine();
+                        if (!validator.isValidMeaning(newMeaning)) {
+                            System.out.println("오류: 뜻은 한글로만 구성되어야 합니다. 다시 입력해주세요.");
+                        } else if (meanings.containsKey(newPos) && meanings.get(newPos).equals(newMeaning)) {
+                            System.out.println("오류: 이미 저장된 단어입니다.");
+                        } else {
+                            break;
+                        }
+                    }
 
                     while (true) {
                         System.out.printf("\n'%s'의 %d번째 뜻을 '<%s> %s'로 수정하시겠습니까?\n",
@@ -93,13 +110,30 @@ public class UpdateWord {
                     }
                 } else {
                     System.out.println("'" + word.getEnglishWord() + "'의 뜻을 수정합니다.");
-                    String onlyPos = meanings.keySet().iterator().next();
 
-                    System.out.print("새로운 품사를 입력하세요 >> ");
-                    String newPos = scanner.nextLine();
 
-                    System.out.print("새로운 뜻을 입력하세요 >> ");
-                    String newMeaning = scanner.nextLine();
+                    String newPos;
+                    while (true) {
+                        System.out.print("새로운 품사를 입력하세요 (예: 명사, 동사 등) >> ");
+                        newPos = scanner.nextLine();
+                        if (!validator.isAllowedPos(newPos)) {
+                            System.out.println("오류: 품사는 ‘동사’, ‘명사’, ‘형용사’, ‘부사’, ‘전치사’, ‘접속사’, ‘대명사’, ‘감탄사’ 중 하나로 입력해주세요.");
+                        } else {
+                            break;
+                        }
+                    }
+                    String newMeaning;
+                    while (true) {
+                        System.out.print("새로운 뜻을 입력하세요 (한글로) >> ");
+                        newMeaning = scanner.nextLine();
+                        if (!validator.isValidMeaning(newMeaning)) {
+                            System.out.println("오류: 잘못된 뜻 입력 형식입니다.");
+                        } else if (meanings.containsKey(newPos) && meanings.get(newPos).equals(newMeaning)) {
+                            System.out.println("오류: 이미 저장된 단어입니다.");
+                        } else {
+                            break;
+                        }
+                    }
 
                     while (true) {
                         System.out.printf("\n'%s'의 의미를 '<%s> %s'(으)로 수정하시겠습니까?\n", word.getEnglishWord(), newPos, newMeaning);
