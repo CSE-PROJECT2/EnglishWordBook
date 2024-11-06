@@ -10,6 +10,17 @@ public class AddWord {
 
     public WordValidator validator = new WordValidator();
 
+    private String printMeanings(Map<String, String> meanings) {
+        StringBuilder sb = new StringBuilder();
+        for (Map.Entry<String, String> entry : meanings.entrySet()) {
+            if (sb.length() > 0) {
+                sb.append(", "); // 뜻 사이에 쉼표 추가
+            }
+            sb.append("<").append(entry.getKey()).append("> ").append(entry.getValue());
+        }
+        return sb.toString();
+    }
+
     public void run(List<Word> wordList) {
         System.out.println("\n*** 단어 추가 ***");
         Scanner scanner = new Scanner(System.in);
@@ -144,7 +155,7 @@ public class AddWord {
 
         // 최종 추가 확인
         while (true) {
-            System.out.printf("‘%s : %s ’의 단어를 추가하시겠습니까?\n", english, meanings);
+            System.out.printf("‘%s : %s’의 단어를 추가하시겠습니까?\n", english, printMeanings(meanings));
             System.out.println("(1) 예");
             System.out.println("(2) 아니오");
             System.out.print("메뉴를 선택하세요 >> ");
