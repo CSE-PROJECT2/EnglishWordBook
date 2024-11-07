@@ -30,6 +30,12 @@ public class AddWord {
             System.out.print("영단어를 입력하세요 >> ");
             english = scanner.nextLine();
 
+             // 영어 단어 형식 검증
+            if (!validator.hasValidLength(english)) {
+                System.out.println("오류: 단어의 길이는 1자 이상이어야 합니다. 다시 입력해주세요.");
+                continue;
+            }
+            
             if (!validator.noTabOrNewLine(english)) {
                 System.out.println("오류: 영단어에는 탭이나 개행 문자가 포함될 수 없습니다. 다시 입력해주세요.");
                 continue;
@@ -112,6 +118,11 @@ public class AddWord {
             while (true) {
                 System.out.print("뜻을 입력하세요 (한글로) >> ");
                 meaning = scanner.nextLine();
+
+                 // 뜻이 영어와 공백이 들어가는지 확인
+                if (!validator.isMeaningInEnglish(meaning)) {
+                	System.out.println("오류: 잘못된 뜻 입력 형식입니다.");
+                }
 
                 if (!validator.isValidMeaning(meaning)) {
                     System.out.println("오류: 잘못된 뜻 입력 형식입니다.");
