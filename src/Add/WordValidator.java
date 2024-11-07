@@ -25,7 +25,7 @@ public class WordValidator {
     }
 
     public boolean isMeaningInEnglish(String meaning) {
-        return !meaning.matches(MEANING_ENG_PATTERN);
+        return !meaning.matches(MEANING_ENGLISH_PATTERN);
     }
 
     public boolean isValidEnglishWord(String english) {
