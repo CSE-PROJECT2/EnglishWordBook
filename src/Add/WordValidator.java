@@ -10,7 +10,7 @@ public class WordValidator {
     private static final String PRONUNCIATION_PATTERN = "^[가-힣]+$";
     private static final String MEANING_PATTERN = "^[가-힣ㄱ-ㅎㅏ-ㅣ]+(\\s[가-힣ㄱ-ㅎㅏ-ㅣ]+)*$"; // 뜻이 한글만 들어가는지 확인
     private static final String[] ALLOWED_POS = {"명사", "동사", "형용사", "부사", "전치사", "접속사", "대명사", "감탄사"};
-    private static final String MEANING_ENG_PATTERN = "^[a-zA-Z\\\\s]+$"; // 뜻이 영어와 공백이 들어가는지 확인
+    private static final String MEANING_ENGLISH_PATTERN = "^[a-zA-Z\\\\s]+$"; // 뜻이 영어와 공백이 들어가는지 확인
     
     public boolean isValidSyllableFormat(String english, String syllableSeparated) {
         return syllableSeparated.matches(SYLLABLE_ENGLISH_PATTERN) &&
