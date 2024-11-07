@@ -122,6 +122,7 @@ public class AddWord {
                  // 뜻이 영어와 공백이 들어가는지 확인
                 if (!validator.isMeaningInEnglish(meaning)) {
                 	System.out.println("오류: 잘못된 뜻 입력 형식입니다.");
+                    continue;
                 }
 
                 if (!validator.isValidMeaning(meaning)) {
