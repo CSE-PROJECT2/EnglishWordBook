@@ -55,11 +55,11 @@ public class WordValidator {
     }
 
     public boolean noTabOrNewLine(String english) {
-        return !word.contains("\t") && !word.contains("\n");
+        return !english.contains("\t") && !english.contains("\n");
     }
 
     public boolean noLeadingOrTrailingSpaces(String english) {
-        return !word.startsWith(" ") && !word.endsWith(" ");
+        return !english.startsWith(" ") && !english.endsWith(" ");
     }
 
     public boolean isDuplicateWord(List<Word> wordList, String english) {
