@@ -32,19 +32,19 @@ public class WordLoader {
                         !validator.noTabOrNewLine(englishWord) ||
                         !validator.noLeadingOrTrailingSpaces(englishWord) ||
                         !validator.isValidEnglishWord(englishWord)) {
-                    System.out.println("파일 저장 중 오류가 발생했습니다:\n유효하지 않은 영어 단어 형식: " + englishWord);
+                    System.out.println("파일 저장 중 오류가 발생했습니다:");
                     System.out.println("프로그램을 종료합니다.");
                     System.exit(0);
                 }
 
                 if (!validator.isValidSyllableFormat(englishWord, syllableSeparated)) {
-                    System.out.println("파일 저장 중 오류가 발생했습니다:\n유효하지 않은 음절 구분 형식: " + syllableSeparated);
+                    System.out.println("파일 저장 중 오류가 발생했습니다:");
                     System.out.println("프로그램을 종료합니다.");
                     System.exit(0);
                 }
 
                 if (!validator.isValidPronunciation(pronunciation)) {
-                    System.out.println("파일 저장 중 오류가 발생했습니다:\n유효하지 않은 발음 형식: " + pronunciation);
+                    System.out.println("파일 저장 중 오류가 발생했습니다:");
                     System.out.println("프로그램을 종료합니다.");
                     System.exit(0);
                 }
@@ -53,19 +53,19 @@ public class WordLoader {
                 try {
                     accentPosition = Integer.parseInt(parts[3]);
                     if (!validator.isValidAccentPosition(syllableSeparated, accentPosition)) {
-                        System.out.println("파일 저장 중 오류가 발생했습니다:\n유효하지 않은 강세 위치: " + accentPosition);
+                        System.out.println("파일 저장 중 오류가 발생했습니다:");
                         System.out.println("프로그램을 종료합니다.");
                         System.exit(0);
                     }
                 } catch (NumberFormatException e) {
-                    System.out.println("파일 저장 중 오류가 발생했습니다:\n강세 위치는 숫자로 입력되어야 합니다.");
+                    System.out.println("파일 저장 중 오류가 발생했습니다:");
                     System.out.println("프로그램을 종료합니다.");
                     System.exit(0);
                 }
 
                 String meaningPart = parts[4];
                 if (!meaningPart.startsWith("(") || !meaningPart.endsWith(")")) {
-                    System.out.println("파일 저장 중 오류가 발생했습니다:\n잘못된 의미 형식: " + meaningPart);
+                    System.out.println("파일 저장 중 오류가 발생했습니다:");
                     System.out.println("프로그램을 종료합니다.");
                     System.exit(0);
                 }
@@ -82,26 +82,26 @@ public class WordLoader {
 
                         // 품사와 뜻 앞뒤에 공백이 있으면 오류로 처리
                         if (pos.startsWith(" ") || pos.endsWith(" ") || meaning.startsWith(" ") || meaning.endsWith(" ")) {
-                            System.out.println("파일 저장 중 오류가 발생했습니다:\n유효하지 않은 품사 또는 뜻입니다: " + pos + ":" + meaning);
+                            System.out.println("파일 저장 중 오류가 발생했습니다:");
                             System.out.println("프로그램을 종료합니다.");
                             System.exit(0);
                         }
 
                         if (!validator.isAllowedPos(pos)) {
-                            System.out.println("파일 저장 중 오류가 발생했습니다:\n유효하지 않은 품사입니다: " + pos);
+                            System.out.println("파일 저장 중 오류가 발생했습니다:");
                             System.out.println("프로그램을 종료합니다.");
                             System.exit(0);
                         }
 
                         if (!validator.isValidMeaning(meaning)) {
-                            System.out.println("파일 저장 중 오류가 발생했습니다:\n유효하지 않은 뜻입니다: " + meaning);
+                            System.out.println("파일 저장 중 오류가 발생했습니다:" );
                             System.out.println("프로그램을 종료합니다.");
                             System.exit(0);
                         }
 
                         meanings.put(pos, meaning);
                     } else {
-                        System.out.println("파일 저장 중 오류가 발생했습니다:\n올바르지 않은 품사-뜻 형식: " + posMeaning);
+                        System.out.println("파일 저장 중 오류가 발생했습니다:");
                         System.out.println("프로그램을 종료합니다.");
                         System.exit(0);
                     }
@@ -112,7 +112,7 @@ public class WordLoader {
                 wordList.add(word);
             }
         } catch (IOException e) {
-            System.out.println("파일 읽기 중 오류가 발생했습니다: " + e.getMessage());
+            System.out.println("파일 읽기 중 오류가 발생했습니다: src\\WordBook.txt (지정된 파일을 찾을 수 없습니다)" );
             System.exit(0);
         }
     }
