@@ -140,21 +140,21 @@ public class UpdateWord {
                         System.out.println("(1) 예");
                         System.out.println("(2) 아니오");
                         System.out.print("메뉴를 선택하세요 >> ");
-                        int confirmation = scanner.nextInt();
-                        scanner.nextLine(); // 개행 문자 처리
-
-                        if (confirmation == 1) {
+                        
+                        String choice = scanner.nextLine();
+  
+                        if (choice.equals("1")) {
                             meanings.clear();
                             meanings.put(newPos, newMeaning);
                             System.out.println("뜻이 수정되었습니다.\n");
                             break;
-                        } else if (confirmation == 2) {
+                        } else if (choice.equals("2")) {
                             System.out.println("수정이 취소되었습니다.\n");
                             break;
                         } else {
                             System.out.println("숫자 1 또는 2를 입력해주세요.");
-                        }
-                    }
+                        } 
+                    } 
                 }
                 break;
             }

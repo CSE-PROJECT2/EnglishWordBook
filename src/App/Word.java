@@ -4,7 +4,7 @@ import java.util.Map;
 
 public class Word {
     // 영어 단어 필드 추가
-    private String englishWord;
+    private String english;
     private String syllableSeparated;
     private String pronunciation;
     private int accentPosition;
@@ -12,8 +12,8 @@ public class Word {
     private Map<String, String> meanings; // 품사별 의미 저장
 
     // 생성자
-    public Word(String englishWord, String syllableSeparated, String pronunciation, int accentPosition, int syllableCount, Map<String, String> meanings) {
-        this.englishWord = englishWord;
+    public Word(String english, String syllableSeparated, String pronunciation, int accentPosition, int syllableCount, Map<String, String> meanings) {
+        this.english = english;
         this.syllableSeparated = syllableSeparated;
         this.pronunciation = pronunciation;
         this.accentPosition = accentPosition;
@@ -23,7 +23,7 @@ public class Word {
 
     // getter 메서드
     public String getEnglishWord() {
-        return englishWord;
+        return english;
     }
 
     public String getSyllableSeparated() {
@@ -49,7 +49,7 @@ public class Word {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(englishWord).append(" [").append(syllableSeparated).append("]\n");
+        sb.append(english).append(" [").append(syllableSeparated).append("]\n");
         sb.append("발음: ").append(pronunciation).append("\n");
         sb.append("악센트: ").append(accentPosition).append(" 번째 음절\n");
         sb.append("음절 수: ").append(syllableCount).append(" 개\n");
