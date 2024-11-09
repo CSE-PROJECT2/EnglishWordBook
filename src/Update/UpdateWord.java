@@ -55,13 +55,15 @@ public class UpdateWord {
                         index++;
                     }
                     System.out.print("수정할 뜻의 번호를 선택하세요 >> ");
-                    int selectedMeaningIndex = scanner.nextInt();
-                    scanner.nextLine(); // 개행 문자 처리
+                    String input = scanner.nextLine(); // 입력을 문자열로 받음
 
-                    if (selectedMeaningIndex < 1 || selectedMeaningIndex > meanings.size()) {
+                    // 입력된 값이 숫자인지 확인하고 범위 검사까지 진행
+                    if (!input.matches("\\d+") || Integer.parseInt(input) < 1 || Integer.parseInt(input) > meanings.size()) {
                         System.out.println("잘못된 번호입니다. 수정이 취소되었습니다.\n");
                         return;
                     }
+
+                    int selectedMeaningIndex = Integer.parseInt(input);
 
                     String selectedPos = (String) meanings.keySet().toArray()[selectedMeaningIndex - 1];
                     String newPos;
