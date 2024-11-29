@@ -16,7 +16,7 @@ public class SearchWord {
 
         String searchWord;
         while (true) {
-            System.out.print("검색할 영단어를 입력하세요 >> ");
+            System.out.print("검색할 단어 또는 정보를 입력하세요 >> ");
             searchWord = scanner.nextLine();
 
             // 1. 탭이나 개행 문자가 포함되어 있는지 확인
@@ -41,27 +41,53 @@ public class SearchWord {
         }
 
         boolean found = false;
-        for (Word word : wordList) {
-            // 영어 단어 기준으로 검색
-            if (word.getEnglishWord().equalsIgnoreCase(searchWord)) {  // getEnglishWord() 사용
-                System.out.println(word.getEnglishWord() + " [" + word.getSyllableSeparated() + "]");
-                System.out.println("발음: " + word.getPronunciation());
-                System.out.println("악센트: " + word.getAccentPosition() + " 번째 음절");
-                System.out.println("음절 수: " + word.getSyllableCount() + " 개");
-                System.out.println("뜻:");
 
-                int i = 1;
-                for (Map.Entry<String, String> entry : word.getMeanings().entrySet()) {
-                    System.out.println(i + ". <" + entry.getKey() + "> " + entry.getValue());
-                    i++;
-                }
+        for (Word word : wordList) {
+            // 영단어 기준으로 검색
+            if (word.getEnglishWord().equalsIgnoreCase(searchWord)) {
+                printWordDetails(word);
                 found = true;
+                break;
+            }
+
+            // 뜻, 발음, 과거형, 복수형, 비교급을 검색
+            for (Map.Entry<String, Word.PartOfSpeech> entry : word.getPartsOfSpeech().entrySet()) {
+                Word.PartOfSpeech partOfSpeech = entry.getValue();
+                if (partOfSpeech.getMeaning().contains(searchWord) ||
+                        partOfSpeech.getPronunciation().contains(searchWord) ||
+                        partOfSpeech.getPronunciationText().contains(searchWord) ||
+                        partOfSpeech.getAdditionalInfo().values().stream().anyMatch(info -> info.contains(searchWord))) {
+                    printWordDetails(word);
+                    found = true;
+                    break;
+                }
+            }
+
+            if (found) {
                 break;
             }
         }
 
         if (!found) {
-            System.out.println("해당 영단어가 존재하지 않습니다.\n");
+            System.out.println("해당 정보가 존재하지 않습니다.\n");
+        }
+    }
+
+    private void printWordDetails(Word word) {
+        System.out.println(word.getEnglish());
+        for (Map.Entry<String, Word.PartOfSpeech> entry : word.getPartsOfSpeech().entrySet()) {
+            Word.PartOfSpeech partOfSpeech = entry.getValue();
+            System.out.println("\n" + entry.getKey());
+            System.out.println("뜻 : " + partOfSpeech.getMeaning());
+            System.out.println("발음기호 : " + partOfSpeech.getPronunciation());
+            System.out.println("1차강세 : " + partOfSpeech.getPrimaryStress());
+            System.out.println("2차강세 : " + partOfSpeech.getSecondaryStress());
+            System.out.println("발음 : " + partOfSpeech.getPronunciationText());
+
+            // 추가 정보 출력 (현재형, 과거형, 복수형 등)
+            partOfSpeech.getAdditionalInfo().forEach((key, value) -> {
+                System.out.println(key + " : " + value);
+            });
         }
     }
 }
