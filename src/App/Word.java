@@ -1,69 +1,111 @@
-package App;
-
+import java.util.HashMap;
 import java.util.Map;
 
 public class Word {
-    // 기존 필드
-    private String english;
-    private String syllableSeparated;
-    private String pronunciation;
-    private int accentPosition;
-    private int secondaryAccentPosition;  // 2차 강세 추가
-    private int syllableCount;
-    private Map<String, String> meanings; // 품사별 의미 저장
-    private Map<String, String> additionalInfo; // 품사별 추가 정보 저장
-    private Map<String, String> meaningPronunciations; // 뜻별 발음 저장
+    private String english; // 영어 단어
+    private Map<String, PartOfSpeech> partsOfSpeech; // 품사별 정보 저장
 
-    // 생성자
-    public Word(String english, String syllableSeparated, String pronunciation, int accentPosition,
-                int secondaryAccentPosition, int syllableCount, Map<String, String> meanings,
-                Map<String, String> additionalInfo, Map<String, String> meaningPronunciations) {
+
+    public static class PartOfSpeech {
+        private String meaning; // 뜻
+        private String pronunciation; // 발음기호
+        private int primaryStress; // 1차 강세
+        private int secondaryStress; // 2차 강세
+        private String pronunciationText; // 발음
+        private Map<String, String> additionalInfo; // 추가 정보 (예: 현재/과거/복수 등)
+
+
+        public PartOfSpeech(String meaning, String pronunciation, int primaryStress, int secondaryStress,
+                            String pronunciationText, Map<String, String> additionalInfo) {
+            this.meaning = meaning;
+            this.pronunciation = pronunciation;
+            this.primaryStress = primaryStress;
+            this.secondaryStress = secondaryStress;
+            this.pronunciationText = pronunciationText;
+            this.additionalInfo = additionalInfo;
+        }
+
+
+        public String getMeaning() {
+            return meaning;
+        }
+
+        public void setMeaning(String meaning) {
+            this.meaning = meaning;
+        }
+
+        public String getPronunciation() {
+            return pronunciation;
+        }
+
+        public void setPronunciation(String pronunciation) {
+            this.pronunciation = pronunciation;
+        }
+
+        public int getPrimaryStress() {
+            return primaryStress;
+        }
+
+        public void setPrimaryStress(int primaryStress) {
+            this.primaryStress = primaryStress;
+        }
+
+        public int getSecondaryStress() {
+            return secondaryStress;
+        }
+
+        public void setSecondaryStress(int secondaryStress) {
+            this.secondaryStress = secondaryStress;
+        }
+
+        public String getPronunciationText() {
+            return pronunciationText;
+        }
+
+        public void setPronunciationText(String pronunciationText) {
+            this.pronunciationText = pronunciationText;
+        }
+
+        public Map<String, String> getAdditionalInfo() {
+            return additionalInfo;
+        }
+
+        public void setAdditionalInfo(Map<String, String> additionalInfo) {
+            this.additionalInfo = additionalInfo;
+        }
+
+        @Override
+        public String toString() {
+            return "PartOfSpeech{" +
+                    "meaning='" + meaning + '\'' +
+                    ", pronunciation='" + pronunciation + '\'' +
+                    ", primaryStress=" + primaryStress +
+                    ", secondaryStress=" + secondaryStress +
+                    ", pronunciationText='" + pronunciationText + '\'' +
+                    ", additionalInfo=" + additionalInfo +
+                    '}';
+        }
+    }
+
+
+    public Word(String english) {
         this.english = english;
-        this.syllableSeparated = syllableSeparated;
-        this.pronunciation = pronunciation;
-        this.accentPosition = accentPosition;
-        this.secondaryAccentPosition = secondaryAccentPosition;
-        this.syllableCount = syllableCount;
-        this.meanings = meanings;
-        this.additionalInfo = additionalInfo;
-        this.meaningPronunciations = meaningPronunciations;
+        this.partsOfSpeech = new HashMap<>();
     }
 
-    // getter 메서드
-    public String getEnglishWord() {
-        return english;
+
+    public void addPartOfSpeech(String pos, PartOfSpeech details) {
+        partsOfSpeech.put(pos, details);
     }
 
-    public String getSyllableSeparated() {
-        return syllableSeparated;
+
+    public PartOfSpeech getPartOfSpeech(String pos) {
+        return partsOfSpeech.get(pos);
     }
 
-    public String getPronunciation() {
-        return pronunciation;
-    }
 
-    public int getAccentPosition() {
-        return accentPosition;
-    }
-
-    public int getSecondaryAccentPosition() {
-        return secondaryAccentPosition;
-    }
-
-    public int getSyllableCount() {
-        return syllableCount;
-    }
-
-    public Map<String, String> getMeanings() {
-        return meanings;
-    }
-
-    public Map<String, String> getAdditionalInfo() {
-        return additionalInfo;
-    }
-
-    public Map<String, String> getMeaningPronunciations() {
-        return meaningPronunciations;
+    public Map<String, PartOfSpeech> getPartsOfSpeech() {
+        return partsOfSpeech;
     }
 
 
