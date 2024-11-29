@@ -16,30 +16,10 @@ public class SearchWord {
         Scanner scanner = new Scanner(System.in);
 
         String searchWord;
-        while (true) {
-            System.out.print("검색할 단어 또는 정보를 입력하세요 >> ");
+
+            System.out.print("검색할 단어 또는 정보를 입력하세요(영단어 뿐만아니라 다른 의미, 과거형 등으로도 검색 가능합니다) >> "); // 모든 뜻, 발음등 교수님의 요구사항대로 검색
             searchWord = scanner.nextLine();
 
-            // 1. 탭이나 개행 문자가 포함되어 있는지 확인
-            if (!validator.noTabOrNewLine(searchWord)) {
-                System.out.println("오류: 영단어에는 탭이나 개행 문자가 포함될 수 없습니다. 다시 입력해주세요.");
-                continue;
-            }
-
-            // 2. 단어의 처음과 끝에 공백이 없는지 확인
-            if (!validator.noLeadingOrTrailingSpaces(searchWord)) {
-                System.out.println("오류: 영단어의 시작과 끝에는 공백 문자가 없어야 합니다. 다시 입력해주세요.");
-                continue;
-            }
-
-            // 3. 영어 단어 형식이 유효한지 확인
-            if (!validator.isValidEnglishWord(searchWord)) {
-                System.out.println("오류: 영단어는 영어 알파벳으로만 구성되어야 합니다. 다시 입력해주세요.");
-                continue;
-            }
-
-            break; // 유효성 검사를 통과한 경우 반복문 종료
-        }
 
         boolean found = false;
 
