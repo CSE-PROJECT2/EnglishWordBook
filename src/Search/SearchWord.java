@@ -44,7 +44,7 @@ public class SearchWord {
 
         for (Word word : wordList) {
             // 영단어 기준으로 검색
-            if (word.getEnglishWord().equalsIgnoreCase(searchWord)) {
+            if (word.getEnglish().equalsIgnoreCase(searchWord)) {
                 printWordDetails(word);
                 found = true;
                 break;
@@ -53,10 +53,12 @@ public class SearchWord {
             // 뜻, 발음, 과거형, 복수형, 비교급을 검색
             for (Map.Entry<String, Word.PartOfSpeech> entry : word.getPartsOfSpeech().entrySet()) {
                 Word.PartOfSpeech partOfSpeech = entry.getValue();
+                String finalSearchWord = searchWord;
                 if (partOfSpeech.getMeaning().contains(searchWord) ||
                         partOfSpeech.getPronunciation().contains(searchWord) ||
                         partOfSpeech.getPronunciationText().contains(searchWord) ||
-                        partOfSpeech.getAdditionalInfo().values().stream().anyMatch(info -> info.contains(searchWord))) {
+                        partOfSpeech.getAdditionalInfo().values().stream().anyMatch(info -> info.contains(
+                                finalSearchWord))) {
                     printWordDetails(word);
                     found = true;
                     break;
