@@ -30,7 +30,9 @@ public class WordLoader {
                 }
 
                 if (currentWord == null || englishWord == null) {
-                    System.out.println("ERROR: Found part of speech without a preceding word.");
+
+                    System.out.println("파일 저장 중 오류가 발생했습니다:\n프로그램을 종료합니다.");
+                    System.exit(0);
                     continue; // "#"와 단어 없이 품사 정보만 발견된 경우
                 }
 
@@ -73,8 +75,8 @@ public class WordLoader {
                             currentWord.addPartOfSpeech(pos, adjective);
                         }
                     } catch (Exception e) {
-                        System.out.println("ERROR: Failed to process entry: " + entry);
-                        System.out.println("ERROR: Exception details: " + e.getMessage());
+                        System.out.println("파일 저장 중 오류가 발생했습니다:\n프로그램을 종료합니다.");
+                        System.exit(0);
                     }
                 }
             }
@@ -84,7 +86,8 @@ public class WordLoader {
                 wordList.add(currentWord);
             }
         } catch (IOException e) {
-            System.out.println("파일 읽기 중 오류가 발생했습니다: " + e.getMessage());
+            System.out.println("파일 저장 중 오류가 발생했습니다:\n프로그램을 종료합니다.");
+            System.exit(0);
         }
 
         return wordList;
