@@ -16,7 +16,7 @@ public class WordSaver {
                 StringBuilder sb = new StringBuilder();
                 sb.append(word.getEnglishWord()).append(":") // 영어 단어
                         .append(word.getSyllableSeparated()).append(":") // 발음 구분된 단어
-                        .append(word.getPronunciation()).append(":") // 발음
+
                         .append(word.getAccentPosition()).append(":"); // 강세 위치
 
                 for (Map.Entry<String, String> entry : word.getMeanings().entrySet()) {

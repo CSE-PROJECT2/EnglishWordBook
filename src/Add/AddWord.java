@@ -30,12 +30,11 @@ public class AddWord {
             System.out.print("영단어를 입력하세요 >> ");
             english = scanner.nextLine();
 
-             // 영어 단어 형식 검증
             if (!validator.hasValidLength(english)) {
                 System.out.println("오류: 단어의 길이는 1자 이상이어야 합니다. 다시 입력해주세요.");
                 continue;
             }
-            
+
             if (!validator.noTabOrNewLine(english)) {
                 System.out.println("오류: 영단어에는 탭이나 개행 문자가 포함될 수 없습니다. 다시 입력해주세요.");
                 continue;
@@ -63,12 +62,10 @@ public class AddWord {
         while (true) {
             System.out.print("음절 구분된 단어를 입력하세요 (예: ap·ple) >> ");
             syllableSeparated = scanner.nextLine();
-
             if (!validator.isValidSyllableFormat(english, syllableSeparated)) {
                 System.out.println("오류: 잘못된 입력 형식입니다.");
                 continue;
             }
-
             break;
         }
 
@@ -76,12 +73,10 @@ public class AddWord {
         while (true) {
             System.out.print("발음을 입력하세요 (예: 애플) >> ");
             pronunciation = scanner.nextLine();
-
             if (!(validator.isValidPronunciation(pronunciation))) {
                 System.out.println("오류: 한글로만 입력해주세요.");
                 continue;
             }
-
             break;
         }
 
@@ -100,7 +95,25 @@ public class AddWord {
             }
         }
 
+        // 2차 강세 위치 입력 (선택)
+        int secondaryAccentPosition = -1; // 기본값 -1
+        while (true) {
+            System.out.print("2차 강세 위치를 입력하세요 (없으면 0 입력) >> ");
+            try {
+                secondaryAccentPosition = Integer.parseInt(scanner.nextLine());
+                if (secondaryAccentPosition == 0 || validator.isValidSecondaryAccentPosition(syllableSeparated, secondaryAccentPosition)) {
+                    break;
+                } else {
+                    System.out.println("오류: 2차 강세 위치는 음절의 범위 내에서 선택하거나 0이어야 합니다.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("오류: 2차 강세 위치는 숫자로 입력되어야 합니다.");
+            }
+        }
+
         Map<String, String> meanings = new HashMap<>();
+        Map<String, String> additionalInfo = new HashMap<>();
+        Map<String, String> meaningPronunciations = new HashMap<>();
         while (true) {
             String pos;
             while (true) {
@@ -119,50 +132,62 @@ public class AddWord {
                 System.out.print("뜻을 입력하세요 (한글로) >> ");
                 meaning = scanner.nextLine();
 
-                 // 뜻이 영어와 공백이 들어가는지 확인
-                if (!validator.isMeaningInEnglish(meaning)) {
-                	System.out.println("오류: 잘못된 뜻 입력 형식입니다.");
+                if (!validator.isMeaningInEnglish(meaning) || !validator.isValidMeaning(meaning)) {
+                    System.out.println("오류: 잘못된 뜻 입력 형식입니다.");
                     continue;
                 }
 
-                if (!validator.isValidMeaning(meaning)) {
-                    System.out.println("오류: 잘못된 뜻 입력 형식입니다.");
-                } else {
-                    // 중복된 품사와 뜻 검사 및 기존 뜻에 추가
-                    if (meanings.containsKey(pos)) {
-                        String existingMeaning = meanings.get(pos);
-                        if (existingMeaning.equals(meaning)) {
-                            System.out.println("오류: 이미 저장된 뜻입니다.");
-                            continue; // 품사 입력부터 다시 받도록
-                        } else {
-                            meanings.put(pos, existingMeaning + ", " + meaning);
-                        }
+                if (meanings.containsKey(pos)) {
+                    String existingMeaning = meanings.get(pos);
+                    if (existingMeaning.equals(meaning)) {
+                        System.out.println("오류: 이미 저장된 뜻입니다.");
+                        continue;
                     } else {
-                        meanings.put(pos, meaning);
+                        meanings.put(pos, existingMeaning + ", " + meaning);
                     }
-                    break;
+                } else {
+                    meanings.put(pos, meaning);
                 }
+                break;
+            }
+
+            // 뜻별 발음 입력
+            String meaningPronunciation;
+            while (true) {
+                System.out.print("뜻의 발음을 입력하세요 (예: 애플) >> ");
+                meaningPronunciation = scanner.nextLine();
+                if (!validator.isValidPronunciation(meaningPronunciation)) {
+                    System.out.println("오류: 한글로만 입력해주세요.");
+                    continue;
+                }
+                meaningPronunciations.put(pos, meaningPronunciation);
+                break;
+            }
+
+            // 품사별 추가 정보 입력
+            String additional = "";
+            if (pos.equals("명사") || pos.equals("동사") || pos.equals("형용사")) {
+                System.out.print("추가 정보를 입력하세요 (예: 단수/복수, 현재/과거 등, 생략하려면 Enter) >> ");
+                additional = scanner.nextLine();
+                if (!additional.isEmpty() && !validator.isValidAdditionalInfo(additional)) {
+                    System.out.println("오류: 잘못된 추가 정보 입력 형식입니다.");
+                    continue;
+                }
+                additionalInfo.put(pos, additional);
             }
 
             // 추가 품사 입력 여부 확인
             String choice;
             while (true) {
-                System.out.println("다른 품사를 추가하시겠습니까? (1) 예, (2) 아니오 >> ");
-                System.out.print("메뉴를 선택하세요 ");
+                System.out.print("다른 품사를 추가하시겠습니까? (1: 예, 2: 아니오) >> ");
                 choice = scanner.nextLine();
-
-                if (choice.equals("1")) {
-                    break;
-                } else if (choice.equals("2")) {
+                if (choice.equals("1") || choice.equals("2")) {
                     break;
                 } else {
                     System.out.println("오류: 숫자 1 또는 2를 입력해주세요.");
                 }
             }
-
-            if (choice.equals("2")) {
-                break;
-            }
+            if (choice.equals("2")) break;
         }
 
         // 최종 추가 확인
@@ -175,7 +200,7 @@ public class AddWord {
 
             if (confirmation.equals("1")) {
                 int syllableCount = syllableSeparated.split("·").length; // 음절 수 계산
-                Word newWord = new Word(english, syllableSeparated, pronunciation, accentPosition, syllableCount, meanings);
+                Word newWord = new Word(english, syllableSeparated, pronunciation, accentPosition, secondaryAccentPosition, syllableCount, meanings, additionalInfo, meaningPronunciations);
                 wordList.add(newWord);
                 System.out.println("단어가 저장되었습니다.");
                 break;
