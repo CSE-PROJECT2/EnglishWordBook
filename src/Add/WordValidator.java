@@ -7,9 +7,8 @@ public class WordValidator {
 
     private static final String SYLLABLE_ENGLISH_PATTERN = "^[a-zA-Z·]+$";
     private static final String VALID_ENGLISH_FORMAT_PATTERN = "^[a-zA-Z]+$";
-    private static final String PRONUNCIATION_PATTERN = "^[가-힣]+$";
+    private static final String PRONUNCIATION_PATTERN = "^[가-힣]+$";  // 한글 발음
     private static final String MEANING_PATTERN = "^[가-힣ㄱ-ㅎㅏ-ㅣ]+(\\s[가-힣ㄱ-ㅎㅏ-ㅣ]+)*$"; // 뜻이 한글만 들어가는지 확인
-    private static final String[] ALLOWED_POS = {"명사", "동사", "형용사", "부사", "전치사", "접속사", "대명사", "감탄사"};
     private static final String MEANING_ENGLISH_PATTERN = "^[a-zA-Z\\\\s]+$"; // 뜻이 영어와 공백이 들어가는지 확인
     private static final String ADDITIONAL_INFO_PATTERN = "\\{[^{}]*}"; // 중괄호에 포함된 추가 정보 패턴
     private static final String PHONETIC_INFO_PATTERN = "\\[[^\\[\\]]*\\]"; // 대괄호에 포함된 발음 정보 패턴
@@ -41,12 +40,7 @@ public class WordValidator {
     }
 
     public boolean isAllowedPos(String pos) {
-        for (String allowedPos : ALLOWED_POS) {
-            if (allowedPos.equals(pos)) {
-                return true;
-            }
-        }
-        return false;
+        return pos.equals("동사") || pos.equals("명사") || pos.equals("형용사");
     }
 
     public boolean isValidMeaning(String meaning) {
@@ -67,7 +61,7 @@ public class WordValidator {
 
     public boolean isDuplicateWord(List<Word> wordList, String english) {
         for (Word word : wordList) {
-            if (word.english().equalsIgnoreCase(english)) {
+            if (word.getEnglish().equalsIgnoreCase(english)) {
                 return true;
             }
         }
@@ -92,7 +86,7 @@ public class WordValidator {
 
     // 품사, 뜻, 발음 정보와 추가 정보가 모두 포함된 유효성 검사
     public boolean isValidMeaningEntry(String pos, String meaningWithInfo) {
-        String[] components = meaningWithInfo.split("\\s+", 2); // 품사와 뜻을 분리
+        String[] components = meaningWithInfo.split(",", 2); // 품사와 뜻을 분리
         if (components.length < 2) {
             return false;
         }

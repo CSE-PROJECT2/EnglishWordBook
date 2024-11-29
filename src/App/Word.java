@@ -75,6 +75,7 @@ public class Word {
             this.additionalInfo = additionalInfo;
         }
 
+
         @Override
         public String toString() {
             return "PartOfSpeech{" +
@@ -97,6 +98,10 @@ public class Word {
 
     public void addPartOfSpeech(String pos, PartOfSpeech details) {
         partsOfSpeech.put(pos, details);
+    }
+
+    public String getEnglish() {
+        return english;
     }
 
 
