@@ -1,6 +1,6 @@
 package Add;
 
-
+import App.Word;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -69,17 +69,6 @@ public class AddWord {
             break;
         }
 
-        String pronunciation;
-        while (true) {
-            System.out.print("발음을 입력하세요 (예: 애플) >> ");
-            pronunciation = scanner.nextLine();
-            if (!(validator.isValidPronunciation(pronunciation))) {
-                System.out.println("오류: 한글로만 입력해주세요.");
-                continue;
-            }
-            break;
-        }
-
         int accentPosition;
         while (true) {
             System.out.print("강세 위치를 입력하세요 (음절 번호) >> ");
@@ -111,9 +100,7 @@ public class AddWord {
             }
         }
 
-        Map<String, String> meanings = new HashMap<>();
-        Map<String, String> additionalInfo = new HashMap<>();
-        Map<String, String> meaningPronunciations = new HashMap<>();
+        Map<String, Word.PartOfSpeech> partsOfSpeech = new HashMap<>();
         while (true) {
             String pos;
             while (true) {
@@ -136,35 +123,21 @@ public class AddWord {
                     System.out.println("오류: 잘못된 뜻 입력 형식입니다.");
                     continue;
                 }
-
-                if (meanings.containsKey(pos)) {
-                    String existingMeaning = meanings.get(pos);
-                    if (existingMeaning.equals(meaning)) {
-                        System.out.println("오류: 이미 저장된 뜻입니다.");
-                        continue;
-                    } else {
-                        meanings.put(pos, existingMeaning + ", " + meaning);
-                    }
-                } else {
-                    meanings.put(pos, meaning);
-                }
                 break;
             }
 
-            // 뜻별 발음 입력
-            String meaningPronunciation;
+            String pronunciationText;
             while (true) {
                 System.out.print("뜻의 발음을 입력하세요 (예: 애플) >> ");
-                meaningPronunciation = scanner.nextLine();
-                if (!validator.isValidPronunciation(meaningPronunciation)) {
+                pronunciationText = scanner.nextLine();
+                if (!validator.isValidPronunciation(pronunciationText)) {
                     System.out.println("오류: 한글로만 입력해주세요.");
                     continue;
                 }
-                meaningPronunciations.put(pos, meaningPronunciation);
                 break;
             }
 
-            // 품사별 추가 정보 입력
+            Map<String, String> additionalInfo = new HashMap<>();
             String additional = "";
             if (pos.equals("명사") || pos.equals("동사") || pos.equals("형용사")) {
                 System.out.print("추가 정보를 입력하세요 (예: 단수/복수, 현재/과거 등, 생략하려면 Enter) >> ");
@@ -175,6 +148,12 @@ public class AddWord {
                 }
                 additionalInfo.put(pos, additional);
             }
+
+            // PartOfSpeech 객체 생성
+            Word.PartOfSpeech partOfSpeech = new Word.PartOfSpeech(meaning, pronunciationText, accentPosition, secondaryAccentPosition, pronunciationText, additionalInfo);
+
+            // Word 객체에 품사 추가
+            partsOfSpeech.put(pos, partOfSpeech);
 
             // 추가 품사 입력 여부 확인
             String choice;
@@ -192,15 +171,15 @@ public class AddWord {
 
         // 최종 추가 확인
         while (true) {
-            System.out.printf("‘%s : %s’의 단어를 추가하시겠습니까?\n", english, printMeanings(meanings));
+            System.out.printf("‘%s : %s’의 단어를 추가하시겠습니까?\n", english, partsOfSpeech);
             System.out.println("(1) 예");
             System.out.println("(2) 아니오");
             System.out.print("메뉴를 선택하세요 >> ");
             String confirmation = scanner.nextLine();
 
             if (confirmation.equals("1")) {
-                int syllableCount = syllableSeparated.split("·").length; // 음절 수 계산
-                Word newWord = new Word(english, syllableSeparated, pronunciation, accentPosition, secondaryAccentPosition, syllableCount, meanings, additionalInfo, meaningPronunciations);
+                Word newWord = new Word(english);
+                partsOfSpeech.forEach(newWord::addPartOfSpeech);
                 wordList.add(newWord);
                 System.out.println("단어가 저장되었습니다.");
                 break;

@@ -67,7 +67,7 @@ public class WordValidator {
 
     public boolean isDuplicateWord(List<Word> wordList, String english) {
         for (Word word : wordList) {
-            if (word.getEnglishWord().equalsIgnoreCase(english)) {
+            if (word.english().equalsIgnoreCase(english)) {
                 return true;
             }
         }
