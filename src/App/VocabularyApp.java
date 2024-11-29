@@ -16,7 +16,7 @@ public class VocabularyApp {
 
     public static void main(String[] args) {
         WordLoader loader = new WordLoader();
-        loader.loadWords(wordList);
+        wordList=loader.loadWords(wordList);
 
         Scanner scanner = new Scanner(System.in);
         boolean running = true;

@@ -13,34 +13,53 @@ public class WordSaver {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH))) {
             for (Word word : wordList) {
                 StringBuilder sb = new StringBuilder();
+
+                // 단어 구분을 위해 "#" 추가
+                sb.append("#\n");
                 sb.append(word.getEnglish()).append("\n");
 
                 for (Map.Entry<String, Word.PartOfSpeech> entry : word.getPartsOfSpeech().entrySet()) {
-                    Word.PartOfSpeech pos = entry.getValue();
+                    String pos = entry.getKey();
+                    Word.PartOfSpeech partOfSpeech = entry.getValue();
+
                     sb.append("(")
-                            .append(entry.getKey()).append(">") // 품사
-                            .append(pos.getMeaning()).append(",") // 의미
-                            .append("발음기호>").append(pos.getPronunciation()).append(",") // 발음기호
-                            .append("1차강세>").append(pos.getPrimaryStress()).append(",") // 1차 강세
-                            .append("2차강세>").append(pos.getSecondaryStress()).append(",") // 2차 강세
-                            .append("발음>").append(pos.getPronunciationText()).append(","); // 발음
-                    // 추가 정보
-                    sb.append("{");
-                    for (Map.Entry<String, String> infoEntry : pos.getAdditionalInfo().entrySet()) {
-                        sb.append(infoEntry.getKey()).append(">").append(infoEntry.getValue()).append(",");
+                            .append(pos).append(">") // 품사
+                            .append(partOfSpeech.getMeaning()).append(",") // 뜻
+                            .append("발음기호>").append(partOfSpeech.getPronunciation()).append(",") // 발음기호
+                            .append("1차강세>").append(partOfSpeech.getPrimaryStress()).append(",") // 1차 강세
+                            .append("2차강세>").append(partOfSpeech.getSecondaryStress()).append(",") // 2차 강세
+                            .append("발음>").append(partOfSpeech.getPronunciationText()).append(","); // 발음
+
+                    // 품사별 추가 정보 저장
+                    if (partOfSpeech instanceof Word.Verb) {
+                        Word.Verb verb = (Word.Verb) partOfSpeech;
+                        sb.append("{")
+                                .append("현재>").append(verb.getPresent()).append(",")
+                                .append("과거>").append(verb.getPast()).append(",")
+                                .append("과거분사>").append(verb.getPastParticiple())
+                                .append("}");
+                    } else if (partOfSpeech instanceof Word.Noun) {
+                        Word.Noun noun = (Word.Noun) partOfSpeech;
+                        sb.append("{")
+                                .append("단수>").append(noun.getSingular()).append(",")
+                                .append("복수>").append(noun.getPlural())
+                                .append("}");
+                    } else if (partOfSpeech instanceof Word.Adjective) {
+                        Word.Adjective adjective = (Word.Adjective) partOfSpeech;
+                        sb.append("{")
+                                .append("원형>").append(adjective.getBaseForm()).append(",")
+                                .append("비교급>").append(adjective.getComparative()).append(",")
+                                .append("최상급>").append(adjective.getSuperlative())
+                                .append("}");
                     }
-                    // 마지막 "," 제거
-                    if (sb.charAt(sb.length() - 1) == ',') {
-                        sb.deleteCharAt(sb.length() - 1);
-                    }
-                    sb.append("})\n");
+
+                    sb.append(")\n");
                 }
 
                 writer.write(sb.toString());
             }
         } catch (IOException e) {
-            System.out.println("파일 저장 중 오류가 발생했습니다:\n" + "프로그램을 종료합니다.");
-            System.exit(0);
+            System.out.println("파일 저장 중 오류가 발생했습니다:\n" + e.getMessage());
         }
     }
 }

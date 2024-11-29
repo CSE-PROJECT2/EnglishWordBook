@@ -3,27 +3,23 @@ package Update;
 import Add.WordValidator;
 import App.Word;
 import App.Word.PartOfSpeech;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
 public class UpdateWord {
 
-    public WordValidator validator = new WordValidator();
+    private WordValidator validator = new WordValidator();
 
     public void run(List<Word> wordList) {
         System.out.println("\n*** 단어 수정 ***");
         Scanner scanner = new Scanner(System.in);
 
         String searchWord;
-        boolean found = false;
-
         while (true) {
             System.out.print("수정할 영단어를 입력하세요 >> ");
             searchWord = scanner.nextLine();
 
-            // 유효성 검사 추가
             if (!validator.noTabOrNewLine(searchWord)) {
                 System.out.println("오류: 영단어에는 탭이나 개행 문자가 포함될 수 없습니다. 다시 입력해주세요.");
                 continue;
@@ -39,142 +35,108 @@ public class UpdateWord {
                 continue;
             }
 
-            break; // 유효성 검사를 통과한 경우 반복문 종료
+            break;
         }
 
+        Word wordToUpdate = null;
         for (Word word : wordList) {
-            // 영어 단어 기준으로 검색
             if (word.getEnglish().equalsIgnoreCase(searchWord)) {
-                found = true;
-
-                // 품사별 정보를 처리
-                Map<String, PartOfSpeech> partsOfSpeech = word.getPartsOfSpeech();
-
-                // 품사가 여러 개인 경우 선택 후 수정
-                if (partsOfSpeech.size() > 1) {
-                    System.out.println("'" + word.getEnglish() + "'의 여러 품사가 있습니다.");
-                    int index = 1;
-                    for (Map.Entry<String, PartOfSpeech> entry : partsOfSpeech.entrySet()) {
-                        System.out.println(index + ". <" + entry.getKey() + "> " + entry.getValue().getMeaning());
-                        index++;
-                    }
-                    System.out.print("수정할 품사의 번호를 선택하세요 >> ");
-                    String input = scanner.nextLine(); // 입력을 문자열로 받음
-
-                    // 입력된 값이 숫자인지 확인하고 범위 검사까지 진행
-                    if (!input.matches("\\d+") || Integer.parseInt(input) < 1 || Integer.parseInt(input) > partsOfSpeech.size()) {
-                        System.out.println("잘못된 번호입니다. 수정이 취소되었습니다.\n");
-                        return;
-                    }
-
-                    int selectedMeaningIndex = Integer.parseInt(input);
-                    String selectedPos = (String) partsOfSpeech.keySet().toArray()[selectedMeaningIndex - 1];
-                    PartOfSpeech selectedPart = partsOfSpeech.get(selectedPos);
-
-                    String newPos;
-                    while (true) {
-                        System.out.print("새로운 품사를 입력하세요 (예: 명사, 동사 등) >> ");
-                        newPos = scanner.nextLine();
-                        if (!validator.isAllowedPos(newPos)) {
-                            System.out.println("오류: 품사는 ‘동사’, ‘명사’, ‘형용사’, ‘부사’, ‘전치사’, ‘접속사’, ‘대명사’, ‘감탄사’ 중 하나로 입력해주세요.");
-                        } else {
-                            break;
-                        }
-                    }
-
-                    String newMeaning;
-                    while (true) {
-                        System.out.print("새로운 뜻을 입력하세요 (한글로) >> ");
-                        newMeaning = scanner.nextLine();
-                        if (!validator.isValidMeaning(newMeaning)) {
-                            System.out.println("오류: 잘못된 뜻 입력 형식입니다.");
-                        } else if (partsOfSpeech.containsKey(newPos) && partsOfSpeech.get(newPos).getMeaning().equals(newMeaning)) {
-                            System.out.println("오류: 이미 저장된 뜻입니다.");
-                        } else {
-                            break;
-                        }
-                    }
-
-                    while (true) {
-                        System.out.printf("\n'%s'의 %d번째 품사 '<%s> %s'로 수정하시겠습니까?\n",
-                                word.getEnglish(), selectedMeaningIndex, newPos, newMeaning);
-                        System.out.println("(1) 예");
-                        System.out.println("(2) 아니오");
-                        System.out.print("메뉴를 선택하세요 >> ");
-                        int confirmation = scanner.nextInt();
-                        scanner.nextLine(); // 개행 문자 처리
-
-                        if (confirmation == 1) {
-                            partsOfSpeech.remove(selectedPos);
-                            PartOfSpeech updatedPart = selectedPart;
-                            updatedPart.setMeaning(newMeaning);
-                            updatedPart.setPronunciation("새로운 발음"); // 추가 변경사항 반영
-                            partsOfSpeech.put(newPos, updatedPart);
-                            System.out.println("품사가 수정되었습니다.\n");
-                            break;
-                        } else if (confirmation == 2) {
-                            System.out.println("수정이 취소되었습니다.\n");
-                            break;
-                        } else {
-                            System.out.println("숫자 1 또는 2를 입력해주세요.");
-                        }
-                    }
-                } else {
-                    System.out.println("'" + word.getEnglish() + "'의 품사를 수정합니다.");
-
-                    String newPos;
-                    while (true) {
-                        System.out.print("새로운 품사를 입력하세요 (예: 명사, 동사 등) >> ");
-                        newPos = scanner.nextLine();
-                        if (!validator.isAllowedPos(newPos)) {
-                            System.out.println("오류: 품사는 ‘동사’, ‘명사’, ‘형용사’, ‘부사’, ‘전치사’, ‘접속사’, ‘대명사’, ‘감탄사’ 중 하나로 입력해주세요.");
-                        } else {
-                            break;
-                        }
-                    }
-
-                    String newMeaning;
-                    while (true) {
-                        System.out.print("새로운 뜻을 입력하세요 (한글로) >> ");
-                        newMeaning = scanner.nextLine();
-                        if (!validator.isValidMeaning(newMeaning)) {
-                            System.out.println("오류: 잘못된 뜻 입력 형식입니다.");
-                        } else if (partsOfSpeech.containsKey(newPos) && partsOfSpeech.get(newPos).getMeaning().equals(newMeaning)) {
-                            System.out.println("오류: 이미 저장된 뜻입니다.");
-                        } else {
-                            break;
-                        }
-                    }
-
-                    while (true) {
-                        System.out.printf("\n'%s'의 뜻을 '<%s> %s'(으)로 수정하시겠습니까?\n", word.getEnglish(), newPos, newMeaning);
-                        System.out.println("(1) 예");
-                        System.out.println("(2) 아니오");
-                        System.out.print("메뉴를 선택하세요 >> ");
-
-                        String choice = scanner.nextLine();
-
-                        if (choice.equals("1")) {
-                            // 품사 및 뜻 수정
-                            partsOfSpeech.clear();
-                            PartOfSpeech newPart = new PartOfSpeech(newMeaning, "새로운 발음", 1, 0, "새로운 발음", new HashMap<>());
-                            partsOfSpeech.put(newPos, newPart);
-                            System.out.println("뜻이 수정되었습니다.\n");
-                            break;
-                        } else if (choice.equals("2")) {
-                            System.out.println("수정이 취소되었습니다.\n");
-                            break;
-                        } else {
-                            System.out.println("숫자 1 또는 2를 입력해주세요.");
-                        }
-                    }
-                }
+                wordToUpdate = word;
                 break;
             }
         }
 
-        if (!found) {
-            System.out.println("해당 영단어가 존재하지 않습니다.");
+        if (wordToUpdate == null) {
+            System.out.println("해당 영단어가 존재하지 않습니다.\n");
+            return;
+        }
+
+        Map<String, PartOfSpeech> partsOfSpeech = wordToUpdate.getPartsOfSpeech();
+        if (partsOfSpeech.isEmpty()) {
+            System.out.println("해당 단어에 등록된 품사가 없습니다.\n");
+            return;
+        }
+
+        System.out.println("'" + wordToUpdate.getEnglish() + "'의 품사 목록:");
+        int index = 1;
+        for (Map.Entry<String, PartOfSpeech> entry : partsOfSpeech.entrySet()) {
+            System.out.printf("%d. 품사: <%s>, 뜻: %s%n", index, entry.getKey(), entry.getValue().getMeaning());
+            index++;
+        }
+
+        System.out.print("수정할 품사의 번호를 선택하세요 >> ");
+        int selectedIndex;
+        try {
+            selectedIndex = Integer.parseInt(scanner.nextLine());
+            if (selectedIndex < 1 || selectedIndex > partsOfSpeech.size()) {
+                System.out.println("잘못된 번호입니다. 수정이 취소되었습니다.\n");
+                return;
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("숫자를 입력해주세요. 수정이 취소되었습니다.\n");
+            return;
+        }
+
+        String selectedPos = (String) partsOfSpeech.keySet().toArray()[selectedIndex - 1];
+        PartOfSpeech selectedPart = partsOfSpeech.get(selectedPos);
+
+        // 새로운 품사와 뜻 입력
+        System.out.print("새로운 품사를 입력하세요 (예: 명사, 동사 등) >> ");
+        String newPos;
+        while (true) {
+            newPos = scanner.nextLine();
+            if (!validator.isAllowedPos(newPos)) {
+                System.out.println("오류: 품사는 ‘동사’, ‘명사’, ‘형용사’, ‘부사’, ‘전치사’, ‘접속사’, ‘대명사’, ‘감탄사’ 중 하나로 입력해주세요.");
+            } else {
+                break;
+            }
+        }
+
+        System.out.print("새로운 뜻을 입력하세요 (한글로) >> ");
+        String newMeaning = scanner.nextLine();
+
+        // 새로운 객체로 대체
+        PartOfSpeech updatedPart;
+        if (selectedPart instanceof Word.Verb) {
+            Word.Verb verb = (Word.Verb) selectedPart;
+            updatedPart = new Word.Verb(newMeaning, verb.getPronunciation(), verb.getPrimaryStress(),
+                    verb.getSecondaryStress(), verb.getPronunciationText(), verb.getPresent(),
+                    verb.getPast(), verb.getPastParticiple());
+        } else if (selectedPart instanceof Word.Noun) {
+            Word.Noun noun = (Word.Noun) selectedPart;
+            updatedPart = new Word.Noun(newMeaning, noun.getPronunciation(), noun.getPrimaryStress(),
+                    noun.getSecondaryStress(), noun.getPronunciationText(), noun.getSingular(),
+                    noun.getPlural());
+        } else if (selectedPart instanceof Word.Adjective) {
+            Word.Adjective adjective = (Word.Adjective) selectedPart;
+            updatedPart = new Word.Adjective(newMeaning, adjective.getPronunciation(), adjective.getPrimaryStress(),
+                    adjective.getSecondaryStress(), adjective.getPronunciationText(),
+                    adjective.getBaseForm(), adjective.getComparative(), adjective.getSuperlative());
+        } else {
+            System.out.println("알 수 없는 품사입니다. 수정이 취소되었습니다.\n");
+            return;
+        }
+
+        while (true) {
+            System.out.printf("\n'%s'의 품사 '<%s>'를 '<%s>'로, 뜻을 '%s'로 수정하시겠습니까?%n",
+                    wordToUpdate.getEnglish(), selectedPos, newPos, newMeaning);
+            System.out.println("(1) 예");
+            System.out.println("(2) 아니오");
+            System.out.print("메뉴를 선택하세요 >> ");
+            String choice = scanner.nextLine();
+
+            if (choice.equals("1")) {
+                // 수정 적용
+                partsOfSpeech.remove(selectedPos);
+                partsOfSpeech.put(newPos, updatedPart);
+                System.out.println("단어 수정이 완료되었습니다.\n");
+                break;
+            } else if (choice.equals("2")) {
+                System.out.println("수정이 취소되었습니다.\n");
+                break;
+            } else {
+                System.out.println("숫자 1 또는 2를 입력해주세요.");
+            }
         }
     }
 }

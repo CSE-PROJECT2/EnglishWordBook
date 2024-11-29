@@ -3,117 +3,90 @@ package App;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class WordLoader {
     private static final String FILE_PATH = "src/WordBook.txt";
 
     public List<Word> loadWords(List<Word> wordList) {
-        wordList = new ArrayList<>();
+        wordList.clear();
 
         try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
             String line;
+            String englishWord = null; // 현재 단어 저장
+            Word currentWord = null;  // 현재 처리 중인 Word 객체
 
             while ((line = reader.readLine()) != null) {
-                // 빈 줄이나 주석 무시
-                if (line.trim().isEmpty() || line.startsWith("#")) {
+                line = line.trim();
+
+                // "#" 기호로 새로운 단어 시작
+                if (line.startsWith("#")) {
+                    if (currentWord != null) {
+                        wordList.add(currentWord); // 이전 단어 저장
+                    }
+                    englishWord = reader.readLine().trim(); // 다음 줄에 단어
+                    currentWord = new Word(englishWord);
                     continue;
                 }
 
-                // 영어 단어 (예: swim)
-                String englishWord = line.trim();
-                Word word = new Word(englishWord);
-
-                // 다음 줄에 품사 정보가 위치함
-                String partOfSpeechLine = reader.readLine();
-                if (partOfSpeechLine == null || partOfSpeechLine.trim().isEmpty()) {
-                    continue; // 품사 정보가 없는 경우 건너뜀
+                if (currentWord == null || englishWord == null) {
+                    System.out.println("ERROR: Found part of speech without a preceding word.");
+                    continue; // "#"와 단어 없이 품사 정보만 발견된 경우
                 }
 
-                // 품사 정보를 괄호 단위로 분리
-                String[] partOfSpeechEntries = partOfSpeechLine.split("\\),\\(");
+                // 품사 데이터를 처리
+                String[] partOfSpeechEntries = line.split("\\),\\(");
 
                 for (String entry : partOfSpeechEntries) {
                     try {
                         entry = entry.replaceAll("[()]", ""); // 괄호 제거
-
-                        // 필드 추출
                         String[] elements = entry.split(",");
-
-                        if (elements.length < 6) {
-                            throw new IllegalArgumentException("Entry does not have enough fields: " + entry);
-                        }
-
-                        // `>`로 올바르게 분리하여 pos와 다른 필드를 구분
                         String[] posAndMeaning = elements[0].split(">");
-                        if (posAndMeaning.length < 2) {
-                            throw new IllegalArgumentException("Invalid pos and meaning format: " + elements[0]);
+
+                        // 품사와 의미 추출
+                        String pos = posAndMeaning[0].trim();
+                        String meaning = posAndMeaning[1].trim();
+
+                        // 공통 데이터 추출
+                        String pronunciation = elements[1].split(">")[1].trim();
+                        int primaryStress = Integer.parseInt(elements[2].split(">")[1].trim());
+                        int secondaryStress = Integer.parseInt(elements[3].split(">")[1].trim());
+                        String pronunciationText = elements[4].split(">")[1].trim();
+
+                        // 품사별 추가 정보 처리
+                        if (pos.equals("동사")) {
+                            String present = elements[5].split(">")[1].trim();
+                            String past = elements[6].split(">")[1].trim();
+                            String pastParticiple = elements[7].split(">")[1].replace("}", "").trim();
+                            Word.Verb verb = new Word.Verb(meaning, pronunciation, primaryStress, secondaryStress, pronunciationText, present, past, pastParticiple);
+                            currentWord.addPartOfSpeech(pos, verb);
+                        } else if (pos.equals("명사")) {
+                            String singular = elements[5].split(">")[1].trim();
+                            String plural = elements[6].split(">")[1].replace("}", "").trim();
+                            Word.Noun noun = new Word.Noun(meaning, pronunciation, primaryStress, secondaryStress, pronunciationText, singular, plural);
+                            currentWord.addPartOfSpeech(pos, noun);
+                        } else if (pos.equals("형용사")) {
+                            String baseForm = elements[5].split(">")[1].trim();
+                            String comparative = elements[6].split(">")[1].trim();
+                            String superlative = elements[7].split(">")[1].replace("}", "").trim();
+                            Word.Adjective adjective = new Word.Adjective(meaning, pronunciation, primaryStress, secondaryStress, pronunciationText, baseForm, comparative, superlative);
+                            currentWord.addPartOfSpeech(pos, adjective);
                         }
-                        String pos = posAndMeaning[0].trim(); // 품사
-                        String meaning = posAndMeaning[1].trim(); // 뜻
-
-                        // 나머지 필드 추출
-                        String pronunciation = extractField(elements[1], "발음기호");
-                        int primaryStress = parseStressValue(extractField(elements[2], "1차강세"));
-                        int secondaryStress = parseStressValue(extractField(elements[3], "2차강세"));
-                        String pronunciationText = extractField(elements[4], "발음");
-
-                        // 추가 정보 처리
-                        Map<String, String> additionalInfo = new HashMap<>();
-                        if (elements.length > 5) {
-                            String additional = extractField(elements[5], "추가정보");
-                            String[] additionalParts = additional.split(",");
-                            for (String part : additionalParts) {
-                                String[] keyValue = part.split(">");
-                                if (keyValue.length == 2) {
-                                    additionalInfo.put(keyValue[0].trim(), keyValue[1].trim());
-                                }
-                            }
-                        }
-
-                        // PartOfSpeech 생성 및 Word에 추가
-                        Word.PartOfSpeech partOfSpeech = new Word.PartOfSpeech(
-                                meaning, pronunciation, primaryStress, secondaryStress, pronunciationText, additionalInfo
-                        );
-                        word.addPartOfSpeech(pos, partOfSpeech);
                     } catch (Exception e) {
                         System.out.println("ERROR: Failed to process entry: " + entry);
                         System.out.println("ERROR: Exception details: " + e.getMessage());
                     }
                 }
+            }
 
-                // Word 리스트에 추가
-                wordList.add(word);
+            // 마지막 단어 저장
+            if (currentWord != null) {
+                wordList.add(currentWord);
             }
         } catch (IOException e) {
             System.out.println("파일 읽기 중 오류가 발생했습니다: " + e.getMessage());
         }
 
         return wordList;
-    }
-
-    // 특정 필드를 안전하게 추출하는 메서드
-    private String extractField(String element, String fieldName) {
-        try {
-            String[] parts = element.split(">");
-            if (parts.length < 2) {
-                throw new IllegalArgumentException("Invalid format for " + fieldName + ": " + element);
-            }
-            return parts[1].trim();
-        } catch (Exception e) {
-            System.out.println("ERROR: Failed to extract " + fieldName + " from: " + element);
-            throw e; // 예외를 다시 던져서 상위에서 처리
-        }
-    }
-
-    // 강세 값을 검증 및 파싱하는 메서드
-    private int parseStressValue(String value) {
-        if (!value.matches("\\d+")) { // 숫자 형식 검증
-            throw new NumberFormatException("Invalid stress value: " + value);
-        }
-        return Integer.parseInt(value);
     }
 }

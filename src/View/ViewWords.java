@@ -11,25 +11,42 @@ public class ViewWords {
         if (wordList.isEmpty()) {
             System.out.println("저장된 단어가 없습니다.");
         } else {
-            Collections.sort(wordList, (w1, w2) -> w1.getEnglish().compareToIgnoreCase(w2.getEnglish()));
-            System.out.println("저장된 단어 목록:");
+            // 단어 목록을 알파벳순으로 정렬
+            //Collections.sort(wordList, (w1, w2) -> w1.getEnglish().compareToIgnoreCase(w2.getEnglish()));
 
+            System.out.println("저장된 단어 목록:");
             for (Word word : wordList) {
-                System.out.println(word.getEnglish());
+                System.out.println("\n단어: " + word.getEnglish());
+
                 int index = 1;
                 for (Map.Entry<String, PartOfSpeech> entry : word.getPartsOfSpeech().entrySet()) {
-                    PartOfSpeech pos = entry.getValue();
-                    System.out.println("\n" + index + ". " + entry.getKey());
-                    System.out.println("뜻 : " + pos.getMeaning());
-                    System.out.println("발음기호 : " + pos.getPronunciation());
-                    System.out.println("1차강세 : " + pos.getPrimaryStress());
-                    System.out.println("2차강세 : " + pos.getSecondaryStress());
-                    System.out.println("발음 : " + pos.getPronunciationText());
+                    String pos = entry.getKey();
+                    PartOfSpeech partOfSpeech = entry.getValue();
 
-                    Map<String, String> additionalInfo = pos.getAdditionalInfo();
-                    for (Map.Entry<String, String> infoEntry : additionalInfo.entrySet()) {
-                        System.out.println(infoEntry.getKey() + " : " + infoEntry.getValue());
+                    System.out.println("\n" + index + ". 품사: " + pos);
+                    System.out.println("  뜻: " + partOfSpeech.getMeaning());
+                    System.out.println("  발음기호: " + partOfSpeech.getPronunciation());
+                    System.out.println("  1차강세: " + partOfSpeech.getPrimaryStress());
+                    System.out.println("  2차강세: " + partOfSpeech.getSecondaryStress());
+                    System.out.println("  발음: " + partOfSpeech.getPronunciationText());
+
+                    // 품사별 추가 정보 출력
+                    if (partOfSpeech instanceof Word.Verb) {
+                        Word.Verb verb = (Word.Verb) partOfSpeech;
+                        System.out.println("  현재형: " + verb.getPresent());
+                        System.out.println("  과거형: " + verb.getPast());
+                        System.out.println("  과거분사: " + verb.getPastParticiple());
+                    } else if (partOfSpeech instanceof Word.Noun) {
+                        Word.Noun noun = (Word.Noun) partOfSpeech;
+                        System.out.println("  단수형: " + noun.getSingular());
+                        System.out.println("  복수형: " + noun.getPlural());
+                    } else if (partOfSpeech instanceof Word.Adjective) {
+                        Word.Adjective adjective = (Word.Adjective) partOfSpeech;
+                        System.out.println("  원형: " + adjective.getBaseForm());
+                        System.out.println("  비교급: " + adjective.getComparative());
+                        System.out.println("  최상급: " + adjective.getSuperlative());
                     }
+
                     index++;
                 }
             }
