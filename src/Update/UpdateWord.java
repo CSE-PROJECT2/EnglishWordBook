@@ -87,6 +87,7 @@ public class UpdateWord {
             newPos = scanner.nextLine();
             if (!validator.isAllowedPos(newPos)) {
                 System.out.println("오류: 품사는 ‘동사’, ‘명사’, ‘형용사’중 하나로 입력해주세요.");
+                System.out.print("새로운 품사를 입력하세요 >> ");
             } else {
                 break;
             }
