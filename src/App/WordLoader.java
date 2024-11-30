@@ -50,9 +50,18 @@ public class WordLoader {
 
                         // 공통 데이터 추출
                         String pronunciation = elements[1].split(">")[1].trim();
-                        String primaryStress = elements[2].split(">")[1].trim(); // String으로 처리
-                        String secondaryStress = elements[3].split(">")[1].trim(); // String으로 처리
+                        String primaryStress = elements[2].split(">")[1].trim(); // 강세 데이터 추출
+                        String secondaryStress = elements[3].split(">")[1].trim(); // 강세 데이터 추출
                         String pronunciationText = elements[4].split(">")[1].trim();
+
+                        // 강세 데이터 검증 (하드코딩)
+                        if (!(primaryStress.equals("x") || primaryStress.equals("?") || isNumeric(primaryStress))) {
+                            throw new IllegalArgumentException("유효하지 않은 1차 강세 값: " + primaryStress);
+                        }
+
+                        if (!(secondaryStress.equals("x") || secondaryStress.equals("?") || isNumeric(secondaryStress))) {
+                            throw new IllegalArgumentException("유효하지 않은 2차 강세 값: " + secondaryStress);
+                        }
 
                         // 품사별 추가 정보 처리
                         if (pos.equals("동사")) {
@@ -90,5 +99,15 @@ public class WordLoader {
         }
 
         return wordList;
+    }
+
+    // 숫자인지 확인하는 하드코딩 유틸리티
+    private boolean isNumeric(String str) {
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 }
