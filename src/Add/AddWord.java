@@ -82,13 +82,25 @@ public class AddWord {
                 }
             }
 
+            //발음기호 입력
+            String syllableSeparated;
+            while (true) {
+                System.out.print("음절 구분된 단어를 입력하세요 (예: ap·ple) >> ");
+                syllableSeparated = scanner.nextLine();
+                if (!validator.isValidSyllableFormat(english, syllableSeparated)) {
+                    System.out.println("오류: 잘못된 입력 형식입니다.");
+                    continue;
+                }
+                break;
+            }
+
             // 1차 강세 입력
             int primaryStress;
             while (true) {
                 System.out.print("1차 강세 위치를 입력하세요 (음절 번호) >> ");
                 try {
                     primaryStress = Integer.parseInt(scanner.nextLine());
-                    if (!validator.isValidAccentPosition(pronunciationText, primaryStress)) {
+                    if (!validator.isValidAccentPosition(syllableSeparated, primaryStress)) {
                         System.out.println("오류: 강세 위치는 음절의 범위 내에서 선택해야 합니다.");
                         continue;
                     }
@@ -104,7 +116,7 @@ public class AddWord {
                 System.out.print("2차 강세 위치를 입력하세요 (없거나 모르면 0 입력) >> ");
                 try {
                     secondaryStress = Integer.parseInt(scanner.nextLine());
-                    if (secondaryStress == 0 || validator.isValidSecondaryAccentPosition(pronunciationText, secondaryStress)) {
+                    if (secondaryStress == 0 || validator.isValidSecondaryAccentPosition(syllableSeparated, secondaryStress)) {
                         break;
                     } else {
                         System.out.println("오류: 2차 강세 위치는 음절의 범위 내에서 선택하거나 0이어야 합니다.");
@@ -121,14 +133,14 @@ public class AddWord {
                     String present = getOptionalInput(scanner, "현재형");
                     String past = getOptionalInput(scanner, "과거형");
                     String pastParticiple = getOptionalInput(scanner, "과거분사");
-                    partOfSpeech = new Word.Verb(meaning, pronunciationText, primaryStress, secondaryStress,
+                    partOfSpeech = new Word.Verb(meaning, syllableSeparated, primaryStress, secondaryStress,
                             pronunciationText, present, past, pastParticiple);
                     break;
 
                 case "명사":
                     String singular = getOptionalInput(scanner, "단수형");
                     String plural = getOptionalInput(scanner, "복수형");
-                    partOfSpeech = new Word.Noun(meaning, pronunciationText, primaryStress, secondaryStress,
+                    partOfSpeech = new Word.Noun(meaning, syllableSeparated, primaryStress, secondaryStress,
                             pronunciationText, singular, plural);
                     break;
 
@@ -136,7 +148,7 @@ public class AddWord {
                     String baseForm = getOptionalInput(scanner, "원형");
                     String comparative = getOptionalInput(scanner, "비교급");
                     String superlative = getOptionalInput(scanner, "최상급");
-                    partOfSpeech = new Word.Adjective(meaning, pronunciationText, primaryStress, secondaryStress,
+                    partOfSpeech = new Word.Adjective(meaning, syllableSeparated, primaryStress, secondaryStress,
                             pronunciationText, baseForm, comparative, superlative);
                     break;
 
