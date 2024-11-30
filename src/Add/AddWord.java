@@ -65,6 +65,8 @@ public class AddWord {
                 meaning = scanner.nextLine();
                 if (!validator.isValidMeaning(meaning)) {
                     System.out.println("오류: 잘못된 뜻 입력 형식입니다.");
+                } else if (isDuplicatePartOfSpeech(partsOfSpeech, pos, meaning)) {
+                    System.out.println("오류: 같은 품사와 같은 뜻이 이미 존재합니다. 다시 입력해주세요.");
                 } else {
                     break;
                 }
@@ -195,6 +197,15 @@ public class AddWord {
                 System.out.println("오류: 숫자 1 또는 2를 입력해주세요.");
             }
         }
+    }
+
+    // 중복 품사와 뜻 확인
+    private boolean isDuplicatePartOfSpeech(Map<String, Word.PartOfSpeech> partsOfSpeech, String pos, String meaning) {
+        if (partsOfSpeech.containsKey(pos)) {
+            Word.PartOfSpeech existingPart = partsOfSpeech.get(pos);
+            return existingPart.getMeaning().equals(meaning);
+        }
+        return false;
     }
 
     // 입력을 받을 때 엔터로 넘어가면 기본값("미입력")을 저장하는 메서드
