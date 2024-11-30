@@ -3,9 +3,7 @@ package Search;
 import App.Word;
 import Add.WordValidator;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class SearchWord {
 
@@ -15,20 +13,18 @@ public class SearchWord {
         System.out.println("\n*** 단어 검색 ***");
         Scanner scanner = new Scanner(System.in);
 
-        String searchWord;
+        System.out.print("검색할 단어 또는 정보를 입력하세요(영단어 뿐만 아니라 다른 의미, 과거형 등으로도 검색 가능합니다) >> ");
+        String searchWord = scanner.nextLine();
 
-            System.out.print("검색할 단어 또는 정보를 입력하세요(영단어 뿐만아니라 다른 의미, 과거형 등으로도 검색 가능합니다) >> "); // 모든 뜻, 발음등 교수님의 요구사항대로 검색
-            searchWord = scanner.nextLine();
-
-
-        boolean found = false;
+        List<Word> matchedWords = new ArrayList<>();
 
         for (Word word : wordList) {
+            boolean matched = false;
+
             // 영단어 기준으로 검색
             if (word.getEnglish().equalsIgnoreCase(searchWord)) {
-                printWordDetails(word);
-                found = true;
-                break;
+                matchedWords.add(word);
+                matched = true;
             }
 
             // 뜻, 발음, 과거형, 복수형, 비교급 등을 검색
@@ -37,9 +33,10 @@ public class SearchWord {
                 if (partOfSpeech.getMeaning().contains(searchWord) ||
                         partOfSpeech.getPronunciation().contains(searchWord) ||
                         partOfSpeech.getPronunciationText().contains(searchWord)) {
-                    printWordDetails(word);
-                    found = true;
-                    break;
+                    if (!matchedWords.contains(word)) {
+                        matchedWords.add(word);
+                        matched = true;
+                    }
                 }
 
                 // 품사별 추가 정보를 검색
@@ -48,37 +45,44 @@ public class SearchWord {
                     if (verb.getPresent().contains(searchWord) ||
                             verb.getPast().contains(searchWord) ||
                             verb.getPastParticiple().contains(searchWord)) {
-                        printWordDetails(word);
-                        found = true;
-                        break;
+                        if (!matchedWords.contains(word)) {
+                            matchedWords.add(word);
+                            matched = true;
+                        }
                     }
                 } else if (partOfSpeech instanceof Word.Noun) {
                     Word.Noun noun = (Word.Noun) partOfSpeech;
                     if (noun.getSingular().contains(searchWord) ||
                             noun.getPlural().contains(searchWord)) {
-                        printWordDetails(word);
-                        found = true;
-                        break;
+                        if (!matchedWords.contains(word)) {
+                            matchedWords.add(word);
+                            matched = true;
+                        }
                     }
                 } else if (partOfSpeech instanceof Word.Adjective) {
                     Word.Adjective adjective = (Word.Adjective) partOfSpeech;
                     if (adjective.getBaseForm().contains(searchWord) ||
                             adjective.getComparative().contains(searchWord) ||
                             adjective.getSuperlative().contains(searchWord)) {
-                        printWordDetails(word);
-                        found = true;
-                        break;
+                        if (!matchedWords.contains(word)) {
+                            matchedWords.add(word);
+                            matched = true;
+                        }
                     }
                 }
             }
-
-            if (found) {
-                break;
-            }
         }
 
-        if (!found) {
+        // 검색된 리스트를 사전순으로 정렬
+        matchedWords.sort(Comparator.comparing(Word::getEnglish, String.CASE_INSENSITIVE_ORDER));
+
+        if (matchedWords.isEmpty()) {
             System.out.println("해당 정보가 존재하지 않습니다.\n");
+        } else {
+            System.out.println("\n검색 결과:");
+            for (Word word : matchedWords) {
+                printWordDetails(word);
+            }
         }
     }
 
