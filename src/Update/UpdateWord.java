@@ -17,24 +17,25 @@ public class UpdateWord {
 
         String searchWord;
         while (true) {
-            System.out.print("수정할 영단어를 입력하세요 >> ");
+            System.out.print("영단어를 입력하세요 >> ");
             searchWord = scanner.nextLine();
 
+            if (!validator.hasValidLength(searchWord)) {
+                System.out.println("오류: 단어의 길이는 1자 이상이어야 합니다. 다시 입력해주세요.");
+                continue;
+            }
             if (!validator.noTabOrNewLine(searchWord)) {
                 System.out.println("오류: 영단어에는 탭이나 개행 문자가 포함될 수 없습니다. 다시 입력해주세요.");
                 continue;
             }
-
             if (!validator.noLeadingOrTrailingSpaces(searchWord)) {
                 System.out.println("오류: 영단어의 시작과 끝에는 공백 문자가 없어야 합니다. 다시 입력해주세요.");
                 continue;
             }
-
             if (!validator.isValidEnglishWord(searchWord)) {
                 System.out.println("오류: 영단어는 영어 알파벳으로만 구성되어야 합니다. 다시 입력해주세요.");
                 continue;
             }
-
             break;
         }
 
@@ -80,8 +81,8 @@ public class UpdateWord {
         String selectedPos = (String) partsOfSpeech.keySet().toArray()[selectedIndex - 1];
         PartOfSpeech selectedPart = partsOfSpeech.get(selectedPos);
 
-        // 새로운 품사와 뜻 입력
-        System.out.print("새로운 품사를 입력하세요 (예: 명사, 동사 등) >> ");
+        // 새로운 품사 입력
+        System.out.print("새로운 품사를 입력하세요 (예: 명사, 동사, 형용사 등) >> ");
         String newPos;
         while (true) {
             newPos = scanner.nextLine();
@@ -93,8 +94,17 @@ public class UpdateWord {
             }
         }
 
-        System.out.print("새로운 뜻을 입력하세요 (한글로) >> ");
-        String newMeaning = scanner.nextLine();
+        // 새로운 뜻 입력
+        String newMeaning;
+        while (true) {
+            System.out.print("새로운 뜻을 입력하세요 (한글로) >> ");
+            newMeaning = scanner.nextLine();
+            if (!validator.isValidMeaning(newMeaning)) {
+                System.out.println("오류: 잘못된 뜻 입력 형식입니다. 한글만 입력해주세요.");
+            } else {
+                break;
+            }
+        }
 
         // 새로운 객체로 대체
         PartOfSpeech updatedPart;
