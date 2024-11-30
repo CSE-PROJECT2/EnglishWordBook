@@ -51,7 +51,7 @@ public class DeleteWord {
         if (wordToDelete != null) {
             // 삭제 확인 절차 추가
             while (true) {
-                System.out.printf("‘%s 을/를 단어장에서 삭제하시겠습니까?\n", wordToDelete.getEnglish());
+                System.out.printf("‘%s' 을/를 단어장에서 삭제하시겠습니까?\n", wordToDelete.getEnglish());
                 System.out.println("(1) 예");
                 System.out.println("(2) 아니오");
                 System.out.print("메뉴를 선택하세요 >> ");
