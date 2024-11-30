@@ -82,7 +82,7 @@ public class AddWord {
                 }
             }
 
-            //발음기호 입력
+            // 발음기호 입력
             String syllableSeparated;
             while (true) {
                 System.out.print("음절 구분된 단어를 입력하세요 (예: ap·ple) >> ");
@@ -95,34 +95,42 @@ public class AddWord {
             }
 
             // 1차 강세 입력
-            int primaryStress;
+            String primaryStress;
             while (true) {
-                System.out.print("1차 강세 위치를 입력하세요 (음절 번호) >> ");
+                System.out.print("1차 강세 위치를 입력하세요 (없으면 x, 모르면 ?) >> ");
+                primaryStress = scanner.nextLine().trim();
+                if (primaryStress.equalsIgnoreCase("x") || primaryStress.equals("?")) {
+                    break; // x 또는 ?인 경우 바로 통과
+                }
                 try {
-                    primaryStress = Integer.parseInt(scanner.nextLine());
-                    if (!validator.isValidAccentPosition(syllableSeparated, primaryStress)) {
-                        System.out.println("오류: 강세 위치는 음절의 범위 내에서 선택해야 합니다.");
-                        continue;
+                    int stressPosition = Integer.parseInt(primaryStress);
+                    if (validator.isValidSecondaryAccentPosition(syllableSeparated, stressPosition)) {
+                        break;
+                    } else {
+                        System.out.println("오류: 1차 강세 위치는 음절 범위 내의 숫자여야 합니다.");
                     }
-                    break;
                 } catch (NumberFormatException e) {
-                    System.out.println("오류: 강세 위치는 숫자로 입력되어야 합니다.");
+                    System.out.println("오류: 강세 위치는 숫자 또는 x, ?로 입력해야 합니다.");
                 }
             }
 
             // 2차 강세 입력
-            int secondaryStress;
+            String secondaryStress;
             while (true) {
-                System.out.print("2차 강세 위치를 입력하세요 (없거나 모르면 0 입력) >> ");
+                System.out.print("2차 강세 위치를 입력하세요 (없으면 x, 모르면 ?) >> ");
+                secondaryStress = scanner.nextLine().trim();
+                if (secondaryStress.equalsIgnoreCase("x") || secondaryStress.equals("?")) {
+                    break; // x 또는 ?인 경우 바로 통과
+                }
                 try {
-                    secondaryStress = Integer.parseInt(scanner.nextLine());
-                    if (secondaryStress == 0 || validator.isValidSecondaryAccentPosition(syllableSeparated, secondaryStress)) {
+                    int stressPosition = Integer.parseInt(secondaryStress);
+                    if (validator.isValidSecondaryAccentPosition(syllableSeparated, stressPosition)) {
                         break;
                     } else {
-                        System.out.println("오류: 2차 강세 위치는 음절의 범위 내에서 선택하거나 0이어야 합니다.");
+                        System.out.println("오류: 2차 강세 위치는 음절 범위 내의 숫자여야 합니다.");
                     }
                 } catch (NumberFormatException e) {
-                    System.out.println("오류: 2차 강세 위치는 숫자로 입력되어야 합니다.");
+                    System.out.println("오류: 강세 위치는 숫자 또는 x, ?로 입력해야 합니다.");
                 }
             }
 
@@ -168,7 +176,7 @@ public class AddWord {
 
         // 최종 추가 확인
         while (true) {
-            System.out.printf("‘%s의 단어를 추가하시겠습니까?\n", english);
+            System.out.printf("‘%s’의 단어를 추가하시겠습니까?\n", english);
             System.out.println("(1) 예");
             System.out.println("(2) 아니오");
             System.out.print("메뉴를 선택하세요 >> ");

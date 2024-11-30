@@ -30,7 +30,6 @@ public class WordLoader {
                 }
 
                 if (currentWord == null || englishWord == null) {
-
                     System.out.println("파일 저장 중 오류가 발생했습니다:\n프로그램을 종료합니다.");
                     System.exit(0);
                     continue; // "#"와 단어 없이 품사 정보만 발견된 경우
@@ -51,8 +50,8 @@ public class WordLoader {
 
                         // 공통 데이터 추출
                         String pronunciation = elements[1].split(">")[1].trim();
-                        int primaryStress = Integer.parseInt(elements[2].split(">")[1].trim());
-                        int secondaryStress = Integer.parseInt(elements[3].split(">")[1].trim());
+                        String primaryStress = elements[2].split(">")[1].trim(); // String으로 처리
+                        String secondaryStress = elements[3].split(">")[1].trim(); // String으로 처리
                         String pronunciationText = elements[4].split(">")[1].trim();
 
                         // 품사별 추가 정보 처리

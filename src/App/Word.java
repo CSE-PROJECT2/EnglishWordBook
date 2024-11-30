@@ -11,11 +11,11 @@ public class Word {
     public static abstract class PartOfSpeech {
         private String meaning; // 뜻
         private String pronunciation; // 발음기호
-        private int primaryStress; // 1차 강세
-        private int secondaryStress; // 2차 강세
+        private String primaryStress; // 1차 강세
+        private String secondaryStress; // 2차 강세
         private String pronunciationText; // 발음
 
-        public PartOfSpeech(String meaning, String pronunciation, int primaryStress, int secondaryStress, String pronunciationText) {
+        public PartOfSpeech(String meaning, String pronunciation, String primaryStress, String secondaryStress, String pronunciationText) {
             this.meaning = meaning;
             this.pronunciation = pronunciation;
             this.primaryStress = primaryStress;
@@ -31,11 +31,11 @@ public class Word {
             return pronunciation;
         }
 
-        public int getPrimaryStress() {
+        public String getPrimaryStress() {
             return primaryStress;
         }
 
-        public int getSecondaryStress() {
+        public String getSecondaryStress() {
             return secondaryStress;
         }
 
@@ -50,7 +50,7 @@ public class Word {
         private String past; // 과거형
         private String pastParticiple; // 과거분사
 
-        public Verb(String meaning, String pronunciation, int primaryStress, int secondaryStress, String pronunciationText,
+        public Verb(String meaning, String pronunciation, String primaryStress, String secondaryStress, String pronunciationText,
                     String present, String past, String pastParticiple) {
             super(meaning, pronunciation, primaryStress, secondaryStress, pronunciationText);
             this.present = present;
@@ -76,7 +76,7 @@ public class Word {
         private String singular; // 단수형
         private String plural; // 복수형
 
-        public Noun(String meaning, String pronunciation, int primaryStress, int secondaryStress, String pronunciationText,
+        public Noun(String meaning, String pronunciation, String primaryStress, String secondaryStress, String pronunciationText,
                     String singular, String plural) {
             super(meaning, pronunciation, primaryStress, secondaryStress, pronunciationText);
             this.singular = singular;
@@ -98,7 +98,7 @@ public class Word {
         private String comparative; // 비교급
         private String superlative; // 최상급
 
-        public Adjective(String meaning, String pronunciation, int primaryStress, int secondaryStress, String pronunciationText,
+        public Adjective(String meaning, String pronunciation, String primaryStress, String secondaryStress, String pronunciationText,
                          String baseForm, String comparative, String superlative) {
             super(meaning, pronunciation, primaryStress, secondaryStress, pronunciationText);
             this.baseForm = baseForm;
