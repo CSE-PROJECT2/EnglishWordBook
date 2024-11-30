@@ -63,7 +63,7 @@ public class VocabularyApp {
                         System.out.println("잘못된 입력입니다. 다시 시도해주세요.");
                 }
             } catch (NumberFormatException e) {
-                System.out.println("오류: 숫자를 입력해주세요.");
+                System.out.println("잘못된 입력입니다. 다시 시도해주세요.");
             }
         }
     }
