@@ -118,6 +118,41 @@ public class Word {
             return superlative;
         }
     }
+    // 부사 품사 클래스
+    public static class Adverb extends PartOfSpeech {
+        public Adverb(String meaning, String pronunciation, String primaryStress, String secondaryStress, String pronunciationText) {
+            super(meaning, pronunciation, primaryStress, secondaryStress, pronunciationText);
+        }
+    }
+
+    // 전치사 품사 클래스
+    public static class Preposition extends PartOfSpeech {
+        public Preposition(String meaning, String pronunciation, String primaryStress, String secondaryStress, String pronunciationText) {
+            super(meaning, pronunciation, primaryStress, secondaryStress, pronunciationText);
+        }
+    }
+
+    // 접속사 품사 클래스
+    public static class Conjunction extends PartOfSpeech {
+        public Conjunction(String meaning, String pronunciation, String primaryStress, String secondaryStress, String pronunciationText) {
+            super(meaning, pronunciation, primaryStress, secondaryStress, pronunciationText);
+        }
+    }
+
+    // 대명사 품사 클래스
+    public static class Pronoun extends PartOfSpeech {
+        public Pronoun(String meaning, String pronunciation, String primaryStress, String secondaryStress, String pronunciationText) {
+            super(meaning, pronunciation, primaryStress, secondaryStress, pronunciationText);
+        }
+    }
+
+    // 감탄사 품사 클래스
+    public static class Interjection extends PartOfSpeech {
+        public Interjection(String meaning, String pronunciation, String primaryStress, String secondaryStress, String pronunciationText) {
+            super(meaning, pronunciation, primaryStress, secondaryStress, pronunciationText);
+        }
+    }
+
 
     public Word(String english) {
         this.english = english;
