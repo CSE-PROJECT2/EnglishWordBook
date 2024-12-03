@@ -82,12 +82,12 @@ public class UpdateWord {
         PartOfSpeech selectedPart = partsOfSpeech.get(selectedPos);
 
         // 새로운 품사 입력
-        System.out.print("새로운 품사를 입력하세요 (예: 명사, 동사, 형용사 등) >> ");
+        System.out.print("새로운 품사를 입력하세요 (예: 명사, 동사, 형용사, 부사, 전치사 등) >> ");
         String newPos;
         while (true) {
             newPos = scanner.nextLine();
             if (!validator.isAllowedPos(newPos)) {
-                System.out.println("오류: 품사는 ‘동사’, ‘명사’, ‘형용사’중 하나로 입력해주세요.");
+                System.out.println("오류: 품사는 ‘동사’, ‘명사’, ‘형용사’, ‘부사’, ‘전치사’, ‘접속사’, ‘대명사’, ‘감탄사’ 중 하나로 입력해주세요.");
                 System.out.print("새로운 품사를 입력하세요 >> ");
             } else {
                 break;
@@ -123,6 +123,10 @@ public class UpdateWord {
             updatedPart = new Word.Adjective(newMeaning, adjective.getPronunciation(), adjective.getPrimaryStress(),
                     adjective.getSecondaryStress(), adjective.getPronunciationText(),
                     adjective.getBaseForm(), adjective.getComparative(), adjective.getSuperlative());
+        } else if (selectedPart instanceof Word.PartOfSpeech) { // 추가된 품사 처리
+            updatedPart = new Word.PartOfSpeech(newMeaning, selectedPart.getPronunciation(),
+                    selectedPart.getPrimaryStress(), selectedPart.getSecondaryStress(),
+                    selectedPart.getPronunciationText()) {};
         } else {
             System.out.println("알 수 없는 품사입니다. 수정이 취소되었습니다.\n");
             return;
