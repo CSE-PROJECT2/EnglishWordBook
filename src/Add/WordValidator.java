@@ -40,7 +40,9 @@ public class WordValidator {
     }
 
     public boolean isAllowedPos(String pos) {
-        return pos.equals("동사") || pos.equals("명사") || pos.equals("형용사");
+        return pos.equals("동사") || pos.equals("명사") || pos.equals("형용사")
+                ||pos.equals("부사") || pos.equals("전치사") || pos.equals("접속사")
+                || pos.equals("대명사") || pos.equals("감탄사");
     }
 
     public boolean isValidMeaning(String meaning) {

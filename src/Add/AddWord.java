@@ -51,9 +51,10 @@ public class AddWord {
             while (true) {
                 System.out.print("품사를 입력하세요 (예: 명사, 동사, 형용사) >> ");
                 pos = scanner.nextLine();
+
                 if (!validator.isAllowedPos(pos)) {
-                    System.out.println("오류: 품사는 ‘동사’,‘명사’,‘형용사’ 중 하나로 입력해주세요.");
-                } else {
+                    System.out.println("오류: 품사는 ‘동사’, ‘명사’, ‘형용사’, ‘부사’, ‘전치사’, ‘접속사’, ‘대명사’, ‘감탄사’ 중 하나로 입력해주세요.");
+                }else {
                     break;
                 }
             }
@@ -139,6 +140,15 @@ public class AddWord {
             // 추가 정보 입력
             Word.PartOfSpeech partOfSpeech;
             switch (pos) {
+                // 추가된 품사( 추가 정보 없음)
+                case "부사":
+                case "전치사":
+                case "접속사":
+                case "대명사":
+                case "감탄사":
+                    partOfSpeech = new Word.PartOfSpeech(meaning, syllableSeparated, primaryStress, secondaryStress, pronunciationText) {};
+                    break;
+
                 case "동사":
                     String present = getOptionalInput(scanner, "현재형");
                     String past = getOptionalInput(scanner, "과거형");
