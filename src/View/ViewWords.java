@@ -25,7 +25,7 @@ public class ViewWords {
 
                     System.out.println("\n" + index + ". 품사: " + pos);
                     System.out.println("  뜻: " + partOfSpeech.getMeaning());
-                    System.out.println("  발음기호: " + partOfSpeech.getPronunciation());
+                    System.out.println("  음절구분된단어: " + partOfSpeech.getPronunciation());
                     System.out.println("  1차강세: " + partOfSpeech.getPrimaryStress());
                     System.out.println("  2차강세: " + partOfSpeech.getSecondaryStress());
                     System.out.println("  발음: " + partOfSpeech.getPronunciationText());

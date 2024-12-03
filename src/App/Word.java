@@ -10,7 +10,7 @@ public class Word {
     // 품사별 정보
     public static abstract class PartOfSpeech {
         private String meaning; // 뜻
-        private String pronunciation; // 발음기호
+        private String pronunciation; // 음절구분된단어
         private String primaryStress; // 1차 강세
         private String secondaryStress; // 2차 강세
         private String pronunciationText; // 발음

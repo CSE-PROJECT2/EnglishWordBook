@@ -25,7 +25,7 @@ public class WordSaver {
                     sb.append("(")
                             .append(pos).append(">") // 품사
                             .append(partOfSpeech.getMeaning()).append(",") // 뜻
-                            .append("발음기호>").append(partOfSpeech.getPronunciation()).append(",") // 발음기호
+                            .append("음절구분된단어>").append(partOfSpeech.getPronunciation()).append(",") // 음절구분된단어
                             .append("1차강세>").append(partOfSpeech.getPrimaryStress()).append(",") // 1차 강세
                             .append("2차강세>").append(partOfSpeech.getSecondaryStress()).append(",") // 2차 강세
                             .append("발음>").append(partOfSpeech.getPronunciationText()).append(","); // 발음
