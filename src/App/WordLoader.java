@@ -81,6 +81,9 @@ public class WordLoader {
                             String superlative = elements[7].split(">")[1].replace("}", "").trim();
                             Word.Adjective adjective = new Word.Adjective(meaning, pronunciation, primaryStress, secondaryStress, pronunciationText, baseForm, comparative, superlative);
                             currentWord.addPartOfSpeech(pos, adjective);
+                        } else if (pos.equals("부사") || pos.equals("전치사") || pos.equals("접속사") || pos.equals("대명사") || pos.equals("감탄사")) {
+                            Word.PartOfSpeech generalPart = new Word.PartOfSpeech(meaning, pronunciation, primaryStress, secondaryStress, pronunciationText) {};
+                            currentWord.addPartOfSpeech(pos, generalPart);
                         }
                     } catch (Exception e) {
                         System.out.println("파일 저장 중 오류가 발생했습니다:\n프로그램을 종료합니다.");
