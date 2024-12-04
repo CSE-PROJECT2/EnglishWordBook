@@ -76,7 +76,7 @@ public class AddWord {
             // 발음 입력
             String pronunciationText;
             while (true) {
-                System.out.print("뜻의 발음을 입력하세요 (예: 애플) >> ");
+                System.out.print("발음을 입력하세요 (예: 애플) >> ");
                 pronunciationText = scanner.nextLine();
                 if (!validator.isValidPronunciation(pronunciationText)) {
                     System.out.println("오류: 한글로만 입력해주세요.");
