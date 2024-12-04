@@ -110,7 +110,7 @@ public class AddWord {
                     if (validator.isValidSecondaryAccentPosition(syllableSeparated, stressPosition)) {
                         break;
                     } else {
-                        System.out.println("오류: 1차 강세 위치는 음절 범위 내의 숫자여야 합니다.");
+                        System.out.println("오류: 1차 강세 위치는 음절의 범위 내에서 선택해야 합니다.");
                     }
                 } catch (NumberFormatException e) {
                     System.out.println("오류: 강세 위치는 숫자 또는 x, ?로 입력해야 합니다.");
