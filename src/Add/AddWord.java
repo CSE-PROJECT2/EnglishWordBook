@@ -49,7 +49,7 @@ public class AddWord {
             // 품사 입력
             String pos;
             while (true) {
-                System.out.print("품사를 입력하세요 (예: 명사, 동사, 형용사, 부사, 전치사 등) >> ");
+                System.out.print("품사를 입력하세요 (예: 명사, 동사 등) >> ");
                 pos = scanner.nextLine();
 
                 if (!validator.isAllowedPos(pos)) {
