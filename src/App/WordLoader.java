@@ -55,11 +55,13 @@ public class WordLoader {
                         String pronunciationText = elements[4].split(">")[1].trim();
 
                         // 강세 데이터 검증 (하드코딩)
-                        if (!(primaryStress.equals("x") || primaryStress.equals("?") || isNumeric(primaryStress))) {
+                        if (!(primaryStress.equals("x") || primaryStress.equals("?") || primaryStress.equals("-") || isNumeric(primaryStress))) {
+                            System.out.println("유효하지 않은 1차 강세 값: ");
                             throw new IllegalArgumentException("유효하지 않은 1차 강세 값: " + primaryStress);
+
                         }
 
-                        if (!(secondaryStress.equals("x") || secondaryStress.equals("?") || isNumeric(secondaryStress))) {
+                        if (!(secondaryStress.equals("x") || secondaryStress.equals("?") || secondaryStress.equals("-") ||isNumeric(secondaryStress))) {
                             throw new IllegalArgumentException("유효하지 않은 2차 강세 값: " + secondaryStress);
                         }
 
@@ -87,6 +89,7 @@ public class WordLoader {
                         }
                     } catch (Exception e) {
                         System.out.println("파일 저장 중 오류가 발생했습니다:\n프로그램을 종료합니다.");
+                        //System.out.println(e.getMessage());
                         System.exit(0);
                     }
                 }
