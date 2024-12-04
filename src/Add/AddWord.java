@@ -97,8 +97,15 @@ public class AddWord {
                 break;
             }
 
+
             // 1차 강세 입력
             String primaryStress;
+            if (syllableSeparated.split("·").length == 1) {
+                // 음절 수가 1개인 경우 1차 강세와 2차 강세 자동 설정
+                primaryStress = "1";
+                System.out.println("음절이 1개인 단어입니다. 1차 강세는 자동으로 '1', 2차 강세는 자동으로 '-'로 설정됩니다.");
+
+            } else {
             while (true) {
                 System.out.print("1차 강세 위치를 입력하세요 (없으면 x, 모르면 ?) >> ");
                 primaryStress = scanner.nextLine().trim();
@@ -115,10 +122,20 @@ public class AddWord {
                 } catch (NumberFormatException e) {
                     System.out.println("오류: 1차 강세 위치는 음절의 범위 내에서 선택해야 합니다.");
                 }
-            }
+            }}
 
             // 2차 강세 입력
-            String secondaryStress;
+            String secondaryStress="-";
+            if (syllableSeparated.split("·").length == 1) {
+                // 음절 수가 1개인 경우 1차 강세와 2차 강세 자동 설정
+                primaryStress = "1";
+
+            }if (primaryStress.equals("?")){
+
+                secondaryStress="?";
+                System.out.println("1차 강세를 모르므로 2차 강세는 자동으로 '?'로 설정됩니다.");
+            }
+            else{
             while (true) {
                 System.out.print("2차 강세 위치를 입력하세요 (없으면 x, 모르면 ?) >> ");
                 secondaryStress = scanner.nextLine().trim();
@@ -135,6 +152,7 @@ public class AddWord {
                 } catch (NumberFormatException e) {
                     System.out.println("오류: 2차 강세 위치는 음절 범위 내의 숫자여야 합니다.");
                 }
+            }
             }
 
             // 추가 정보 입력
