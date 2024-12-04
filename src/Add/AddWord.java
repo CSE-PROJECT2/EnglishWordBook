@@ -1,6 +1,7 @@
 package Add;
 
 import App.Word;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,7 +55,7 @@ public class AddWord {
 
                 if (!validator.isAllowedPos(pos)) {
                     System.out.println("오류: 품사는 ‘동사’, ‘명사’, ‘형용사’, ‘부사’, ‘전치사’, ‘접속사’, ‘대명사’, ‘감탄사’ 중 하나로 입력해주세요.");
-                }else {
+                } else {
                     break;
                 }
             }
@@ -113,58 +114,58 @@ public class AddWord {
                 System.out.println("음절이 1개인 단어입니다. 1차 강세는 자동으로 '1', 2차 강세는 자동으로 '-'로 설정됩니다.");
 
             } else {
-            while (true) {
-                System.out.print("1차 강세 위치를 입력하세요 (없으면 x, 모르면 ?) >> ");
-                primaryStress = scanner.nextLine().trim();
-                if (primaryStress.equalsIgnoreCase("x") || primaryStress.equals("?")) {
-                    break; // x 또는 ?인 경우 바로 통과
-                }
-                try {
-                    int stressPosition = Integer.parseInt(primaryStress);
-                    if (validator.isValidSecondaryAccentPosition(syllableSeparated, stressPosition)) {
-                        break;
-                    } else {
+                while (true) {
+                    System.out.print("1차 강세 위치를 입력하세요 (없으면 x, 모르면 ?) >> ");
+                    primaryStress = scanner.nextLine().trim();
+                    if (primaryStress.equalsIgnoreCase("x") || primaryStress.equals("?")) {
+                        break; // x 또는 ?인 경우 바로 통과
+                    }
+                    try {
+                        int stressPosition = Integer.parseInt(primaryStress);
+                        if (validator.isValidSecondaryAccentPosition(syllableSeparated, stressPosition)) {
+                            break;
+                        } else {
+                            System.out.println("오류: 1차 강세 위치는 음절의 범위 내에서 선택해야 합니다.");
+                        }
+                    } catch (NumberFormatException e) {
                         System.out.println("오류: 1차 강세 위치는 음절의 범위 내에서 선택해야 합니다.");
                     }
-                } catch (NumberFormatException e) {
-                    System.out.println("오류: 1차 강세 위치는 음절의 범위 내에서 선택해야 합니다.");
                 }
-            }}
+            }
 
             // 2차 강세 입력
-            String secondaryStress="-";
+            String secondaryStress = "-";
             if (syllableSeparated.split("·").length == 1) {
                 // 음절 수가 1개인 경우 1차 강세와 2차 강세 자동 설정
                 primaryStress = "1";
 
-            }else if (primaryStress.equals("?")){
-
-                secondaryStress="?";
-                System.out.println("1차 강세를 모르므로 2차 강세는 자동으로 '?'로 설정됩니다.");
-            }else if (syllableSeparated.split("·").length == 2){
+            } else if (syllableSeparated.split("·").length == 2) {
                 System.out.println("2음절 단어는 2차강세가 존재하지 않으므로 - 로 저장되고 넘어갑니다.");
-            }
-            else{
-            while (true) {
-                System.out.print("2차 강세 위치를 입력하세요 (없으면 x, 모르면 ?) >> ");
-                secondaryStress = scanner.nextLine().trim();
-                if (secondaryStress.equalsIgnoreCase("x") || secondaryStress.equals("?")) {
-                    break; // x 또는 ?인 경우 바로 통과
-                }
-                try {
-                    int stressPosition = Integer.parseInt(secondaryStress);
-                    if(primaryStress.equals(secondaryStress)){
-                        System.out.println("오류: 2차 강세는 1차 강세와 같은 위치일 수 없습니다.");
+            } else if (primaryStress.equals("?")) {
+
+                secondaryStress = "?";
+                System.out.println("1차 강세를 모르므로 2차 강세는 자동으로 '?'로 설정됩니다.");
+            } else {
+                while (true) {
+                    System.out.print("2차 강세 위치를 입력하세요 (없으면 x, 모르면 ?) >> ");
+                    secondaryStress = scanner.nextLine().trim();
+                    if (secondaryStress.equalsIgnoreCase("x") || secondaryStress.equals("?")) {
+                        break; // x 또는 ?인 경우 바로 통과
                     }
-                    if (validator.isValidSecondaryAccentPosition(syllableSeparated, stressPosition)) {
-                        break;
-                    } else {
+                    try {
+                        int stressPosition = Integer.parseInt(secondaryStress);
+                        if (primaryStress.equals(secondaryStress)) {
+                            System.out.println("오류: 2차 강세는 1차 강세와 같은 위치일 수 없습니다.");
+                        }
+                        if (validator.isValidSecondaryAccentPosition(syllableSeparated, stressPosition)) {
+                            break;
+                        } else {
+                            System.out.println("오류: 2차 강세 위치는 음절 범위 내의 숫자여야 합니다.");
+                        }
+                    } catch (NumberFormatException e) {
                         System.out.println("오류: 2차 강세 위치는 음절 범위 내의 숫자여야 합니다.");
                     }
-                } catch (NumberFormatException e) {
-                    System.out.println("오류: 2차 강세 위치는 음절 범위 내의 숫자여야 합니다.");
                 }
-            }
             }
 
             // 추가 정보 입력
@@ -176,7 +177,8 @@ public class AddWord {
                 case "접속사":
                 case "대명사":
                 case "감탄사":
-                    partOfSpeech = new Word.PartOfSpeech(meaning, syllableSeparated, primaryStress, secondaryStress, pronunciationText) {};
+                    partOfSpeech = new Word.PartOfSpeech(meaning, syllableSeparated, primaryStress, secondaryStress, pronunciationText) {
+                    };
                     break;
 
                 case "동사":

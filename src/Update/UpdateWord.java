@@ -112,14 +112,93 @@ public class UpdateWord {
             return;
         }
 
-        // 하드코딩으로 기존 객체의 내용을 수정
-        PartOfSpeech updatedPart = new PartOfSpeech(
-                newMeaning,
-                selectedPart.getPronunciation(),
-                selectedPart.getPrimaryStress(),
-                selectedPart.getSecondaryStress(),
-                selectedPart.getPronunciationText()
-        ) {};
+        // 품사별로 추가 정보를 입력받는 로직 추가
+        PartOfSpeech updatedPart = null;
+        switch (newPos) {
+            case "동사":
+                // 동사 관련 추가 정보 입력
+                System.out.print("현재형을 입력하세요 (미입력을 원하면 Enter) >> ");
+                String present = scanner.nextLine();
+                if (present.trim().isEmpty()) present = "미입력";
+
+                System.out.print("과거형을 입력하세요 (미입력을 원하면 Enter) >> ");
+                String past = scanner.nextLine();
+                if (past.trim().isEmpty()) past = "미입력";
+
+                System.out.print("과거분사를 입력하세요 (미입력을 원하면 Enter) >> ");
+                String pastParticiple = scanner.nextLine();
+                if (pastParticiple.trim().isEmpty()) pastParticiple = "미입력";
+
+                updatedPart = new Word.Verb(
+                        newMeaning,
+                        selectedPart.getPronunciation(),
+                        selectedPart.getPrimaryStress(),
+                        selectedPart.getSecondaryStress(),
+                        selectedPart.getPronunciationText(),
+                        present,
+                        past,
+                        pastParticiple
+                );
+                break;
+
+            case "명사":
+                // 명사 관련 추가 정보 입력
+                System.out.print("단수형을 입력하세요 (미입력을 원하면 Enter) >> ");
+                String singular = scanner.nextLine();
+                if (singular.trim().isEmpty()) singular = "미입력";
+
+                System.out.print("복수형을 입력하세요 (미입력을 원하면 Enter) >> ");
+                String plural = scanner.nextLine();
+                if (plural.trim().isEmpty()) plural = "미입력";
+
+                updatedPart = new Word.Noun(
+                        newMeaning,
+                        selectedPart.getPronunciation(),
+                        selectedPart.getPrimaryStress(),
+                        selectedPart.getSecondaryStress(),
+                        selectedPart.getPronunciationText(),
+                        singular,
+                        plural
+                );
+                break;
+
+            case "형용사":
+                // 형용사 관련 추가 정보 입력
+                System.out.print("원형을 입력하세요 (미입력을 원하면 Enter) >> ");
+                String baseForm = scanner.nextLine();
+                if (baseForm.trim().isEmpty()) baseForm = "미입력";
+
+                System.out.print("비교급을 입력하세요 (미입력을 원하면 Enter) >> ");
+                String comparative = scanner.nextLine();
+                if (comparative.trim().isEmpty()) comparative = "미입력";
+
+                System.out.print("최상급을 입력하세요 (미입력을 원하면 Enter) >> ");
+                String superlative = scanner.nextLine();
+                if (superlative.trim().isEmpty()) superlative = "미입력";
+
+                updatedPart = new Word.Adjective(
+                        newMeaning,
+                        selectedPart.getPronunciation(),
+                        selectedPart.getPrimaryStress(),
+                        selectedPart.getSecondaryStress(),
+                        selectedPart.getPronunciationText(),
+                        baseForm,
+                        comparative,
+                        superlative
+                );
+                break;
+
+            default:
+                // 기본 품사 (추가 정보 없음)
+                updatedPart = new Word.PartOfSpeech(
+                        newMeaning,
+                        selectedPart.getPronunciation(),
+                        selectedPart.getPrimaryStress(),
+                        selectedPart.getSecondaryStress(),
+                        selectedPart.getPronunciationText()
+                ) {};
+                break;
+        }
 
         while (true) {
             System.out.printf("\n'%s'의 품사 '<%s>'를 '<%s>'로, 뜻을 '%s'로 수정하시겠습니까?%n",
