@@ -135,7 +135,7 @@ public class AddWord {
                 secondaryStress="?";
                 System.out.println("1차 강세를 모르므로 2차 강세는 자동으로 '?'로 설정됩니다.");
             }if (syllableSeparated.split("·").length == 1){
-                System.out.println("2음절 단어는 2차강세가 존재하지 않으므로 x 로 저장되고 넘어갑니다.");
+                System.out.println("2음절 단어는 2차강세가 존재하지 않으므로 - 로 저장되고 넘어갑니다.");
             }
             else{
             while (true) {
@@ -146,6 +146,9 @@ public class AddWord {
                 }
                 try {
                     int stressPosition = Integer.parseInt(secondaryStress);
+                    if(primaryStress==secondaryStress){
+                        System.out.println("오류: 2차 강세는 1차 강세와 같은 위치일 수 없습니다.");
+                    }
                     if (validator.isValidSecondaryAccentPosition(syllableSeparated, stressPosition)) {
                         break;
                     } else {
