@@ -112,29 +112,115 @@ public class UpdateWord {
             return;
         }
 
-        // 품사별로 추가 정보를 입력받는 로직 추가
+// 발음 입력
+        String pronunciationText;
+        while (true) {
+            System.out.print("발음을 입력하세요 (예: 애플) >> ");
+            pronunciationText = scanner.nextLine();
+            if (!validator.isValidPronunciation(pronunciationText)) {
+                System.out.println("오류: 한글로만 입력해주세요.");
+            } else {
+                break;
+            }
+        }
+
+// 음절 구분된 단어 입력
+        String syllableSeparated;
+        while (true) {
+            System.out.print("음절 구분된 단어를 입력하세요 (예: ap·ple, 중간점 대신 ap.ple 입력 가능) >> ");
+            syllableSeparated = scanner.nextLine();
+
+            // 입력된 "."을 "·"로 변환
+            String formattedSyllableSeparated = syllableSeparated.replace(".", "·");
+
+            if (!validator.isValidSyllableFormat(wordToUpdate.getEnglish(), formattedSyllableSeparated)) {
+                System.out.println("오류: 잘못된 입력 형식입니다.");
+                continue;
+            }
+
+            syllableSeparated = formattedSyllableSeparated;
+            break;
+        }
+
+// 1차 강세 입력
+        String primaryStress;
+        if (syllableSeparated.split("·").length == 1) {
+            primaryStress = "1";
+            System.out.println("음절이 1개인 단어입니다. 1차 강세는 자동으로 '1', 2차 강세는 자동으로 '-'로 설정됩니다.");
+        } else {
+            while (true) {
+                System.out.print("1차 강세 위치를 입력하세요 (없으면 x, 모르면 ?) >> ");
+                primaryStress = scanner.nextLine().trim();
+                if (primaryStress.equalsIgnoreCase("x") || primaryStress.equals("?")) {
+                    break;
+                }
+                try {
+                    int stressPosition = Integer.parseInt(primaryStress);
+                    if (validator.isValidSecondaryAccentPosition(syllableSeparated, stressPosition)) {
+                        break;
+                    } else {
+                        System.out.println("오류: 1차 강세 위치는 음절의 범위 내에서 선택해야 합니다.");
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("오류: 1차 강세 위치는 음절의 범위 내에서 선택해야 합니다.");
+                }
+            }
+        }
+
+// 2차 강세 입력
+        String secondaryStress = "-";
+        if (syllableSeparated.split("·").length == 1) {
+            primaryStress = "1";
+        } else if (syllableSeparated.split("·").length == 2) {
+            System.out.println("2음절 단어는 2차 강세가 존재하지 않으므로 '-'로 저장됩니다.");
+        } else if (primaryStress.equals("?")) {
+            secondaryStress = "?";
+            System.out.println("1차 강세를 모르므로 2차 강세는 자동으로 '?'로 설정됩니다.");
+        } else {
+            while (true) {
+                System.out.print("2차 강세 위치를 입력하세요 (없으면 x, 모르면 ?) >> ");
+                secondaryStress = scanner.nextLine().trim();
+                if (secondaryStress.equalsIgnoreCase("x") || secondaryStress.equals("?")) {
+                    break;
+                }
+                try {
+                    int stressPosition = Integer.parseInt(secondaryStress);
+                    if (primaryStress.equals(secondaryStress)) {
+                        System.out.println("오류: 2차 강세는 1차 강세와 같은 위치일 수 없습니다.");
+                    }
+                    if (validator.isValidSecondaryAccentPosition(syllableSeparated, stressPosition)) {
+                        break;
+                    } else {
+                        System.out.println("오류: 2차 강세 위치는 음절 범위 내의 숫자여야 합니다.");
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("오류: 2차 강세 위치는 음절 범위 내의 숫자여야 합니다.");
+                }
+            }
+        }
+
+// 품사별로 추가 정보를 입력받는 로직 추가
         PartOfSpeech updatedPart = null;
         switch (newPos) {
             case "동사":
-                // 동사 관련 추가 정보 입력
                 System.out.print("현재형을 입력하세요 (미입력을 원하면 Enter) >> ");
-                String present = scanner.nextLine();
-                if (present.trim().isEmpty()) present = "미입력";
+                String present = scanner.nextLine().trim();
+                if (present.isEmpty()) present = "미입력";
 
                 System.out.print("과거형을 입력하세요 (미입력을 원하면 Enter) >> ");
-                String past = scanner.nextLine();
-                if (past.trim().isEmpty()) past = "미입력";
+                String past = scanner.nextLine().trim();
+                if (past.isEmpty()) past = "미입력";
 
                 System.out.print("과거분사를 입력하세요 (미입력을 원하면 Enter) >> ");
-                String pastParticiple = scanner.nextLine();
-                if (pastParticiple.trim().isEmpty()) pastParticiple = "미입력";
+                String pastParticiple = scanner.nextLine().trim();
+                if (pastParticiple.isEmpty()) pastParticiple = "미입력";
 
                 updatedPart = new Word.Verb(
                         newMeaning,
-                        selectedPart.getPronunciation(),
-                        selectedPart.getPrimaryStress(),
-                        selectedPart.getSecondaryStress(),
-                        selectedPart.getPronunciationText(),
+                        syllableSeparated,
+                        primaryStress,
+                        secondaryStress,
+                        pronunciationText,
                         present,
                         past,
                         pastParticiple
@@ -142,46 +228,44 @@ public class UpdateWord {
                 break;
 
             case "명사":
-                // 명사 관련 추가 정보 입력
                 System.out.print("단수형을 입력하세요 (미입력을 원하면 Enter) >> ");
-                String singular = scanner.nextLine();
-                if (singular.trim().isEmpty()) singular = "미입력";
+                String singular = scanner.nextLine().trim();
+                if (singular.isEmpty()) singular = "미입력";
 
                 System.out.print("복수형을 입력하세요 (미입력을 원하면 Enter) >> ");
-                String plural = scanner.nextLine();
-                if (plural.trim().isEmpty()) plural = "미입력";
+                String plural = scanner.nextLine().trim();
+                if (plural.isEmpty()) plural = "미입력";
 
                 updatedPart = new Word.Noun(
                         newMeaning,
-                        selectedPart.getPronunciation(),
-                        selectedPart.getPrimaryStress(),
-                        selectedPart.getSecondaryStress(),
-                        selectedPart.getPronunciationText(),
+                        syllableSeparated,
+                        primaryStress,
+                        secondaryStress,
+                        pronunciationText,
                         singular,
                         plural
                 );
                 break;
 
             case "형용사":
-                // 형용사 관련 추가 정보 입력
                 System.out.print("원형을 입력하세요 (미입력을 원하면 Enter) >> ");
-                String baseForm = scanner.nextLine();
-                if (baseForm.trim().isEmpty()) baseForm = "미입력";
+                String baseForm = scanner.nextLine().trim();
+                if (baseForm.isEmpty()) baseForm = "미입력";
 
                 System.out.print("비교급을 입력하세요 (미입력을 원하면 Enter) >> ");
-                String comparative = scanner.nextLine();
-                if (comparative.trim().isEmpty()) comparative = "미입력";
+                String comparative = scanner.nextLine().trim();
+                if (comparative.isEmpty()) comparative = "미입력";
 
                 System.out.print("최상급을 입력하세요 (미입력을 원하면 Enter) >> ");
-                String superlative = scanner.nextLine();
-                if (superlative.trim().isEmpty()) superlative = "미입력";
+                String superlative = scanner.nextLine().trim();
+                if (superlative.isEmpty()) superlative = "미입력";
 
                 updatedPart = new Word.Adjective(
                         newMeaning,
-                        selectedPart.getPronunciation(),
-                        selectedPart.getPrimaryStress(),
-                        selectedPart.getSecondaryStress(),
-                        selectedPart.getPronunciationText(),
+                        syllableSeparated,
+                        primaryStress,
+                        secondaryStress,
+                        pronunciationText,
                         baseForm,
                         comparative,
                         superlative
@@ -189,13 +273,12 @@ public class UpdateWord {
                 break;
 
             default:
-                // 기본 품사 (추가 정보 없음)
                 updatedPart = new Word.PartOfSpeech(
                         newMeaning,
-                        selectedPart.getPronunciation(),
-                        selectedPart.getPrimaryStress(),
-                        selectedPart.getSecondaryStress(),
-                        selectedPart.getPronunciationText()
+                        syllableSeparated,
+                        primaryStress,
+                        secondaryStress,
+                        pronunciationText
                 ) {};
                 break;
         }
