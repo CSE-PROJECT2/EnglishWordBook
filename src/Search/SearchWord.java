@@ -15,7 +15,6 @@ public class SearchWord {
 
         System.out.print("검색할 단어 또는 정보를 입력하세요(영단어 뿐만 아니라 다른 의미, 과거형 등으로도 검색 가능합니다) >> ");
         String searchWord = scanner.nextLine();
-
         List<Word> matchedWords = new ArrayList<>();
 
         for (Word word : wordList) {
@@ -30,9 +29,9 @@ public class SearchWord {
             // 뜻, 발음, 과거형, 복수형, 비교급 등을 검색
             for (Map.Entry<String, Word.PartOfSpeech> entry : word.getPartsOfSpeech().entrySet()) {
                 Word.PartOfSpeech partOfSpeech = entry.getValue();
-                if (partOfSpeech.getMeaning().contains(searchWord) ||
-                        partOfSpeech.getPronunciation().contains(searchWord) ||
-                        partOfSpeech.getPronunciationText().contains(searchWord)) {
+                if (partOfSpeech.getMeaning().equals(searchWord) ||
+                        partOfSpeech.getPronunciation().equals(searchWord) ||
+                        partOfSpeech.getPronunciationText().equals(searchWord)) {
                     if (!matchedWords.contains(word)) {
                         matchedWords.add(word);
                         matched = true;
@@ -42,9 +41,9 @@ public class SearchWord {
                 // 품사별 추가 정보를 검색
                 if (partOfSpeech instanceof Word.Verb) {
                     Word.Verb verb = (Word.Verb) partOfSpeech;
-                    if (verb.getPresent().contains(searchWord) ||
-                            verb.getPast().contains(searchWord) ||
-                            verb.getPastParticiple().contains(searchWord)) {
+                    if (verb.getPresent().equals(searchWord) ||
+                            verb.getPast().equals(searchWord) ||
+                            verb.getPastParticiple().equals(searchWord)) {
                         if (!matchedWords.contains(word)) {
                             matchedWords.add(word);
                             matched = true;
@@ -52,8 +51,8 @@ public class SearchWord {
                     }
                 } else if (partOfSpeech instanceof Word.Noun) {
                     Word.Noun noun = (Word.Noun) partOfSpeech;
-                    if (noun.getSingular().contains(searchWord) ||
-                            noun.getPlural().contains(searchWord)) {
+                    if (noun.getSingular().equals(searchWord) ||
+                            noun.getPlural().equals(searchWord)) {
                         if (!matchedWords.contains(word)) {
                             matchedWords.add(word);
                             matched = true;
@@ -61,9 +60,9 @@ public class SearchWord {
                     }
                 } else if (partOfSpeech instanceof Word.Adjective) {
                     Word.Adjective adjective = (Word.Adjective) partOfSpeech;
-                    if (adjective.getBaseForm().contains(searchWord) ||
-                            adjective.getComparative().contains(searchWord) ||
-                            adjective.getSuperlative().contains(searchWord)) {
+                    if (adjective.getBaseForm().equals(searchWord) ||
+                            adjective.getComparative().equals(searchWord) ||
+                            adjective.getSuperlative().equals(searchWord)) {
                         if (!matchedWords.contains(word)) {
                             matchedWords.add(word);
                             matched = true;
