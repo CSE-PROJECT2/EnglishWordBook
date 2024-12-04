@@ -17,7 +17,7 @@ public class UpdateWord {
 
         String searchWord;
         while (true) {
-            System.out.print("영단어를 입력하세요 >> ");
+            System.out.print("수정할 영단어를 입력하세요 >> ");
             searchWord = scanner.nextLine();
 
             if (!validator.hasValidLength(searchWord)) {
@@ -58,14 +58,14 @@ public class UpdateWord {
             return;
         }
 
-        System.out.println("'" + wordToUpdate.getEnglish() + "'의 품사 목록:");
+        System.out.println("'" + wordToUpdate.getEnglish() + "'의 여러 뜻이 있습니다.");
         int index = 1;
         for (Map.Entry<String, PartOfSpeech> entry : partsOfSpeech.entrySet()) {
-            System.out.printf("%d. 품사: <%s>, 뜻: %s%n", index, entry.getKey(), entry.getValue().getMeaning());
+            System.out.printf("%d.<%s> %s%n", index, entry.getKey(), entry.getValue().getMeaning());
             index++;
         }
 
-        System.out.print("수정할 품사의 번호를 선택하세요 >> ");
+        System.out.print("수정할 뜻의 번호를 선택하세요 >> ");
         int selectedIndex;
         try {
             selectedIndex = Integer.parseInt(scanner.nextLine());
@@ -82,7 +82,7 @@ public class UpdateWord {
         PartOfSpeech selectedPart = partsOfSpeech.get(selectedPos);
 
         // 새로운 품사 입력
-        System.out.print("새로운 품사를 입력하세요 (예: 명사, 동사, 형용사, 부사, 전치사 등) >> ");
+        System.out.print("새로운 품사를 입력하세요 (예: 명사, 동사 등) >> ");
         String newPos;
         while (true) {
             newPos = scanner.nextLine();
