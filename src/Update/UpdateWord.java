@@ -106,31 +106,20 @@ public class UpdateWord {
             }
         }
 
-        // 새로운 객체로 대체
-        PartOfSpeech updatedPart;
-        if (selectedPart instanceof Word.Verb) {
-            Word.Verb verb = (Word.Verb) selectedPart;
-            updatedPart = new Word.Verb(newMeaning, verb.getPronunciation(), verb.getPrimaryStress(),
-                    verb.getSecondaryStress(), verb.getPronunciationText(), verb.getPresent(),
-                    verb.getPast(), verb.getPastParticiple());
-        } else if (selectedPart instanceof Word.Noun) {
-            Word.Noun noun = (Word.Noun) selectedPart;
-            updatedPart = new Word.Noun(newMeaning, noun.getPronunciation(), noun.getPrimaryStress(),
-                    noun.getSecondaryStress(), noun.getPronunciationText(), noun.getSingular(),
-                    noun.getPlural());
-        } else if (selectedPart instanceof Word.Adjective) {
-            Word.Adjective adjective = (Word.Adjective) selectedPart;
-            updatedPart = new Word.Adjective(newMeaning, adjective.getPronunciation(), adjective.getPrimaryStress(),
-                    adjective.getSecondaryStress(), adjective.getPronunciationText(),
-                    adjective.getBaseForm(), adjective.getComparative(), adjective.getSuperlative());
-        } else if (selectedPart instanceof Word.PartOfSpeech) { // 추가된 품사 처리
-            updatedPart = new Word.PartOfSpeech(newMeaning, selectedPart.getPronunciation(),
-                    selectedPart.getPrimaryStress(), selectedPart.getSecondaryStress(),
-                    selectedPart.getPronunciationText()) {};
-        } else {
-            System.out.println("알 수 없는 품사입니다. 수정이 취소되었습니다.\n");
+        // 기존과 동일한 품사와 뜻인지 확인
+        if (partsOfSpeech.containsKey(newPos) && partsOfSpeech.get(newPos).getMeaning().equals(newMeaning)) {
+            System.out.println("동일한 품사와 뜻이 이미 존재합니다. 저장되지 않습니다.\n");
             return;
         }
+
+        // 하드코딩으로 기존 객체의 내용을 수정
+        PartOfSpeech updatedPart = new PartOfSpeech(
+                newMeaning,
+                selectedPart.getPronunciation(),
+                selectedPart.getPrimaryStress(),
+                selectedPart.getSecondaryStress(),
+                selectedPart.getPronunciationText()
+        ) {};
 
         while (true) {
             System.out.printf("\n'%s'의 품사 '<%s>'를 '<%s>'로, 뜻을 '%s'로 수정하시겠습니까?%n",
@@ -142,8 +131,8 @@ public class UpdateWord {
 
             if (choice.equals("1")) {
                 // 수정 적용
-                partsOfSpeech.remove(selectedPos);
-                partsOfSpeech.put(newPos, updatedPart);
+                partsOfSpeech.remove(selectedPos); // 기존 품사를 제거
+                partsOfSpeech.put(newPos, updatedPart); // 새 품사를 추가
                 System.out.println("단어 수정이 완료되었습니다.\n");
                 break;
             } else if (choice.equals("2")) {
