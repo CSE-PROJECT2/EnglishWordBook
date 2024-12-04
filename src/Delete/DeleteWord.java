@@ -65,7 +65,7 @@ public class DeleteWord {
                     System.out.println("삭제가 취소되었습니다.\n");
                     break;
                 } else {
-                    System.out.println("오류: 숫자 1 또는 2를 입력해주세요.\n");
+                    System.out.println("숫자 1 또는 2를 입력해주세요.\n");
                 }
             }
         } else {
