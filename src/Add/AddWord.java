@@ -179,8 +179,19 @@ public class AddWord {
             partsOfSpeech.put(pos, partOfSpeech);
 
             // 추가 품사 입력 여부 확인
-            System.out.print("다른 품사를 추가하시겠습니까? (1) 예, (2) 아니오 >> ");
-            String choice = scanner.nextLine();
+            String choice;
+            while (true) {
+                System.out.print("다른 품사를 추가하시겠습니까? (1) 예, (2) 아니오 >> ");
+                choice = scanner.nextLine();
+                if ("1".equals(choice)) {
+                    // 추가 품사 입력 로직 실행
+                    break;
+                } else if ("2".equals(choice)) {
+                    break;
+                } else {
+                    System.out.println("오류 : 숫자 1 또는 2를 입력해주세요.");
+                }
+            }
             if ("2".equals(choice)) {
                 break;
             }
