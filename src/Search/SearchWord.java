@@ -102,19 +102,36 @@ public class SearchWord {
             // 품사별 추가 정보 출력
             if (partOfSpeech instanceof Word.Verb) {
                 Word.Verb verb = (Word.Verb) partOfSpeech;
-                System.out.println("  현재형: " + verb.getPresent());
-                System.out.println("  과거형: " + verb.getPast());
-                System.out.println("  과거분사: " + verb.getPastParticiple());
+                if (!"미입력".equals(verb.getPresent())) {
+                    System.out.println("  현재형: " + verb.getPresent());
+                }
+                if (!"미입력".equals(verb.getPast())) {
+                    System.out.println("  과거형: " + verb.getPast());
+                }
+                if (!"미입력".equals(verb.getPastParticiple())) {
+                    System.out.println("  과거분사: " + verb.getPastParticiple());
+                }
             } else if (partOfSpeech instanceof Word.Noun) {
                 Word.Noun noun = (Word.Noun) partOfSpeech;
-                System.out.println("  단수형: " + noun.getSingular());
-                System.out.println("  복수형: " + noun.getPlural());
+                if (!"미입력".equals(noun.getSingular())) {
+                    System.out.println("  단수형: " + noun.getSingular());
+                }
+                if (!"미입력".equals(noun.getPlural())) {
+                    System.out.println("  복수형: " + noun.getPlural());
+                }
             } else if (partOfSpeech instanceof Word.Adjective) {
                 Word.Adjective adjective = (Word.Adjective) partOfSpeech;
-                System.out.println("  원형: " + adjective.getBaseForm());
-                System.out.println("  비교급: " + adjective.getComparative());
-                System.out.println("  최상급: " + adjective.getSuperlative());
+                if (!"미입력".equals(adjective.getBaseForm())) {
+                    System.out.println("  원형: " + adjective.getBaseForm());
+                }
+                if (!"미입력".equals(adjective.getComparative())) {
+                    System.out.println("  비교급: " + adjective.getComparative());
+                }
+                if (!"미입력".equals(adjective.getSuperlative())) {
+                    System.out.println("  최상급: " + adjective.getSuperlative());
+                }
             }
+
 
             index++;
         }
