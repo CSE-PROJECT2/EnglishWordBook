@@ -85,15 +85,22 @@ public class AddWord {
                 }
             }
 
-            // 발음기호 입력
+            // 음절구분된 단어 입력
             String syllableSeparated;
             while (true) {
-                System.out.print("음절 구분된 단어를 입력하세요 (예: ap·ple) >> ");
+                System.out.print("음절 구분된 단어를 입력하세요 (예: ap·ple, 중간점 대신 ap.ple 입력 가능 ) >> ");
                 syllableSeparated = scanner.nextLine();
-                if (!validator.isValidSyllableFormat(english, syllableSeparated)) {
+
+                // 입력된 "."을 "·"로 변환
+                String formattedSyllableSeparated = syllableSeparated.replace(".", "·");
+
+                if (!validator.isValidSyllableFormat(english, formattedSyllableSeparated)) {
                     System.out.println("오류: 잘못된 입력 형식입니다.");
                     continue;
                 }
+
+                // 입력이 유효한 경우 변환된 값을 사용
+                syllableSeparated = formattedSyllableSeparated;
                 break;
             }
 
@@ -134,7 +141,7 @@ public class AddWord {
 
                 secondaryStress="?";
                 System.out.println("1차 강세를 모르므로 2차 강세는 자동으로 '?'로 설정됩니다.");
-            }if (syllableSeparated.split("·").length == 1){
+            }if (syllableSeparated.split("·").length == 2){
                 System.out.println("2음절 단어는 2차강세가 존재하지 않으므로 - 로 저장되고 넘어갑니다.");
             }
             else{
@@ -146,7 +153,7 @@ public class AddWord {
                 }
                 try {
                     int stressPosition = Integer.parseInt(secondaryStress);
-                    if(primaryStress==secondaryStress){
+                    if(primaryStress.equals(secondaryStress)){
                         System.out.println("오류: 2차 강세는 1차 강세와 같은 위치일 수 없습니다.");
                     }
                     if (validator.isValidSecondaryAccentPosition(syllableSeparated, stressPosition)) {
