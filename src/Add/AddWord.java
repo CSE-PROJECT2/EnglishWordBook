@@ -137,11 +137,11 @@ public class AddWord {
                 // 음절 수가 1개인 경우 1차 강세와 2차 강세 자동 설정
                 primaryStress = "1";
 
-            }if (primaryStress.equals("?")){
+            }else if (primaryStress.equals("?")){
 
                 secondaryStress="?";
                 System.out.println("1차 강세를 모르므로 2차 강세는 자동으로 '?'로 설정됩니다.");
-            }if (syllableSeparated.split("·").length == 2){
+            }else if (syllableSeparated.split("·").length == 2){
                 System.out.println("2음절 단어는 2차강세가 존재하지 않으므로 - 로 저장되고 넘어갑니다.");
             }
             else{
