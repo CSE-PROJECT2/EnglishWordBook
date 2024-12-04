@@ -16,7 +16,7 @@ public class ViewWords {
 
             System.out.println("저장된 단어 목록:");
             for (Word word : wordList) {
-                System.out.println("\n단어: " + word.getEnglish());
+                System.out.println("\n< " + word.getEnglish()+" >");
 
                 int index = 1;
                 for (Map.Entry<String, PartOfSpeech> entry : word.getPartsOfSpeech().entrySet()) {
@@ -29,7 +29,8 @@ public class ViewWords {
 
 
 
-                    System.out.println("\n" + index + ". 품사: " + pos);
+                    System.out.println(index+"." );
+                    System.out.println("  품사: " + pos);
                     System.out.println("  뜻: " + partOfSpeech.getMeaning());
                     System.out.println("  음절구분된단어: " + partOfSpeech.getPronunciation());
                     // 1음절 단어: 1차강세와 2차강세 출력 생략
