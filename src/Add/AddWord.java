@@ -134,6 +134,8 @@ public class AddWord {
 
                 secondaryStress="?";
                 System.out.println("1차 강세를 모르므로 2차 강세는 자동으로 '?'로 설정됩니다.");
+            }if (syllableSeparated.split("·").length == 1){
+                System.out.println("2음절 단어는 2차강세가 존재하지 않으므로 x 로 저장되고 넘어갑니다.");
             }
             else{
             while (true) {
