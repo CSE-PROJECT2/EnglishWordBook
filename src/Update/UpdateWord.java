@@ -58,24 +58,29 @@ public class UpdateWord {
             return;
         }
 
-        System.out.println("'" + wordToUpdate.getEnglish() + "'의 여러 뜻이 있습니다.");
-        int index = 1;
-        for (Map.Entry<String, PartOfSpeech> entry : partsOfSpeech.entrySet()) {
-            System.out.printf("%d.<%s> %s%n", index, entry.getKey(), entry.getValue().getMeaning());
-            index++;
-        }
-
-        System.out.print("수정할 뜻의 번호를 선택하세요 >> ");
+        int indexNum = partsOfSpeech.entrySet().size(); // 뜻 개수
         int selectedIndex;
-        try {
-            selectedIndex = Integer.parseInt(scanner.nextLine());
-            if (selectedIndex < 1 || selectedIndex > partsOfSpeech.size()) {
-                System.out.println("잘못된 번호입니다. 수정이 취소되었습니다.\n");
+
+        if(indexNum==1){
+            selectedIndex = 1;
+        } else{
+            int index = 1;
+            System.out.println("<" + wordToUpdate.getEnglish() + ">");
+            for (Map.Entry<String, PartOfSpeech> entry : partsOfSpeech.entrySet()) {
+                System.out.printf("%d.<%s> %s%n", index, entry.getKey(), entry.getValue().getMeaning());
+                index++;
+            }
+            System.out.print("수정할 뜻의 번호를 선택하세요 >> ");
+            try {
+                selectedIndex = Integer.parseInt(scanner.nextLine());
+                if (selectedIndex < 1 || selectedIndex > partsOfSpeech.size()) {
+                    System.out.println("잘못된 번호입니다. 수정이 취소되었습니다.\n");
+                    return;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("숫자를 입력해주세요. 수정이 취소되었습니다.\n");
                 return;
             }
-        } catch (NumberFormatException e) {
-            System.out.println("숫자를 입력해주세요. 수정이 취소되었습니다.\n");
-            return;
         }
 
         String selectedPos = (String) partsOfSpeech.keySet().toArray()[selectedIndex - 1];
