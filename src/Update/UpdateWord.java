@@ -61,11 +61,11 @@ public class UpdateWord {
         int indexNum = partsOfSpeech.entrySet().size(); // 뜻 개수
         int selectedIndex;
 
+        System.out.println("<" + wordToUpdate.getEnglish() + ">");
         if(indexNum==1){
             selectedIndex = 1;
         } else{
             int index = 1;
-            System.out.println("<" + wordToUpdate.getEnglish() + ">");
             for (Map.Entry<String, PartOfSpeech> entry : partsOfSpeech.entrySet()) {
                 System.out.printf("%d.<%s> %s%n", index, entry.getKey(), entry.getValue().getMeaning());
                 index++;
