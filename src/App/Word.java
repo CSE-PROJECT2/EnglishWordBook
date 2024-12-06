@@ -163,7 +163,7 @@ public class Word {
         partsOfSpeech.put(pos, details);
     }
 
-    public String getEnglish() {
+    public String getEnglishWord() {
         return english;
     }
 
