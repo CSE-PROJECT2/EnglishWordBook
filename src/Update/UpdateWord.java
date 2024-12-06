@@ -106,11 +106,6 @@ public class UpdateWord {
             }
         }
 
-        // 기존과 동일한 품사와 뜻인지 확인
-        if (partsOfSpeech.containsKey(newPos) && partsOfSpeech.get(newPos).getMeaning().equals(newMeaning)) {
-            System.out.println("동일한 품사와 뜻이 이미 존재합니다. 저장되지 않습니다.\n");
-            return;
-        }
 
 // 발음 입력
         String pronunciationText;
