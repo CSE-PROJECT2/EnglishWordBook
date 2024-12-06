@@ -122,7 +122,7 @@ public class UpdateWord {
 // 음절 구분된 단어 입력
         String syllableSeparated;
         while (true) {
-            System.out.print("음절 구분된 단어를 입력하세요 (예: ap·ple, 중간점 대신 ap.ple 입력 가능) >> ");
+            System.out.print("음절 구분된 단어를 입력하세요 (예: ap.ple) >> ");
             syllableSeparated = scanner.nextLine();
 
             // 입력된 "."을 "·"로 변환
@@ -141,7 +141,6 @@ public class UpdateWord {
         String primaryStress;
         if (syllableSeparated.split("·").length == 1) {
             primaryStress = "1";
-            System.out.println("음절이 1개인 단어입니다. 1차 강세는 자동으로 '1', 2차 강세는 자동으로 '-'로 설정됩니다.");
         } else {
             while (true) {
                 System.out.print("1차 강세 위치를 입력하세요 (없으면 x, 모르면 ?) >> ");
@@ -167,10 +166,8 @@ public class UpdateWord {
         if (syllableSeparated.split("·").length == 1) {
             primaryStress = "1";
         } else if (syllableSeparated.split("·").length == 2) {
-            System.out.println("2음절 단어는 2차 강세가 존재하지 않으므로 '-'로 저장됩니다.");
         } else if (primaryStress.equals("?")) {
             secondaryStress = "?";
-            System.out.println("1차 강세를 모르므로 2차 강세는 자동으로 '?'로 설정됩니다.");
         } else {
             while (true) {
                 System.out.print("2차 강세 위치를 입력하세요 (없으면 x, 모르면 ?) >> ");
