@@ -75,22 +75,29 @@ public class UpdateWord {
 
             index++;
         }
-
-        System.out.print("수정할 뜻의 번호를 선택하세요 >> ");
-        int selectedIndex;
-        try {
-            selectedIndex = Integer.parseInt(scanner.nextLine());
-            if (selectedIndex < 1 || selectedIndex > partsOfSpeech.size()) {
-                System.out.println("잘못된 번호입니다. 수정이 취소되었습니다.\n");
+        String selectedPos;
+        PartOfSpeech selectedPart;
+        if (partCount == 1) {
+            // 검색된 뜻이 하나일 경우, 바로 첫 번째 뜻을 선택
+            selectedPos = partsOfSpeech.keySet().iterator().next();
+            selectedPart = partsOfSpeech.get(selectedPos);
+        } else {
+            // 여러 뜻이 있는 경우, 사용자 입력 받아 선택
+            System.out.print("수정할 뜻의 번호를 선택하세요 >> ");
+            int selectedIndex;
+            try {
+                selectedIndex = Integer.parseInt(scanner.nextLine());
+                if (selectedIndex < 1 || selectedIndex > partsOfSpeech.size()) {
+                    System.out.println("잘못된 번호입니다. 수정이 취소되었습니다.\n");
+                    return;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("숫자를 입력해주세요. 수정이 취소되었습니다.\n");
                 return;
             }
-        } catch (NumberFormatException e) {
-            System.out.println("숫자를 입력해주세요. 수정이 취소되었습니다.\n");
-            return;
+            selectedPos = (String) partsOfSpeech.keySet().toArray()[selectedIndex - 1];
+            selectedPart = partsOfSpeech.get(selectedPos);
         }
-
-        String selectedPos = (String) partsOfSpeech.keySet().toArray()[selectedIndex - 1];
-        PartOfSpeech selectedPart = partsOfSpeech.get(selectedPos);
 
         // 새로운 품사 입력
         System.out.print("새로운 품사를 입력하세요 (예: 명사, 동사 등) >> ");
