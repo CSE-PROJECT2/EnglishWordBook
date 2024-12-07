@@ -154,27 +154,36 @@ public class UpdateWord {
             syllableSeparated = formattedSyllableSeparated;
             break;
         }
-
 // 1차 강세 입력
         String primaryStress;
         if (syllableSeparated.split("·").length == 1) {
+            // 음절 수가 1개인 경우 1차 강세와 2차 강세 자동 설정
             primaryStress = "1";
+
         } else {
             while (true) {
                 System.out.print("1차 강세 위치를 입력하세요 (없으면 x, 모르면 ?) >> ");
-                primaryStress = scanner.nextLine().trim();
+                primaryStress = scanner.nextLine();
+
+                // x 또는 ?인 경우 처리
                 if (primaryStress.equalsIgnoreCase("x") || primaryStress.equals("?")) {
                     break;
                 }
-                try {
-                    int stressPosition = Integer.parseInt(primaryStress);
-                    if (validator.isValidSecondaryAccentPosition(syllableSeparated, stressPosition)) {
-                        break;
-                    } else {
-                        System.out.println("오류: 1차 강세 위치는 음절의 범위 내에서 선택해야 합니다.");
+
+                // 숫자만 입력되었는지 확인 (숫자 뒤에 공백/탭이 오는 경우 포함되지 않도록)
+                if (primaryStress.matches("^\\d+$")) {
+                    try {
+                        int stressPosition = Integer.parseInt(primaryStress);
+                        if (validator.isValidSecondaryAccentPosition(syllableSeparated, stressPosition)) {
+                            break;
+                        } else {
+                            System.out.println("오류: 1차 강세 위치는 음절의 범위 내에서 선택해야 합니다.");
+                        }
+                    } catch (NumberFormatException e) {
+                        System.out.println("오류: 1차 강세 위치는 유효한 숫자여야 합니다.");
                     }
-                } catch (NumberFormatException e) {
-                    System.out.println("오류: 1차 강세 위치는 음절의 범위 내에서 선택해야 합니다.");
+                } else {
+                    System.out.println("오류: 1차 강세 위치는 숫자만 입력해야 하며, 공백이나 탭이 없어야 합니다.");
                 }
             }
         }
@@ -182,29 +191,39 @@ public class UpdateWord {
 // 2차 강세 입력
         String secondaryStress = "-";
         if (syllableSeparated.split("·").length == 1) {
+            // 음절 수가 1개인 경우 1차 강세와 2차 강세 자동 설정
             primaryStress = "1";
+
         } else if (syllableSeparated.split("·").length == 2) {
+            // 로직 추가 가능
         } else if (primaryStress.equals("?")) {
             secondaryStress = "?";
         } else {
             while (true) {
                 System.out.print("2차 강세 위치를 입력하세요 (없으면 x, 모르면 ?) >> ");
-                secondaryStress = scanner.nextLine().trim();
+                secondaryStress = scanner.nextLine();
+
+                // x 또는 ?인 경우 처리
                 if (secondaryStress.equalsIgnoreCase("x") || secondaryStress.equals("?")) {
                     break;
                 }
-                try {
-                    int stressPosition = Integer.parseInt(secondaryStress);
-                    if (primaryStress.equals(secondaryStress)) {
-                        System.out.println("오류: 2차 강세는 1차 강세와 같은 위치일 수 없습니다.");
+
+                // 숫자만 입력되었는지 확인 (숫자 뒤에 공백/탭이 오는 경우 포함되지 않도록)
+                if (secondaryStress.matches("^\\d+$")) {
+                    try {
+                        int stressPosition = Integer.parseInt(secondaryStress);
+                        if (primaryStress.equals(secondaryStress)) {
+                            System.out.println("오류: 2차 강세는 1차 강세와 같은 위치일 수 없습니다.");
+                        } else if (validator.isValidSecondaryAccentPosition(syllableSeparated, stressPosition)) {
+                            break;
+                        } else {
+                            System.out.println("오류: 2차 강세 위치는 음절 범위 내의 숫자여야 합니다.");
+                        }
+                    } catch (NumberFormatException e) {
+                        System.out.println("오류: 2차 강세 위치는 유효한 숫자여야 합니다.");
                     }
-                    if (validator.isValidSecondaryAccentPosition(syllableSeparated, stressPosition)) {
-                        break;
-                    } else {
-                        System.out.println("오류: 2차 강세 위치는 음절 범위 내의 숫자여야 합니다.");
-                    }
-                } catch (NumberFormatException e) {
-                    System.out.println("오류: 2차 강세 위치는 음절 범위 내의 숫자여야 합니다.");
+                } else {
+                    System.out.println("오류: 2차 강세 위치는 숫자만 입력해야 하며, 공백이나 탭이 없어야 합니다.");
                 }
             }
         }
