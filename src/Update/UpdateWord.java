@@ -196,8 +196,11 @@ public class UpdateWord {
             primaryStress = "1";
 
         } else if (syllableSeparated.split("·").length == 2) {
-            // 로직 추가 가능
-        } else if (primaryStress.equals("?")) {
+            // 2음절일 경우 2차강세 저장 안함.
+        } else if (primaryStress.equals("x")){
+            secondaryStress="x";
+        }
+        else if (primaryStress.equals("?")) {
             secondaryStress = "?";
         } else {
             while (true) {

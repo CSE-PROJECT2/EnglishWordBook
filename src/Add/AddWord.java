@@ -150,7 +150,10 @@ public class AddWord {
                 // 로직 추가 가능
             } else if (primaryStress.equals("?")) {
                 secondaryStress = "?";
-            } else {
+            }else if (primaryStress.equals("x")){
+                secondaryStress="x";
+            }
+            else {
                 while (true) {
                     System.out.print("2차 강세 위치를 입력하세요 (없으면 x, 모르면 ?) >> ");
                     secondaryStress = scanner.nextLine();
