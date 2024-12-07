@@ -112,13 +112,14 @@ public class UpdateWord {
             }
         }
 
-        // 새로운 뜻 입력
+// 뜻 입력
         String newMeaning;
         while (true) {
-            System.out.print("새로운 뜻을 입력하세요 (한글로) >> ");
+            System.out.print("뜻을 입력하세요 (한글로) >> ");
             newMeaning = scanner.nextLine();
-            if (!validator.isValidMeaning(newMeaning)) {
-                System.out.println("오류: 잘못된 뜻 입력 형식입니다. 한글만 입력해주세요.");
+
+            if (!validator.isValidMeaning(newMeaning)||newMeaning.contains("\t")) {
+                System.out.println("오류: 잘못된 뜻 입력 형식입니다.");
             } else {
                 break;
             }

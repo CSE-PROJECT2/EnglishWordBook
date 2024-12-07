@@ -60,12 +60,14 @@ public class AddWord {
                 }
             }
 
-            // 뜻 입력
+// 뜻 입력
             String meaning;
             while (true) {
                 System.out.print("뜻을 입력하세요 (한글로) >> ");
                 meaning = scanner.nextLine();
-                if (!validator.isValidMeaning(meaning)) {
+
+
+                if (!validator.isValidMeaning(meaning)||meaning.contains("\t")) {
                     System.out.println("오류: 잘못된 뜻 입력 형식입니다.");
                 } else if (isDuplicatePartOfSpeech(partsOfSpeech, pos, meaning)) {
                     System.out.println("오류: 같은 품사와 같은 뜻이 이미 존재합니다. 다시 입력해주세요.");
