@@ -169,7 +169,11 @@ public class AddWord {
                             int stressPosition = Integer.parseInt(secondaryStress);
                             if (primaryStress.equals(secondaryStress)) {
                                 System.out.println("오류: 2차 강세는 1차 강세와 같은 위치일 수 없습니다.");
-                            } else if (validator.isValidSecondaryAccentPosition(syllableSeparated, stressPosition)) {
+                            } else if(Integer.valueOf(primaryStress)>=stressPosition){
+
+                                System.out.println("오류: 2차 강세는 1차 강세보다 앞에 위치할수 없습니다.");
+                            }
+                            else if (validator.isValidSecondaryAccentPosition(syllableSeparated, stressPosition)) {
                                 break;
                             } else {
                                 System.out.println("오류: 2차 강세 위치는 음절 범위 내의 숫자여야 합니다.");
