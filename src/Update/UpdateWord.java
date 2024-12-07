@@ -47,6 +47,7 @@ public class UpdateWord {
             }
         }
 
+
         if (wordToUpdate == null) {
             System.out.println("해당 영단어가 존재하지 않습니다.\n");
             return;
@@ -58,29 +59,65 @@ public class UpdateWord {
             return;
         }
 
-        int indexNum = partsOfSpeech.entrySet().size(); // 뜻 개수
-        int selectedIndex;
-
-        System.out.println("<" + wordToUpdate.getEnglish() + ">");
-        if(indexNum==1){
-            selectedIndex = 1;
-        } else{
-            int index = 1;
-            for (Map.Entry<String, PartOfSpeech> entry : partsOfSpeech.entrySet()) {
-                System.out.printf("%d.<%s> %s%n", index, entry.getKey(), entry.getValue().getMeaning());
-                index++;
+        // 검색 결과 출력
+        int partCount = partsOfSpeech.size();
+        System.out.println("\n< " + wordToUpdate.getEnglish() + " >\n");
+        int index = 1;
+        for (Map.Entry<String, PartOfSpeech> entry : partsOfSpeech.entrySet()) {
+            PartOfSpeech partOfSpeech = entry.getValue();
+            String syllableSeparated = partOfSpeech.getPronunciation();
+            int syllableCount = syllableSeparated.split("·").length; // 음절 수 계산
+            if (partCount > 1) {
+                System.out.println(index + ".");
             }
-            System.out.print("수정할 뜻의 번호를 선택하세요 >> ");
-            try {
-                selectedIndex = Integer.parseInt(scanner.nextLine());
-                if (selectedIndex < 1 || selectedIndex > partsOfSpeech.size()) {
-                    System.out.println("잘못된 번호입니다. 수정이 취소되었습니다.\n");
-                    return;
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("숫자를 입력해주세요. 수정이 취소되었습니다.\n");
+
+
+            System.out.println("  품사: " + entry.getKey());
+            System.out.println("  뜻: " + partOfSpeech.getMeaning());
+            System.out.println("  음절구분된단어: " + partOfSpeech.getPronunciation());
+
+            // 강세 출력
+            if (syllableCount > 1) {
+                System.out.println("  1차강세: " + partOfSpeech.getPrimaryStress());
+            }
+            if (syllableCount > 2) {
+                System.out.println("  2차강세: " + partOfSpeech.getSecondaryStress());
+            }
+
+            System.out.println("  발음: " + partOfSpeech.getPronunciationText());
+
+            // 품사별 추가 정보 출력
+            if (partOfSpeech instanceof Word.Verb) {
+                Word.Verb verb = (Word.Verb) partOfSpeech;
+                System.out.println("  현재형: " + verb.getPresent());
+                System.out.println("  과거형: " + verb.getPast());
+                System.out.println("  과거분사: " + verb.getPastParticiple());
+            } else if (partOfSpeech instanceof Word.Noun) {
+                Word.Noun noun = (Word.Noun) partOfSpeech;
+                System.out.println("  단수형: " + noun.getSingular());
+                System.out.println("  복수형: " + noun.getPlural());
+            } else if (partOfSpeech instanceof Word.Adjective) {
+                Word.Adjective adjective = (Word.Adjective) partOfSpeech;
+                System.out.println("  원형: " + adjective.getBaseForm());
+                System.out.println("  비교급: " + adjective.getComparative());
+                System.out.println("  최상급: " + adjective.getSuperlative());
+            }
+
+            System.out.println();
+            index++;
+        }
+
+        System.out.print("수정할 뜻의 번호를 선택하세요 >> ");
+        int selectedIndex;
+        try {
+            selectedIndex = Integer.parseInt(scanner.nextLine());
+            if (selectedIndex < 1 || selectedIndex > partsOfSpeech.size()) {
+                System.out.println("잘못된 번호입니다. 수정이 취소되었습니다.\n");
                 return;
             }
+        } catch (NumberFormatException e) {
+            System.out.println("숫자를 입력해주세요. 수정이 취소되었습니다.\n");
+            return;
         }
 
         String selectedPos = (String) partsOfSpeech.keySet().toArray()[selectedIndex - 1];
