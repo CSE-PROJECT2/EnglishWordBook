@@ -70,40 +70,9 @@ public class UpdateWord {
             if (partCount > 1) {
                 System.out.println(index + ".");
             }
+            printPartOfSpeech(entry.getKey(), partOfSpeech, syllableCount);
 
 
-            System.out.println("  품사: " + entry.getKey());
-            System.out.println("  뜻: " + partOfSpeech.getMeaning());
-            System.out.println("  음절구분된단어: " + partOfSpeech.getPronunciation());
-
-            // 강세 출력
-            if (syllableCount > 1) {
-                System.out.println("  1차강세: " + partOfSpeech.getPrimaryStress());
-            }
-            if (syllableCount > 2) {
-                System.out.println("  2차강세: " + partOfSpeech.getSecondaryStress());
-            }
-
-            System.out.println("  발음: " + partOfSpeech.getPronunciationText());
-
-            // 품사별 추가 정보 출력
-            if (partOfSpeech instanceof Word.Verb) {
-                Word.Verb verb = (Word.Verb) partOfSpeech;
-                System.out.println("  현재형: " + verb.getPresent());
-                System.out.println("  과거형: " + verb.getPast());
-                System.out.println("  과거분사: " + verb.getPastParticiple());
-            } else if (partOfSpeech instanceof Word.Noun) {
-                Word.Noun noun = (Word.Noun) partOfSpeech;
-                System.out.println("  단수형: " + noun.getSingular());
-                System.out.println("  복수형: " + noun.getPlural());
-            } else if (partOfSpeech instanceof Word.Adjective) {
-                Word.Adjective adjective = (Word.Adjective) partOfSpeech;
-                System.out.println("  원형: " + adjective.getBaseForm());
-                System.out.println("  비교급: " + adjective.getComparative());
-                System.out.println("  최상급: " + adjective.getSuperlative());
-            }
-
-            System.out.println();
             index++;
         }
 
@@ -316,10 +285,18 @@ public class UpdateWord {
                 ) {};
                 break;
         }
+        // 출력: 수정 전 정보
+        System.out.println("\n< 수정 전 >");
+        printPartOfSpeech(selectedPos, selectedPart, selectedPart.getPronunciation().split("·").length);
+
+        // 출력: 수정 후 정보
+        System.out.println("\n< 수정 후 >");
+        printPartOfSpeech(newPos, updatedPart, syllableSeparated.split("·").length);
+
 
         while (true) {
-            System.out.printf("\n'%s'의 품사 '<%s>'를 '<%s>'로, 뜻을 '%s'로 수정하시겠습니까?%n",
-                    wordToUpdate.getEnglish(), selectedPos, newPos, newMeaning);
+            System.out.printf("\n'%s'의 단어 정보를 수정하시겠습니까?%n",
+                    wordToUpdate.getEnglish());
             System.out.println("(1) 예");
             System.out.println("(2) 아니오");
             System.out.print("메뉴를 선택하세요 >> ");
@@ -338,5 +315,56 @@ public class UpdateWord {
                 System.out.println("숫자 1 또는 2를 입력해주세요.");
             }
         }
+
+    }
+    private void printPartOfSpeech(String pos, PartOfSpeech partOfSpeech, int syllableCount) {
+        System.out.println("  품사: " + pos);
+        System.out.println("  뜻: " + partOfSpeech.getMeaning());
+        System.out.println("  음절구분된단어: " + partOfSpeech.getPronunciation());
+
+        // 강세 출력
+        if (syllableCount > 1) {
+            System.out.println("  1차강세: " + partOfSpeech.getPrimaryStress());
+        }
+        if (syllableCount > 2) {
+            System.out.println("  2차강세: " + partOfSpeech.getSecondaryStress());
+        }
+
+        System.out.println("  발음: " + partOfSpeech.getPronunciationText());
+
+        // 품사별 추가 정보 출력
+        if (partOfSpeech instanceof Word.Verb) {
+            Word.Verb verb = (Word.Verb) partOfSpeech;
+            if (!"미입력".equals(verb.getPresent())) {
+                System.out.println("  현재형: " + verb.getPresent());
+            }
+            if (!"미입력".equals(verb.getPast())) {
+                System.out.println("  과거형: " + verb.getPast());
+            }
+            if (!"미입력".equals(verb.getPastParticiple())) {
+                System.out.println("  과거분사: " + verb.getPastParticiple());
+            }
+        } else if (partOfSpeech instanceof Word.Noun) {
+            Word.Noun noun = (Word.Noun) partOfSpeech;
+            if (!"미입력".equals(noun.getSingular())) {
+                System.out.println("  단수형: " + noun.getSingular());
+            }
+            if (!"미입력".equals(noun.getPlural())) {
+                System.out.println("  복수형: " + noun.getPlural());
+            }
+        } else if (partOfSpeech instanceof Word.Adjective) {
+            Word.Adjective adjective = (Word.Adjective) partOfSpeech;
+            if (!"미입력".equals(adjective.getBaseForm())) {
+                System.out.println("  원형: " + adjective.getBaseForm());
+            }
+            if (!"미입력".equals(adjective.getComparative())) {
+                System.out.println("  비교급: " + adjective.getComparative());
+            }
+            if (!"미입력".equals(adjective.getSuperlative())) {
+                System.out.println("  최상급: " + adjective.getSuperlative());
+            }
+        }
+
+        System.out.println();
     }
 }
