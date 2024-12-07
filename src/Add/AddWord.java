@@ -280,13 +280,20 @@ public class AddWord {
     private String getOptionalInput(Scanner scanner, String prompt) {
         System.out.printf("%s (미입력을 원하면 Enter) >> ", prompt);
         String input = scanner.nextLine();
-        if (input.trim().isEmpty()) {
+
+
+        // 입력값이 비어 있는 경우
+        if (input.isEmpty()) {
             return "미입력";
         }
-        if (!validator.isValidEnglishWord(input)) {
+
+        // 입력값이 유효한 영어 단어인지 검사
+        if (!validator.isValidEnglishWord(input)||input.contains("\t")) {
             System.out.printf("오류: %s은 올바른 영어 단어 형식이어야 합니다.\n", prompt);
             return getOptionalInput(scanner, prompt); // 재귀 호출로 재입력 요청
         }
+
         return input;
     }
+
 }

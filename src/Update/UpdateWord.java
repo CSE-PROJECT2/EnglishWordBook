@@ -237,16 +237,13 @@ public class UpdateWord {
         switch (newPos) {
             case "동사":
                 System.out.print("현재형을 입력하세요 (미입력을 원하면 Enter) >> ");
-                String present = scanner.nextLine().trim();
-                if (present.isEmpty()) present = "미입력";
+                String present = getValidatedInput(scanner, "현재형");
 
                 System.out.print("과거형을 입력하세요 (미입력을 원하면 Enter) >> ");
-                String past = scanner.nextLine().trim();
-                if (past.isEmpty()) past = "미입력";
+                String past = getValidatedInput(scanner, "과거형");
 
                 System.out.print("과거분사를 입력하세요 (미입력을 원하면 Enter) >> ");
-                String pastParticiple = scanner.nextLine().trim();
-                if (pastParticiple.isEmpty()) pastParticiple = "미입력";
+                String pastParticiple = getValidatedInput(scanner, "과거분사");
 
                 updatedPart = new Word.Verb(
                         newMeaning,
@@ -262,12 +259,10 @@ public class UpdateWord {
 
             case "명사":
                 System.out.print("단수형을 입력하세요 (미입력을 원하면 Enter) >> ");
-                String singular = scanner.nextLine().trim();
-                if (singular.isEmpty()) singular = "미입력";
+                String singular = getValidatedInput(scanner, "단수형");
 
                 System.out.print("복수형을 입력하세요 (미입력을 원하면 Enter) >> ");
-                String plural = scanner.nextLine().trim();
-                if (plural.isEmpty()) plural = "미입력";
+                String plural = getValidatedInput(scanner, "복수형");
 
                 updatedPart = new Word.Noun(
                         newMeaning,
@@ -282,16 +277,13 @@ public class UpdateWord {
 
             case "형용사":
                 System.out.print("원형을 입력하세요 (미입력을 원하면 Enter) >> ");
-                String baseForm = scanner.nextLine().trim();
-                if (baseForm.isEmpty()) baseForm = "미입력";
+                String baseForm = getValidatedInput(scanner, "원형");
 
                 System.out.print("비교급을 입력하세요 (미입력을 원하면 Enter) >> ");
-                String comparative = scanner.nextLine().trim();
-                if (comparative.isEmpty()) comparative = "미입력";
+                String comparative = getValidatedInput(scanner, "비교급");
 
                 System.out.print("최상급을 입력하세요 (미입력을 원하면 Enter) >> ");
-                String superlative = scanner.nextLine().trim();
-                if (superlative.isEmpty()) superlative = "미입력";
+                String superlative = getValidatedInput(scanner, "최상급");
 
                 updatedPart = new Word.Adjective(
                         newMeaning,
@@ -315,6 +307,7 @@ public class UpdateWord {
                 ) {};
                 break;
         }
+
         // 출력: 수정 전 정보
         System.out.println("\n< 수정 전 >");
         printPartOfSpeech(selectedPos, selectedPart, selectedPart.getPronunciation().split("·").length);
@@ -397,4 +390,24 @@ public class UpdateWord {
 
         System.out.println();
     }
+    private String getValidatedInput(Scanner scanner, String description) {
+        while (true) {
+            String input = scanner.nextLine();
+
+
+            // 입력값이 비어 있는 경우 기본값 반환
+            if (input.isEmpty()) {
+                return "미입력";
+            }
+
+            // 입력값이 유효한 영어 단어인지 검사
+            if (!validator.isValidEnglishWord(input)||input.contains("\t")) {
+                System.out.printf("오류: %s은 올바른 영어 단어 형식이어야 합니다. 다시 입력해주세요.\n", description);
+                continue;
+            }
+
+            return input.trim(); // 올바른 입력 반환
+        }
+    }
+
 }
