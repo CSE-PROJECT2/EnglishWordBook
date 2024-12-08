@@ -155,27 +155,24 @@ public class UpdateWord {
             syllableSeparated = formattedSyllableSeparated;
             break;
         }
-
-        // 1차 및 2차 강세 입력 처리
+// 1차 강세 입력
         String primaryStress;
-        String secondaryStress = "-";
-
         if (syllableSeparated.split("·").length == 1) {
-            // 음절 수가 1개인 경우
+            // 음절 수가 1개인 경우 1차 강세와 2차 강세 자동 설정
             primaryStress = "1";
-            secondaryStress = "-";
-            System.out.println("음절이 1개인 단어입니다. 1차 강세는 자동으로 '1', 2차 강세는 자동으로 '-'로 설정됩니다.");
+
         } else {
-            // 1차 강세 입력
             while (true) {
                 System.out.print("1차 강세 위치를 입력하세요 (없으면 x, 모르면 ?) >> ");
-                primaryStress = scanner.nextLine().trim();
+                primaryStress = scanner.nextLine();
 
-                if (primaryStress.equalsIgnoreCase("x") || primaryStress.equals("?")) {
+                // x 또는 ?인 경우 처리
+                if (primaryStress.equals("x") || primaryStress.equals("?")) {
                     break;
                 }
 
-                if (primaryStress.matches("^\\d+$") && !primaryStress.equals("0")) {
+                // 숫자만 입력되었는지 확인 (숫자 뒤에 공백/탭이 오는 경우 포함되지 않도록)
+                if (primaryStress.matches("^\\d+$")&&!primaryStress.equals("0")) {
                     try {
                         int stressPosition = Integer.parseInt(primaryStress);
                         if (validator.isValidSecondaryAccentPosition(syllableSeparated, stressPosition)) {
@@ -187,46 +184,51 @@ public class UpdateWord {
                         System.out.println("오류: 1차 강세 위치는 유효한 숫자여야 합니다.");
                     }
                 } else {
-                    System.out.println("오류: 입력은 숫자만 포함해야 하며, 숫자 앞뒤에 공백이나 탭이 포함될 수 없고 0이 올 수 없습니다. 다시 입력하세요.");
+                    System.out.println("오류: 1차 강세 위치는 숫자만 입력해야 하며, 공백이나 탭이 없어야 하고, 0이 오면 안됩니다.");
                 }
             }
+        }
 
-            // 2차 강세 입력
-            if (syllableSeparated.split("·").length == 2) {
-                System.out.println("2음절 단어는 2차 강세가 존재하지 않으므로 '-'로 저장됩니다.");
-            } else if (primaryStress.equals("?")) {
-                secondaryStress = "?";
-                System.out.println("1차 강세를 모르므로 2차 강세는 자동으로 '?'로 설정됩니다.");
-            } else if (primaryStress.equals("x")) {
-                secondaryStress = "x";
-                System.out.println("1차 강세가 없으므로 2차 강세도 'x'로 설정됩니다.");
-            } else {
-                while (true) {
-                    System.out.print("2차 강세 위치를 입력하세요 (없으면 x, 모르면 ?) >> ");
-                    secondaryStress = scanner.nextLine();
+// 2차 강세 입력
+        String secondaryStress = "-";
+        if (syllableSeparated.split("·").length == 1) {
+            // 음절 수가 1개인 경우 1차 강세와 2차 강세 자동 설정
+            primaryStress = "1";
 
-                    // x 또는 ?인 경우 처리
-                    if (secondaryStress.equalsIgnoreCase("x") || secondaryStress.equals("?")) {
-                        break;
-                    }
+        } else if (syllableSeparated.split("·").length == 2) {
+            // 2음절일 경우 2차강세 저장 안함.
+        } else if (primaryStress.equals("x")){
+            secondaryStress="x";
+        }
+        else if (primaryStress.equals("?")) {
+            secondaryStress = "?";
+        } else {
+            while (true) {
+                System.out.print("2차 강세 위치를 입력하세요 (없으면 x, 모르면 ?) >> ");
+                secondaryStress = scanner.nextLine();
 
-                    // 숫자 앞뒤에 공백/탭이 포함된 경우를 방지
-                    if (secondaryStress.matches("^\\d+$") && !secondaryStress.equals("0")) {
-                        try {
-                            int stressPosition = Integer.parseInt(secondaryStress);
-                            if (primaryStress.equals(secondaryStress)) {
-                                System.out.println("오류: 2차 강세는 1차 강세와 같은 위치일 수 없습니다.");
-                            } else if (validator.isValidSecondaryAccentPosition(syllableSeparated, stressPosition)) {
-                                break;
-                            } else {
-                                System.out.println("오류: 2차 강세 위치는 음절 범위 내의 숫자여야 합니다.");
-                            }
-                        } catch (NumberFormatException e) {
-                            System.out.println("오류: 2차 강세 위치는 유효한 숫자여야 합니다.");
+                // x 또는 ?인 경우 처리
+                if (secondaryStress.equals("x") || secondaryStress.equals("?")) {
+                    break;
+                }
+
+                // 숫자만 입력되었는지 확인 (숫자 뒤에 공백/탭이 오는 경우 포함되지 않도록)
+                if (secondaryStress.matches("^\\d+$")&&!secondaryStress.equals("0")) {
+                    try {
+                        int stressPosition = Integer.parseInt(secondaryStress);
+                        if (primaryStress.equals(secondaryStress)) {
+                            System.out.println("오류: 2차 강세는 1차 강세와 같은 위치일 수 없습니다.");
                         }
-                    } else {
-                        System.out.println("오류: 입력은 숫자만 포함해야 하며, 숫자 앞뒤에 공백이나 탭이 포함될 수 없고 0이 올 수 없습니다. 다시 입력하세요.");
+                        else if (validator.isValidSecondaryAccentPosition(syllableSeparated, stressPosition)) {
+                            break;
+                        } else {
+                            System.out.println("오류: 2차 강세 위치는 음절 범위 내의 숫자여야 합니다.");
+                        }
+                    } catch (NumberFormatException e) {
+                        System.out.println("오류: 2차 강세 위치는 유효한 숫자여야 합니다.");
                     }
+                } else {
+                    System.out.println("오류: 2차 강세 위치는 숫자만 입력해야 하며, 공백이나 탭이 없어야 하고, 0이올수 없습니다.");
                 }
             }
         }

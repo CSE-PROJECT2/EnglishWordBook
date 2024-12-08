@@ -39,6 +39,7 @@ dessert
 #
 resume
 (명사>이력서,음절구분된단어>re·su·me,1차강세>1,2차강세>?,발음>레주메,{단수>resume,복수>resumes})
+(동사>재개하다,음절구분된단어>resume,1차강세>1,2차강세>-,발음>리줌,{현재>resume,과거>resumed,과거분사>resumed})
 #
 right
 (명사>권리,음절구분된단어>right,1차강세>1,2차강세>-,발음>라이트,{단수>right,복수>rights})

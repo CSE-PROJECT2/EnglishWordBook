@@ -16,7 +16,7 @@ public class ViewWords {
 
             System.out.println("저장된 단어 목록:");
             for (Word word : wordList) {
-                System.out.println("\n< " + word.getEnglish()+" >");
+                System.out.println("\n< " + word.getEnglishWord()+" >");
 
                 int index = 1;
                 for (Map.Entry<String, PartOfSpeech> entry : word.getPartsOfSpeech().entrySet()) {

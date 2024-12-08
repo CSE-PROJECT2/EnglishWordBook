@@ -16,7 +16,7 @@ public class WordSaver {
 
                 // 단어 구분을 위해 "#" 추가
                 sb.append("#\n");
-                sb.append(word.getEnglish()).append("\n");
+                sb.append(word.getEnglishWord()).append("\n");
 
                 for (Map.Entry<String, Word.PartOfSpeech> entry : word.getPartsOfSpeech().entrySet()) {
                     String pos = entry.getKey();

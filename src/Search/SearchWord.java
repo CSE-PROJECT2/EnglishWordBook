@@ -27,7 +27,7 @@ public class SearchWord {
             boolean matched = false;
 
             // 영단어 기준으로 검색
-            if (word.getEnglish().equalsIgnoreCase(searchWord)) {
+            if (word.getEnglishWord().equalsIgnoreCase(searchWord)) {
                 matchedWords.add(word);
                 matched = true;
             }
@@ -79,7 +79,7 @@ public class SearchWord {
         }
 
         // 검색된 리스트를 사전순으로 정렬
-        matchedWords.sort(Comparator.comparing(Word::getEnglish, String.CASE_INSENSITIVE_ORDER));
+        matchedWords.sort(Comparator.comparing(Word::getEnglishWord, String.CASE_INSENSITIVE_ORDER));
 
         if (matchedWords.isEmpty()) {
             System.out.println("해당 정보가 존재하지 않습니다.\n");
@@ -92,7 +92,7 @@ public class SearchWord {
     }
 
     private void printWordDetails(Word word) {
-        System.out.println("\n< " + word.getEnglish() + " >");
+        System.out.println("\n< " + word.getEnglishWord() + " >");
         int index = 1;
 
         for (Map.Entry<String, Word.PartOfSpeech> entry : word.getPartsOfSpeech().entrySet()) {
