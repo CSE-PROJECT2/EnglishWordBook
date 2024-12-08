@@ -60,12 +60,14 @@ public class AddWord {
                 }
             }
 
-            // 뜻 입력
+// 뜻 입력
             String meaning;
             while (true) {
                 System.out.print("뜻을 입력하세요 (한글로) >> ");
                 meaning = scanner.nextLine();
-                if (!validator.isValidMeaning(meaning)) {
+
+
+                if (!validator.isValidMeaning(meaning)||meaning.contains("\t")) {
                     System.out.println("오류: 잘못된 뜻 입력 형식입니다.");
                 } else if (isDuplicatePartOfSpeech(partsOfSpeech, pos, meaning)) {
                     System.out.println("오류: 같은 품사와 같은 뜻이 이미 존재합니다. 다시 입력해주세요.");
@@ -89,7 +91,7 @@ public class AddWord {
             // 음절구분된 단어 입력
             String syllableSeparated;
             while (true) {
-                System.out.print("음절 구분된 단어를 입력하세요 (예: ap·ple, 중간점 대신 ap.ple 입력 가능 ) >> ");
+                System.out.print("음절 구분된 단어를 입력하세요 (예: ap.ple) >> ");
                 syllableSeparated = scanner.nextLine();
 
                 // 입력된 "."을 "·"로 변환
@@ -104,66 +106,85 @@ public class AddWord {
                 syllableSeparated = formattedSyllableSeparated;
                 break;
             }
-
-
-            // 1차 강세 입력
+// 1차 강세 입력
             String primaryStress;
             if (syllableSeparated.split("·").length == 1) {
                 // 음절 수가 1개인 경우 1차 강세와 2차 강세 자동 설정
                 primaryStress = "1";
-                System.out.println("음절이 1개인 단어입니다. 1차 강세는 자동으로 '1', 2차 강세는 자동으로 '-'로 설정됩니다.");
 
             } else {
                 while (true) {
                     System.out.print("1차 강세 위치를 입력하세요 (없으면 x, 모르면 ?) >> ");
-                    primaryStress = scanner.nextLine().trim();
+                    primaryStress = scanner.nextLine();
+
+                    // x 또는 ?인 경우 처리
                     if (primaryStress.equalsIgnoreCase("x") || primaryStress.equals("?")) {
-                        break; // x 또는 ?인 경우 바로 통과
+                        break;
                     }
-                    try {
-                        int stressPosition = Integer.parseInt(primaryStress);
-                        if (validator.isValidSecondaryAccentPosition(syllableSeparated, stressPosition)) {
-                            break;
-                        } else {
-                            System.out.println("오류: 1차 강세 위치는 음절의 범위 내에서 선택해야 합니다.");
+
+                    // 숫자 앞뒤에 공백/탭이 포함된 경우를 방지
+                    if (primaryStress.matches("^\\d+$")&&!primaryStress.equals("0")) {
+                        try {
+                            int stressPosition = Integer.parseInt(primaryStress);
+                            if (validator.isValidSecondaryAccentPosition(syllableSeparated, stressPosition)) {
+                                break;
+                            } else {
+                                System.out.println("오류: 1차 강세 위치는 음절의 범위 내에서 선택해야 합니다.");
+                            }
+                        } catch (NumberFormatException e) {
+                            System.out.println("오류: 1차 강세 위치는 유효한 숫자여야 합니다.");
                         }
-                    } catch (NumberFormatException e) {
-                        System.out.println("오류: 1차 강세 위치는 음절의 범위 내에서 선택해야 합니다.");
+                    }
+
+                    else {
+                        System.out.println("오류: 입력은 숫자만 포함해야 하며, 숫자 앞뒤에 공백이나 탭이 포함될 수 없고 0이 올수 없습니다. 다시 입력하세요.");
                     }
                 }
             }
 
-            // 2차 강세 입력
+// 2차 강세 입력
             String secondaryStress = "-";
             if (syllableSeparated.split("·").length == 1) {
                 // 음절 수가 1개인 경우 1차 강세와 2차 강세 자동 설정
                 primaryStress = "1";
 
             } else if (syllableSeparated.split("·").length == 2) {
-                System.out.println("2음절 단어는 2차강세가 존재하지 않으므로 - 로 저장되고 넘어갑니다.");
+                // 로직 추가 가능
             } else if (primaryStress.equals("?")) {
-
                 secondaryStress = "?";
-                System.out.println("1차 강세를 모르므로 2차 강세는 자동으로 '?'로 설정됩니다.");
-            } else {
+            }else if (primaryStress.equals("x")){
+                secondaryStress="x";
+            }
+            else {
                 while (true) {
                     System.out.print("2차 강세 위치를 입력하세요 (없으면 x, 모르면 ?) >> ");
-                    secondaryStress = scanner.nextLine().trim();
+                    secondaryStress = scanner.nextLine();
+
+                    // x 또는 ?인 경우 처리
                     if (secondaryStress.equalsIgnoreCase("x") || secondaryStress.equals("?")) {
-                        break; // x 또는 ?인 경우 바로 통과
+                        break;
                     }
-                    try {
-                        int stressPosition = Integer.parseInt(secondaryStress);
-                        if (primaryStress.equals(secondaryStress)) {
-                            System.out.println("오류: 2차 강세는 1차 강세와 같은 위치일 수 없습니다.");
+
+                    // 숫자 앞뒤에 공백/탭이 포함된 경우를 방지
+                    if (secondaryStress.matches("^\\d+$")&&!secondaryStress.equals("0")) {
+                        try {
+                            int stressPosition = Integer.parseInt(secondaryStress);
+                            if (primaryStress.equals(secondaryStress)) {
+                                System.out.println("오류: 2차 강세는 1차 강세와 같은 위치일 수 없습니다.");
+                            } else if(Integer.valueOf(primaryStress)>=stressPosition){
+
+                                System.out.println("오류: 2차 강세는 1차 강세보다 앞에 위치할수 없습니다.");
+                            }
+                            else if (validator.isValidSecondaryAccentPosition(syllableSeparated, stressPosition)) {
+                                break;
+                            } else {
+                                System.out.println("오류: 2차 강세 위치는 음절 범위 내의 숫자여야 합니다.");
+                            }
+                        } catch (NumberFormatException e) {
+                            System.out.println("오류: 2차 강세 위치는 유효한 숫자여야 합니다.");
                         }
-                        if (validator.isValidSecondaryAccentPosition(syllableSeparated, stressPosition)) {
-                            break;
-                        } else {
-                            System.out.println("오류: 2차 강세 위치는 음절 범위 내의 숫자여야 합니다.");
-                        }
-                    } catch (NumberFormatException e) {
-                        System.out.println("오류: 2차 강세 위치는 음절 범위 내의 숫자여야 합니다.");
+                    } else {
+                        System.out.println("오류: 입력은 숫자만 포함해야 하며, 숫자 앞뒤에 공백이나 탭이 포함될 수 없고 0이 올수 없습니다. 다시 입력하세요.");
                     }
                 }
             }
@@ -265,13 +286,20 @@ public class AddWord {
     private String getOptionalInput(Scanner scanner, String prompt) {
         System.out.printf("%s (미입력을 원하면 Enter) >> ", prompt);
         String input = scanner.nextLine();
-        if (input.trim().isEmpty()) {
+
+
+        // 입력값이 비어 있는 경우
+        if (input.isEmpty()) {
             return "미입력";
         }
-        if (!validator.isValidEnglishWord(input)) {
+
+        // 입력값이 유효한 영어 단어인지 검사
+        if (!validator.isValidEnglishWord(input)||input.contains("\t")) {
             System.out.printf("오류: %s은 올바른 영어 단어 형식이어야 합니다.\n", prompt);
             return getOptionalInput(scanner, prompt); // 재귀 호출로 재입력 요청
         }
+
         return input;
     }
+
 }

@@ -14,7 +14,13 @@ public class SearchWord {
         Scanner scanner = new Scanner(System.in);
 
         System.out.print("검색할 단어 또는 정보를 입력하세요(영단어 뿐만 아니라 다른 의미, 과거형 등으로도 검색 가능합니다) >> ");
-        String searchWord = scanner.nextLine();
+        String searchWord = scanner.nextLine().trim();
+
+        // 영어일 경우 공백 제거 및 소문자 변환
+        if (searchWord.matches(".*[a-zA-Z]+.*")) {
+            searchWord = searchWord.replaceAll("\\s+", "").toLowerCase();
+        }
+
         List<Word> matchedWords = new ArrayList<>();
 
         for (Word word : wordList) {
@@ -92,11 +98,24 @@ public class SearchWord {
         for (Map.Entry<String, Word.PartOfSpeech> entry : word.getPartsOfSpeech().entrySet()) {
             String pos = entry.getKey();
             Word.PartOfSpeech partOfSpeech = entry.getValue();
+            String syllableSeparated = partOfSpeech.getPronunciation();
+            // 음절 수 계산
+            int syllableCount = syllableSeparated.split("·").length;
 
-            System.out.println(index + ".");
+
+
+            System.out.println(index+"." );
             System.out.println("  품사: " + pos);
             System.out.println("  뜻: " + partOfSpeech.getMeaning());
             System.out.println("  음절구분된단어: " + partOfSpeech.getPronunciation());
+            // 1음절 단어: 1차강세와 2차강세 출력 생략
+            if (syllableCount > 1) {
+                System.out.println("  1차강세: " + partOfSpeech.getPrimaryStress());
+            }
+            // 2음절 단어: 2차강세 출력 생략
+            if (syllableCount > 2) {
+                System.out.println("  2차강세: " + partOfSpeech.getSecondaryStress());
+            }
             System.out.println("  발음: " + partOfSpeech.getPronunciationText());
 
             // 품사별 추가 정보 출력
