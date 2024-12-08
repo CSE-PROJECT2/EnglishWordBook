@@ -123,7 +123,7 @@ public class AddWord {
                     }
 
                     // 숫자 앞뒤에 공백/탭이 포함된 경우를 방지
-                    if (primaryStress.matches("^\\d+$")) {
+                    if (primaryStress.matches("^\\d+$")&&!primaryStress.equals("0")) {
                         try {
                             int stressPosition = Integer.parseInt(primaryStress);
                             if (validator.isValidSecondaryAccentPosition(syllableSeparated, stressPosition)) {
@@ -134,8 +134,10 @@ public class AddWord {
                         } catch (NumberFormatException e) {
                             System.out.println("오류: 1차 강세 위치는 유효한 숫자여야 합니다.");
                         }
-                    } else {
-                        System.out.println("오류: 입력은 숫자만 포함해야 하며, 숫자 앞뒤에 공백이나 탭이 포함될 수 없습니다. 다시 입력하세요.");
+                    }
+
+                    else {
+                        System.out.println("오류: 입력은 숫자만 포함해야 하며, 숫자 앞뒤에 공백이나 탭이 포함될 수 없고 0이 올수 없습니다. 다시 입력하세요.");
                     }
                 }
             }
@@ -164,7 +166,7 @@ public class AddWord {
                     }
 
                     // 숫자 앞뒤에 공백/탭이 포함된 경우를 방지
-                    if (secondaryStress.matches("^\\d+$")) {
+                    if (secondaryStress.matches("^\\d+$")&&!secondaryStress.equals("0")) {
                         try {
                             int stressPosition = Integer.parseInt(secondaryStress);
                             if (primaryStress.equals(secondaryStress)) {
@@ -182,7 +184,7 @@ public class AddWord {
                             System.out.println("오류: 2차 강세 위치는 유효한 숫자여야 합니다.");
                         }
                     } else {
-                        System.out.println("오류: 입력은 숫자만 포함해야 하며, 숫자 앞뒤에 공백이나 탭이 포함될 수 없습니다. 다시 입력하세요.");
+                        System.out.println("오류: 입력은 숫자만 포함해야 하며, 숫자 앞뒤에 공백이나 탭이 포함될 수 없고 0이 올수 없습니다. 다시 입력하세요.");
                     }
                 }
             }

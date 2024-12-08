@@ -172,7 +172,7 @@ public class UpdateWord {
                 }
 
                 // 숫자만 입력되었는지 확인 (숫자 뒤에 공백/탭이 오는 경우 포함되지 않도록)
-                if (primaryStress.matches("^\\d+$")) {
+                if (primaryStress.matches("^\\d+$")&&!primaryStress.equals("0")) {
                     try {
                         int stressPosition = Integer.parseInt(primaryStress);
                         if (validator.isValidSecondaryAccentPosition(syllableSeparated, stressPosition)) {
@@ -184,7 +184,7 @@ public class UpdateWord {
                         System.out.println("오류: 1차 강세 위치는 유효한 숫자여야 합니다.");
                     }
                 } else {
-                    System.out.println("오류: 1차 강세 위치는 숫자만 입력해야 하며, 공백이나 탭이 없어야 합니다.");
+                    System.out.println("오류: 1차 강세 위치는 숫자만 입력해야 하며, 공백이나 탭이 없어야 하고, 0이 오면 안됩니다.");
                 }
             }
         }
@@ -213,7 +213,7 @@ public class UpdateWord {
                 }
 
                 // 숫자만 입력되었는지 확인 (숫자 뒤에 공백/탭이 오는 경우 포함되지 않도록)
-                if (secondaryStress.matches("^\\d+$")) {
+                if (secondaryStress.matches("^\\d+$")&&!secondaryStress.equals("0")) {
                     try {
                         int stressPosition = Integer.parseInt(secondaryStress);
                         if (primaryStress.equals(secondaryStress)) {
@@ -231,7 +231,7 @@ public class UpdateWord {
                         System.out.println("오류: 2차 강세 위치는 유효한 숫자여야 합니다.");
                     }
                 } else {
-                    System.out.println("오류: 2차 강세 위치는 숫자만 입력해야 하며, 공백이나 탭이 없어야 합니다.");
+                    System.out.println("오류: 2차 강세 위치는 숫자만 입력해야 하며, 공백이나 탭이 없어야 하고, 0이올수 없습니다.");
                 }
             }
         }
