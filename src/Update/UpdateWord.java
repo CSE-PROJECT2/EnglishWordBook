@@ -41,7 +41,7 @@ public class UpdateWord {
 
         Word wordToUpdate = null;
         for (Word word : wordList) {
-            if (word.getEnglish().equalsIgnoreCase(searchWord)) {
+            if (word.getEnglishWord().equalsIgnoreCase(searchWord)) {
                 wordToUpdate = word;
                 break;
             }
@@ -61,7 +61,7 @@ public class UpdateWord {
 
         // 검색 결과 출력
         int partCount = partsOfSpeech.size();
-        System.out.println("\n< " + wordToUpdate.getEnglish() + " >\n");
+        System.out.println("\n< " + wordToUpdate.getEnglishWord() + " >\n");
         int index = 1;
         for (Map.Entry<String, PartOfSpeech> entry : partsOfSpeech.entrySet()) {
             PartOfSpeech partOfSpeech = entry.getValue();
@@ -147,7 +147,7 @@ public class UpdateWord {
             // 입력된 "."을 "·"로 변환
             String formattedSyllableSeparated = syllableSeparated.replace(".", "·");
 
-            if (!validator.isValidSyllableFormat(wordToUpdate.getEnglish(), formattedSyllableSeparated)) {
+            if (!validator.isValidSyllableFormat(wordToUpdate.getEnglishWord(), formattedSyllableSeparated)) {
                 System.out.println("오류: 잘못된 입력 형식입니다.");
                 continue;
             }
@@ -218,9 +218,6 @@ public class UpdateWord {
                         int stressPosition = Integer.parseInt(secondaryStress);
                         if (primaryStress.equals(secondaryStress)) {
                             System.out.println("오류: 2차 강세는 1차 강세와 같은 위치일 수 없습니다.");
-                        }else if(Integer.valueOf(primaryStress)>=stressPosition){
-
-                            System.out.println("오류: 2차 강세는 1차 강세보다 앞에 위치할수 없습니다.");
                         }
                         else if (validator.isValidSecondaryAccentPosition(syllableSeparated, stressPosition)) {
                             break;
@@ -323,7 +320,7 @@ public class UpdateWord {
 
         while (true) {
             System.out.printf("\n'%s'의 단어 정보를 수정하시겠습니까?%n",
-                    wordToUpdate.getEnglish());
+                    wordToUpdate.getEnglishWord());
             System.out.println("(1) 예");
             System.out.println("(2) 아니오");
             System.out.print("메뉴를 선택하세요 >> ");
