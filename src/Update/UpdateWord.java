@@ -167,7 +167,7 @@ public class UpdateWord {
                 primaryStress = scanner.nextLine();
 
                 // x 또는 ?인 경우 처리
-                if (primaryStress.equalsIgnoreCase("x") || primaryStress.equals("?")) {
+                if (primaryStress.equals("x") || primaryStress.equals("?")) {
                     break;
                 }
 
@@ -208,7 +208,7 @@ public class UpdateWord {
                 secondaryStress = scanner.nextLine();
 
                 // x 또는 ?인 경우 처리
-                if (secondaryStress.equalsIgnoreCase("x") || secondaryStress.equals("?")) {
+                if (secondaryStress.equals("x") || secondaryStress.equals("?")) {
                     break;
                 }
 

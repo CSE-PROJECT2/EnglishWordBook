@@ -121,7 +121,7 @@ public class AddWord {
                     System.out.print("1차 강세 위치를 입력하세요 (없으면 x, 모르면 ?) >> ");
                     primaryStress = scanner.nextLine().trim();
 
-                    if (primaryStress.equalsIgnoreCase("x") || primaryStress.equals("?")) {
+                    if (primaryStress.equals("x") || primaryStress.equals("?")) {
                         break;
                     }
 
@@ -156,7 +156,7 @@ public class AddWord {
                         secondaryStress = scanner.nextLine();
 
                         // x 또는 ?인 경우 처리
-                        if (secondaryStress.equalsIgnoreCase("x") || secondaryStress.equals("?")) {
+                        if (secondaryStress.equals("x") || secondaryStress.equals("?")) {
                             break;
                         }
 
