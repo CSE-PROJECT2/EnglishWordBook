@@ -14,7 +14,13 @@ public class SearchWord {
         Scanner scanner = new Scanner(System.in);
 
         System.out.print("검색할 단어 또는 정보를 입력하세요(영단어 뿐만 아니라 다른 의미, 과거형 등으로도 검색 가능합니다) >> ");
-        String searchWord = scanner.nextLine();
+        String searchWord = scanner.nextLine().trim();
+
+        // 영어일 경우 공백 제거 및 소문자 변환
+        if (searchWord.matches(".*[a-zA-Z]+.*")) {
+            searchWord = searchWord.replaceAll("\\s+", "").toLowerCase();
+        }
+
         List<Word> matchedWords = new ArrayList<>();
 
         for (Word word : wordList) {
