@@ -6,8 +6,8 @@ import java.util.List;
 public class WordValidator {
 
     private static final String SYLLABLE_ENGLISH_PATTERN = "^[a-zA-Z·]+$";
-    private static final String VALID_ENGLISH_FORMAT_PATTERN = "^[a-zA-Z]+$";
-    private static final String PRONUNCIATION_PATTERN = "^[가-힣\\s]+$";  // 한글 발음
+    private static final String VALID_ENGLISH_FORMAT_PATTERN = "^[a-zA-Z ]+$";
+    private static final String PRONUNCIATION_PATTERN = "^[가-힣 ]+$";  // 한글 발음
     private static final String MEANING_PATTERN = "^[가-힣ㄱ-ㅎㅏ-ㅣ]+(\\s[가-힣ㄱ-ㅎㅏ-ㅣ]+)*$"; // 뜻이 한글만 들어가는지 확인
     private static final String MEANING_ENGLISH_PATTERN = "^[a-zA-Z\\\\s]+$"; // 뜻이 영어와 공백이 들어가는지 확인
     private static final String ADDITIONAL_INFO_PATTERN = "\\{[^{}]*}"; // 중괄호에 포함된 추가 정보 패턴
