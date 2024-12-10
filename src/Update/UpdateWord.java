@@ -164,7 +164,6 @@ public class UpdateWord {
             // 음절 수가 1개인 경우
             primaryStress = "1";
             secondaryStress = "-";
-            System.out.println("음절이 1개인 단어입니다. 1차 강세는 자동으로 '1', 2차 강세는 자동으로 '-'로 설정됩니다.");
         } else {
             // 1차 강세 입력
             while (true) {
@@ -193,13 +192,10 @@ public class UpdateWord {
 
             // 2차 강세 입력
             if (syllableSeparated.split("·").length == 2) {
-                System.out.println("2음절 단어는 2차 강세가 존재하지 않으므로 '-'로 저장됩니다.");
             } else if (primaryStress.equals("?")) {
                 secondaryStress = "?";
-                System.out.println("1차 강세를 모르므로 2차 강세는 자동으로 '?'로 설정됩니다.");
             } else if (primaryStress.equals("x")) {
                 secondaryStress = "x";
-                System.out.println("1차 강세가 없으므로 2차 강세도 'x'로 설정됩니다.");
             } else {
                 while (true) {
                     System.out.print("2차 강세 위치를 입력하세요 (없으면 x, 모르면 ?) >> ");
