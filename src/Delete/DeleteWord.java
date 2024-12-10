@@ -31,7 +31,7 @@ public class DeleteWord {
             }
 
             // 3. 영어 단어 형식이 유효한지 확인
-            if (!validator.isValidEnglishWord(english)) {
+            if (!validator.isValidEnglishWord(english) || english.contains(" ")) {
                 System.out.println("오류: 영단어는 영어 알파벳으로만 구성되어야 합니다. 다시 입력해주세요.");
                 continue;
             }
