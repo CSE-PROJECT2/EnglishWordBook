@@ -114,7 +114,6 @@ public class AddWord {
                 // 음절 수가 1개인 경우
                 primaryStress = "1";
                 secondaryStress = "-";
-                System.out.println("음절이 1개인 단어입니다. 1차 강세는 자동으로 '1', 2차 강세는 자동으로 '-'로 설정됩니다.");
             } else {
                 // 1차 강세 입력
                 while (true) {
