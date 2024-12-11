@@ -174,7 +174,7 @@ public class UpdateWord {
                     break;
                 }
 
-                if (primaryStress.matches("^\\d+$") && !primaryStress.equals("0")) {
+                if (primaryStress.matches("^\\d+$") && !primaryStress.equals("0")&&!primaryStress.contains("\t")) {
                     try {
                         int stressPosition = Integer.parseInt(primaryStress);
                         if (validator.isValidSecondaryAccentPosition(syllableSeparated, stressPosition)) {
@@ -207,7 +207,7 @@ public class UpdateWord {
                     }
 
                     // 숫자 앞뒤에 공백/탭이 포함된 경우를 방지
-                    if (secondaryStress.matches("^\\d+$") && !secondaryStress.equals("0")) {
+                    if (secondaryStress.matches("^\\d+$") && !secondaryStress.equals("0") &&!primaryStress.contains("\t")) {
                         try {
                             int stressPosition = Integer.parseInt(secondaryStress);
                             if (primaryStress.equals(secondaryStress)) {
