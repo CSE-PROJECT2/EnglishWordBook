@@ -33,7 +33,7 @@ public class AddWord {
                 System.out.println("오류: 영단어의 시작과 끝에는 공백 문자가 없어야 합니다. 다시 입력해주세요.");
                 continue;
             }
-            if (!validator.isValidEnglishWord(english) || english.contains(" ")) {
+            if (!validator.isValidEnglishWord(english)) {
                 System.out.println("오류: 영단어는 영어 알파벳으로만 구성되어야 합니다. 다시 입력해주세요.");
                 continue;
             }
