@@ -168,7 +168,7 @@ public class UpdateWord {
             // 1차 강세 입력
             while (true) {
                 System.out.print("1차 강세 위치를 입력하세요 (없으면 x, 모르면 ?) >> ");
-                primaryStress = scanner.nextLine().trim();
+                primaryStress = scanner.nextLine();
 
                 if (primaryStress.equalsIgnoreCase("x") || primaryStress.equals("?")) {
                     break;

@@ -118,13 +118,15 @@ public class AddWord {
                 // 1차 강세 입력
                 while (true) {
                     System.out.print("1차 강세 위치를 입력하세요 (없으면 x, 모르면 ?) >> ");
-                    primaryStress = scanner.nextLine().trim();
+                    primaryStress = scanner.nextLine();
+
+
 
                     if (primaryStress.equals("x") || primaryStress.equals("?")) {
                         break;
                     }
 
-                    if (primaryStress.matches("^\\d+$") && !primaryStress.equals("0") && !primaryStress.contains("\t")) {
+                    if (primaryStress.matches("^\\d+$") && !primaryStress.equals("0")) {
                         try {
                             int stressPosition = Integer.parseInt(primaryStress);
                             if (validator.isValidSecondaryAccentPosition(syllableSeparated, stressPosition)) {
@@ -148,6 +150,7 @@ public class AddWord {
                     secondaryStress = "x";
                 } else {
                     while (true) {
+                        System.out.print("2차 강세 위치를 입력하세요 (없으면 x, 모르면 ?) >> ");
                         secondaryStress = scanner.nextLine();
 
                         // x 또는 ?인 경우 처리
@@ -156,7 +159,7 @@ public class AddWord {
                         }
 
                         // 숫자 앞뒤에 공백/탭이 포함된 경우를 방지
-                        if (secondaryStress.matches("^\\d+$") && !secondaryStress.equals("0") &&!secondaryStress.equals("\t") ) {
+                        if (secondaryStress.matches("^\\d+$") && !secondaryStress.equals("0") ) {
                             try {
                                 int stressPosition = Integer.parseInt(secondaryStress);
                                 if (primaryStress.equals(secondaryStress)) {
